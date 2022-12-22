@@ -1,12 +1,12 @@
 import { gql } from "@apollo/client";
 
 export const me = gql`
-  query Me($token: String!) {
-    me(token: $token){
+  query Me() {
+    me(){
       id
       email
     }
   }
-`
+`;
 
 // La requête 'me' sert à récupérer la donnée de l'utilisateur depuis le token.
