@@ -37,20 +37,24 @@ function Signin() {
 						token,
 					},
 				});
+				setUser(data.me);
 			}
 		}
 		fetchMe();
 	}, [token]);
-	// vidéo P1 17:44
+
+	// useMemo useCallBack ?
+
+	// useEffect(() => {
+	// 	console.log('This is console.log of :', user);
+	// }, [user]);
 
 	async function doSignin() {
 		try {
 			const { data } = await doSigninMutation({
 				variables: {
-					data: {
-						email,
-						password,
-					},
+					email,
+					password,
 				},
 			});
 			if (data.signin) {
@@ -68,7 +72,7 @@ function Signin() {
 	return (
 		<div>
 			<h1>Connexion</h1>
-			{token && <p>Tu es connecté.e</p>}
+			{user && <p>Tu es connecté.e en tant que {user.email}</p>}
 			Email :
 			<input
 				type="email"
@@ -96,7 +100,7 @@ function Signup() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const [doSignupMutation, { data, loading, error }] = useMutation(createUser);
+	const [doSignupMutation, { loading, error }] = useMutation(createUser);
 
 	async function doSignup() {
 		try {
