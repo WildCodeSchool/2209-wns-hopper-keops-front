@@ -10,4 +10,4 @@ export const me = gql`
 `;
 
 // La requête 'me' sert à récupérer la donnée de l'utilisateur depuis le token.
-// Pas de parenthèse ?
+// Pas de parenthèse ! Truc chelou de graphql
