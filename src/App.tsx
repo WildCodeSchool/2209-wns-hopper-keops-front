@@ -3,7 +3,6 @@ import {
   InMemoryCache,
   ApolloProvider,
   useMutation,
-  useLazyQuery,
   createHttpLink,
   useQuery,
 } from "@apollo/client";
@@ -18,11 +17,9 @@ interface IUser {
   id: string;
 }
 
-function Signin() {
+function Signin(props: { onTokenChange: (token: string) => void }) {
   const [email, setEmail] = useState("yoyo@gmail.com");
   const [password, setPassword] = useState("123456789");
-  const [token, setToken] = useState<null | String>(null);
-  const [user, setUser] = useState<null | IUser>(null);
   const [wrongCredentials, setWrongCredentials] = useState(false);
 
   //absent dans vidéo P2 14:39
@@ -37,13 +34,10 @@ function Signin() {
         },
         refetchQueries: [me],
       });
+
       if (data.signin) {
-        // on récupère le token depuis signin.ts
-        setToken(data.signin);
-        localStorage.setItem("token", data.signin);
-        setEmail("");
-        setPassword("");
-        setWrongCredentials(false);
+        // inform parent component there is a new token
+        props.onTokenChange(data.signin);
       } else {
         setWrongCredentials(true);
       }
@@ -53,7 +47,10 @@ function Signin() {
   return (
     <div>
       <h1>Connexion</h1>
-      {user && <p>Tu es connecté.e en tant que {user.email}</p>}
+      {wrongCredentials === true && <p>Wrong credentials</p>}
+      {error && (
+        <pre style={{ color: "red" }}>{JSON.stringify(error, null, 4)}</pre>
+      )}
       Email :
       <input
         type="email"
@@ -123,15 +120,24 @@ function Signup() {
   );
 }
 
-function Dashboard() {
-  return <h1>Dashboard</h1>;
+function Dashboard(props: {
+  user: IUser;
+  onTokenChange: (token?: string) => void;
+}) {
+  return (
+    <>
+      <h1>Dashboard</h1>
+      <p>Hello {props.user.email}!</p>
+      <button onClick={() => props.onTokenChange()}>Log out</button>
+    </>
+  );
 }
 
 function Main() {
   const [user, setUser] = useState<null | IUser | undefined>(undefined);
 
   // Verify if ther is a token + if token is with user
-  const { data } = useQuery(me);
+  const { data, refetch } = useQuery(me);
 
   // Verify the connexion and set User state
   useEffect(() => {
@@ -145,14 +151,25 @@ function Main() {
     }
   }, [data]);
 
+  // receive token from a component and save it in localstorage and re exec user request 'me'
+  const onTokenChange = (token?: string) => {
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+    // re exec me user request
+    refetch();
+  };
+
   return (
     <>
       {user ? (
-        <Dashboard />
+        <Dashboard user={user} onTokenChange={onTokenChange} />
       ) : user === null ? (
         <>
           <Signup />
-          <Signin />
+          <Signin onTokenChange={onTokenChange} />
         </>
       ) : (
         <p>Loading...</p>
@@ -193,3 +210,5 @@ function App() {
 }
 
 export default App;
+
+// 34.46
