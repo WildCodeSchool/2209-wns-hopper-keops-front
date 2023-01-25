@@ -2,10 +2,11 @@ import {
 	ApolloClient,
 	InMemoryCache,
 	ApolloProvider,
-	useQuery,
 	useMutation,
-	useLazyQuery,
+	createHttpLink,
+	useQuery,
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { useEffect, useState } from 'react';
 import { createUser } from './graphql/createUser';
 import { me } from './graphql/me';
@@ -16,38 +17,12 @@ interface IUser {
 	id: string;
 }
 
-function Signin() {
+function Signin(props: { onTokenChange: (token: string) => void }) {
 	const [email, setEmail] = useState('yoyo@gmail.com');
 	const [password, setPassword] = useState('123456789');
-	const [token, setToken] = useState<null | String>(null);
-	const [user, setUser] = useState<null | IUser>(null);
-
 	const [wrongCredentials, setWrongCredentials] = useState(false);
 
-	const [doSigninMutation, { data, loading, error }] = useMutation(signin);
-
-	// Appeler la fonction me quand on veux
-	const [doGetMe] = useLazyQuery(me);
-
-	useEffect(() => {
-		async function fetchMe() {
-			if (token) {
-				const { data } = await doGetMe({
-					variables: {
-						token,
-					},
-				});
-				setUser(data.me);
-			}
-		}
-		fetchMe();
-	}, [token]);
-
-	// useMemo useCallBack ?
-
-	// useEffect(() => {
-	// 	console.log('This is console.log of :', user);
-	// }, [user]);
+	const [doSigninMutation, { loading, error }] = useMutation(signin);
 
 	async function doSignin() {
 		try {
@@ -57,12 +32,10 @@ function Signin() {
 					password,
 				},
 			});
+
 			if (data.signin) {
-				// on récupère le token depuis signin.ts
-				setToken(data.signin);
-				setEmail('');
-				setPassword('');
-				setWrongCredentials(false);
+				// inform parent component there is a new token
+				props.onTokenChange(data.signin);
 			} else {
 				setWrongCredentials(true);
 			}
@@ -72,7 +45,10 @@ function Signin() {
 	return (
 		<div>
 			<h1>Connexion</h1>
-			{user && <p>Tu es connecté.e en tant que {user.email}</p>}
+			{wrongCredentials === true && <p>Wrong credentials</p>}
+			{error && (
+				<pre style={{ color: 'red' }}>{JSON.stringify(error, null, 4)}</pre>
+			)}
 			Email :
 			<input
 				type="email"
@@ -142,17 +118,85 @@ function Signup() {
 	);
 }
 
-function Main() {
+function Dashboard(props: {
+	user: IUser;
+	onTokenChange: (token?: string) => void;
+}) {
 	return (
 		<>
-			<Signup />
-			<Signin />
+			<h1>Dashboard</h1>
+			<p>Hello {props.user.email}!</p>
+			<button onClick={() => props.onTokenChange()}>Log out</button>
 		</>
 	);
 }
 
-const client = new ApolloClient({
+function Main() {
+	const [user, setUser] = useState<null | IUser | undefined>(undefined);
+
+	// Verify if ther is a token + if token is with user
+	const { data, refetch } = useQuery(me, { fetchPolicy: 'network-only' });
+
+	// Verify the connexion and set User state
+	useEffect(() => {
+		console.log('Got data:', data);
+		if (data) {
+			if (data.me) {
+				setUser(data.me);
+			} else {
+				setUser(null);
+			}
+		}
+	}, [data]);
+
+	// receive token from a component and save it in localstorage and re exec user request 'me'
+	const onTokenChange = (token?: string) => {
+		if (token) {
+			localStorage.setItem('token', token);
+		} else {
+			localStorage.removeItem('token');
+		}
+		setUser(undefined);
+		// re exec me user request
+		refetch();
+	};
+
+	return (
+		<>
+			{user ? (
+				<Dashboard user={user} onTokenChange={onTokenChange} />
+			) : user === null ? (
+				<>
+					<Signup />
+					<Signin onTokenChange={onTokenChange} />
+				</>
+			) : (
+				<p>Loading...</p>
+			)}
+		</>
+	);
+}
+
+// uri = api
+const httpLink = createHttpLink({
 	uri: 'http://localhost:4000/',
+});
+
+// give token to the request header
+const authLink = setContext((_, { headers }) => {
+	// get the authentication token from local storage if it exists
+	const token = localStorage.getItem('token');
+	// return the headers to the context so httpLink can read them
+	return {
+		headers: {
+			...headers,
+			authorization: token ? `Bearer ${token}` : '',
+		},
+	};
+});
+
+const client = new ApolloClient({
+	link: authLink.concat(httpLink),
 	cache: new InMemoryCache(),
 });
 
@@ -165,3 +209,5 @@ function App() {
 }
 
 export default App;
+
+// 34.46
