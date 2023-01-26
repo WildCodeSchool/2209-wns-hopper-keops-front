@@ -1,9 +1,7 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-// import { ApolloProvider } from '@apollo/client';
 import App from './App';
 import {
 	ApolloClient,
@@ -12,6 +10,7 @@ import {
 	createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import AuthProvider from './context/AuthProvider';
 
 // uri = api
 const httpLink = createHttpLink({
@@ -36,25 +35,15 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
-// const router = createBrowserRouter([
-// 	{
-// 		path: '/',
-// 		element: <LandingPage />,
-// 		errorElement: <ErrorPage />,
-// 	},
-// 	{
-// 		path: '/main',
-// 		element: <Main />,
-// 	},
-// ]);
-
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement,
 );
 root.render(
 	<BrowserRouter>
 		<ApolloProvider client={client}>
-			<App />
+			<AuthProvider>
+				<App />
+			</AuthProvider>
 		</ApolloProvider>
 	</BrowserRouter>,
 );
