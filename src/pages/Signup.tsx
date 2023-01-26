@@ -1,5 +1,6 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { createUser } from "../graphql/createUser";
 
 function Signup() {
@@ -44,6 +45,7 @@ function Signup() {
       {error && (
         <p>Il y a un problème.. Email ou mot de passe au mauvais format.</p>
       )}
+      <Link to="/connexion">J'ai déjà un compte</Link>
     </div>
   );
 }
