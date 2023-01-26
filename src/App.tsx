@@ -1,39 +1,14 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import Main from "./pages/Main";
-
-// uri = api
-const httpLink = createHttpLink({
-  uri: "http://localhost:4000/",
-});
-
-// give token to the request header
-const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
-  const token = localStorage.getItem("token");
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-    },
-  };
-});
-
-const client = new ApolloClient({
-  link: authLink.concat(httpLink),
-  cache: new InMemoryCache(),
-});
+import { Route, Routes } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import Main from './pages/Main';
 
 function App() {
-  return <ApolloProvider client={client}>{<Main />}</ApolloProvider>;
+	return (
+		<Routes>
+			<Route path="/" element={<LandingPage />} />
+			<Route path="/main" element={<Main />} />
+		</Routes>
+	);
 }
 
 export default App;
-
-// 34.46

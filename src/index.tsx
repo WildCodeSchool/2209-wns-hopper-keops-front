@@ -1,32 +1,62 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import LandingPage from "./pages/LandingPage";
-import ErrorPage from "./pages/ErrorPage";
-import Main from "./pages/Main";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+// import { ApolloProvider } from '@apollo/client';
+import App from './App';
+import {
+	ApolloClient,
+	InMemoryCache,
+	ApolloProvider,
+	createHttpLink,
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/main",
-    element: <Main />,
-  },
-]);
+// uri = api
+const httpLink = createHttpLink({
+	uri: 'http://localhost:4000/',
+});
+
+// give token to the request header
+const authLink = setContext((_, { headers }) => {
+	// get the authentication token from local storage if it exists
+	const token = localStorage.getItem('token');
+	// return the headers to the context so httpLink can read them
+	return {
+		headers: {
+			...headers,
+			authorization: token ? `Bearer ${token}` : '',
+		},
+	};
+});
+
+const client = new ApolloClient({
+	link: authLink.concat(httpLink),
+	cache: new InMemoryCache(),
+});
+
+// const router = createBrowserRouter([
+// 	{
+// 		path: '/',
+// 		element: <LandingPage />,
+// 		errorElement: <ErrorPage />,
+// 	},
+// 	{
+// 		path: '/main',
+// 		element: <Main />,
+// 	},
+// ]);
 
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+	document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+	<BrowserRouter>
+		<ApolloProvider client={client}>
+			<App />
+		</ApolloProvider>
+	</BrowserRouter>,
 );
 
 // If you want to start measuring performance in your app, pass a function
