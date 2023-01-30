@@ -81,7 +81,7 @@ const CreateChallenge = () => {
           <div className="form-example">
             <input
               type="submit"
-              value="Créer le challenge"
+              value="Choisir les actions"
               onClick={onSubmit}
             />
           </div>
