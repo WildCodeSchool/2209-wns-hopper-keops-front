@@ -1,12 +1,15 @@
-import React from "react";
-import InitializeChallenge from "../components/InitializeChallenge";
+import React from 'react';
+import InitializeChallenge from '../components/InitializeChallenge';
+import CreateChallengeProvider from '../context/CreateChallengeProvider';
 
 const CreateChallengePage = () => {
-  return (
-    <div>
-      <InitializeChallenge />
-    </div>
-  );
+	return (
+		<div>
+			<CreateChallengeProvider>
+				<InitializeChallenge />
+			</CreateChallengeProvider>
+		</div>
+	);
 };
 
 export default CreateChallengePage;
