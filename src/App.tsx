@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import ActionsChallenge from "./components/ActionsChallenge";
 import CreateChallenge from "./components/InitializeChallenge";
+import InvitationChallenge from "./components/InvitationChallenge";
 import { UserContext } from "./context/AuthProvider";
 import CreateChallengePage from "./pages/CreateChallenge";
 import Dashboard from "./pages/Dashboard";
@@ -25,9 +27,11 @@ function App() {
               <>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="*" element={<Navigate to="/dashboard" />} />
+                <Route path="/add-challenge" element={<ActionsChallenge />} />
+                <Route path="/create-challenge" element={<CreateChallenge />} />
                 <Route
-                  path="/créer-un-challenge"
-                  element={<CreateChallenge />}
+                  path="/submit-challenge"
+                  element={<InvitationChallenge />}
                 />
               </>
             ) : (
