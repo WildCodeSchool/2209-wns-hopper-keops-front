@@ -1,73 +1,78 @@
-import { useMutation } from "@apollo/client";
-import format from "date-fns/format";
-import { Suspense, useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { ChallengeContext } from "../context/CreateChallengeProvider";
-import { createChallenge } from "../graphql/createChallenge";
-import { IChallenge } from "../interfaces/IChallenge";
+import { useMutation } from '@apollo/client';
+import format from 'date-fns/format';
+import { Suspense, useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ChallengeContext } from '../context/CreateChallengeProvider';
+import { createChallenge } from '../graphql/createChallenge';
+import { IChallenge } from '../interfaces/IChallenge';
 
-const CreateChallenge = () => {
-  //   const [name, setName] = useState<IChallenge['name']>('');
-  // const [startDate, setStartDate] = useState<IChallenge['start_date']>(
-  // 	new Date(),
-  // );
-  // const [length, setLength] = useState<IChallenge['length']>(0);
+type Props = {
+	setChallengeNavigation: (value: string) => void;
+};
 
-  const { challengeData, setChallengeData } = useContext(ChallengeContext);
+const CreateChallenge = ({ setChallengeNavigation }: Props) => {
+	//   const [name, setName] = useState<IChallenge['name']>('');
+	// const [startDate, setStartDate] = useState<IChallenge['start_date']>(
+	// 	new Date(),
+	// );
+	// const [length, setLength] = useState<IChallenge['length']>(0);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChallengeData({
-      ...challengeData,
-      [event.target.name]: event.target.value,
-    });
-  };
+	const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
-  // const [createChallengeMutation, { loading, error }] =
-  // 	useMutation(createChallenge);
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setChallengeData({
+			...challengeData,
+			[event.target.name]: event.target.value,
+		});
+	};
 
-  // async function onSubmit(event: { preventDefault: () => void }) {
-  // 	event.preventDefault();
+	// const [createChallengeMutation, { loading, error }] =
+	// 	useMutation(createChallenge);
 
-  // 	try {
-  // 		await createChallengeMutation({
-  // 			variables: {
-  // 				data: {
-  // 					name,
-  // 					length,
-  // 					start_date: startDate,
-  // 				},
-  // 			},
-  // 		});
-  // 		setName('');
-  // 		setStartDate(new Date());
-  // 		setLength(0);
-  // 	} catch {
-  // 		console.log(error);
-  // 	}
-  // }
+	// async function onSubmit(event: { preventDefault: () => void }) {
+	// 	event.preventDefault();
 
-  return (
-    <div>
-      <h1>Commençons un nouveau challenge !</h1>
-      <Suspense fallback={<p>Chargement...</p>}>
-        <form>
-          <div className="form-example">
-            <label htmlFor="name">Nom du challenge :</label>
-            <input
-              type="text"
-              name="name"
-              value={challengeData.name}
-              id="name"
-              required
-              // disabled={loading}
-              onChange={handleInputChange}
-            />
-          </div>
+	// 	try {
+	// 		await createChallengeMutation({
+	// 			variables: {
+	// 				data: {
+	// 					name,
+	// 					length,
+	// 					start_date: startDate,
+	// 				},
+	// 			},
+	// 		});
+	// 		setName('');
+	// 		setStartDate(new Date());
+	// 		setLength(0);
+	// 	} catch {
+	// 		console.log(error);
+	// 	}
+	// }
 
-          <Link to="/add-challenge">
-            <button>Actions</button>
-          </Link>
-          {/* <div className="form-example">
+	return (
+		<div>
+			<h1>Commençons un nouveau challenge !</h1>
+			<Suspense fallback={<p>Chargement...</p>}>
+				<form>
+					<div className="form-example">
+						<label htmlFor="name">Nom du challenge :</label>
+						<input
+							type="text"
+							name="name"
+							value={challengeData.name}
+							id="name"
+							required
+							// disabled={loading}
+							onChange={handleInputChange}
+						/>
+					</div>
+
+					<button onClick={() => setChallengeNavigation('actions')}>
+						Actions
+					</button>
+
+					{/* <div className="form-example">
 						<label htmlFor="startDate">Date de début :</label>
 						<input
 							type="date"
@@ -104,10 +109,10 @@ const CreateChallenge = () => {
 							onClick={onSubmit}
 						/>
 					</div> */}
-        </form>
-      </Suspense>
-    </div>
-  );
+				</form>
+			</Suspense>
+		</div>
+	);
 };
 
 export default CreateChallenge;

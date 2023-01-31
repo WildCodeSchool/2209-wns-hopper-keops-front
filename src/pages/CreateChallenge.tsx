@@ -1,26 +1,24 @@
-import React, { useState } from "react";
-import ActionsChallenge from "../components/ActionsChallenge";
-import InitializeChallenge from "../components/InitializeChallenge";
-import InvitationChallenge from "../components/InvitationChallenge";
-import CreateChallengeProvider from "../context/CreateChallengeProvider";
+import React, { useState } from 'react';
+import ActionsChallenge from '../components/ActionsChallenge';
+import InitializeChallenge from '../components/InitializeChallenge';
+import InvitationChallenge from '../components/InvitationChallenge';
+import CreateChallengeProvider from '../context/CreateChallengeProvider';
 
-const CreateChallengePage = () => {
-  const [challengeNavigation, setChallengeNavigation] = useState("initialize");
-  return (
-    <div>
-      <CreateChallengeProvider>
-		{
-			challengeNavigation ==="initialize" ? (
-				<InitializeChallenge />
-			) ? challengeNavigation ==="actions" (
+const CreateChallenge = () => {
+	const [challengeNavigation, setChallengeNavigation] =
+		useState<string>('initialize');
+
+	return (
+		<CreateChallengeProvider>
+			{challengeNavigation === 'initialize' ? (
+				<InitializeChallenge setChallengeNavigation={setChallengeNavigation} />
+			) : challengeNavigation === 'actions' ? (
 				<ActionsChallenge />
-			) ? challengeNavigation ==="invitation" (
-			<InvitationChallenge />
-			) : null
-		}  
-      </CreateChallengeProvider>
-    </div>
-  );
+			) : challengeNavigation === 'invitation' ? (
+				<InvitationChallenge />
+			) : null}
+		</CreateChallengeProvider>
+	);
 };
 
-export default CreateChallengePage;
+export default CreateChallenge;
