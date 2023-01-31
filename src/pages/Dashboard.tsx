@@ -11,7 +11,7 @@ function Dashboard() {
       <h1>Dashboard</h1>
       <button onClick={() => tokenContext.onTokenChange(null)}>Log out</button>
       <p>Hello {userContext.email}!</p>
-      <Link to="/créer-un-challenge">
+      <Link to="/create-challenge">
         <button> Créer un nouveau challenge !</button>
       </Link>
     </>
