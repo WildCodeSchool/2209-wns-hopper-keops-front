@@ -1,22 +1,9 @@
-import { useMutation } from '@apollo/client';
 import format from 'date-fns/format';
-import { Suspense, useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext } from 'react';
 import { ChallengeContext } from '../context/CreateChallengeProvider';
-import { createChallenge } from '../graphql/createChallenge';
-import { IChallenge } from '../interfaces/IChallenge';
+import { IChallengeNavigation } from '../interfaces/IChallengeNavigation';
 
-type Props = {
-	setChallengeNavigation: (value: string) => void;
-};
-
-const CreateChallenge = ({ setChallengeNavigation }: Props) => {
-	//   const [name, setName] = useState<IChallenge['name']>('');
-	// const [startDate, setStartDate] = useState<IChallenge['start_date']>(
-	// 	new Date(),
-	// );
-	// const [length, setLength] = useState<IChallenge['length']>(0);
-
+const CreateChallenge = ({ setChallengeNavigation }: IChallengeNavigation) => {
 	const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
 	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,64 +40,55 @@ const CreateChallenge = ({ setChallengeNavigation }: Props) => {
 	return (
 		<div>
 			<h1>Commençons un nouveau challenge !</h1>
-			<Suspense fallback={<p>Chargement...</p>}>
-				<form>
-					<div className="form-example">
-						<label htmlFor="name">Nom du challenge :</label>
-						<input
-							type="text"
-							name="name"
-							value={challengeData.name}
-							id="name"
-							required
-							// disabled={loading}
-							onChange={handleInputChange}
-						/>
-					</div>
-
-					<button onClick={() => setChallengeNavigation('actions')}>
-						Actions
-					</button>
-
-					{/* <div className="form-example">
-						<label htmlFor="startDate">Date de début :</label>
-						<input
-							type="date"
-							name="startDate"
-							value={
-								challengeData.start_date
-									? format(startDate, 'yyyy-MM-dd')
-									: undefined
-							}
-							id="startDate"
-							required
-							disabled={loading}
-							onChange={handleInputChange}
-						/>
-					</div>
-					<div className="form-example">
-						<label htmlFor="length">Durée prévue (en jours) :</label>
-						<input
-							type="number"
-							name="length"
-							value={challengeData.length}
-							id="length"
-							min="1"
-							step="1"
-							required
-							disabled={loading}
-							onChange={handleInputChange}
-						/>
-					</div>
-					<div className="form-example">
+			<form>
+				<div className="form-example">
+					<label htmlFor="name">Nom du challenge :</label>
+					<input
+						type="text"
+						name="name"
+						value={challengeData.name}
+						id="name"
+						required
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div className="form-example">
+					<label htmlFor="startDate">Date de début :</label>
+					<input
+						type="date"
+						name="startDate"
+						value={
+							challengeData.start_date
+								? format(challengeData.start_date, 'yyyy-MM-dd')
+								: undefined
+						}
+						id="startDate"
+						required
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div className="form-example">
+					<label htmlFor="length">Durée prévue (en jours) :</label>
+					<input
+						type="number"
+						name="length"
+						value={challengeData.length}
+						id="length"
+						min="1"
+						step="1"
+						required
+						onChange={handleInputChange}
+					/>
+				</div>
+				{/* <div className="form-example">
 						<input
 							type="submit"
 							value="Choisir les actions"
 							onClick={onSubmit}
 						/>
 					</div> */}
-				</form>
-			</Suspense>
+			</form>
+			<button onClick={() => setChallengeNavigation('actions')}>Actions</button>
 		</div>
 	);
 };

@@ -13,7 +13,7 @@ const CreateChallenge = () => {
 			{challengeNavigation === 'initialize' ? (
 				<InitializeChallenge setChallengeNavigation={setChallengeNavigation} />
 			) : challengeNavigation === 'actions' ? (
-				<ActionsChallenge />
+				<ActionsChallenge setChallengeNavigation={setChallengeNavigation} />
 			) : challengeNavigation === 'invitation' ? (
 				<InvitationChallenge />
 			) : null}
