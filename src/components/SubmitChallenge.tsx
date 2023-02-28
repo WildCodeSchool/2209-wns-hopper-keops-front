@@ -2,11 +2,12 @@ import { useMutation } from '@apollo/client';
 import React, { useContext } from 'react';
 import { ChallengeContext } from '../context/CreateChallengeProvider';
 import { createChallenge } from '../graphql/createChallenge';
+import { IAction } from '../interfaces/IAction';
 
-const SubmitChallenge = () => {
+const SubmitChallenge = (actionsList: any) => {
 	const dataChallenge = useContext(ChallengeContext);
 	console.log('this is challenge contexte bis :', dataChallenge);
-
+	console.log(actionsList);
 	// const [createChallengeMutation, { loading, error }] =
 	// useMutation(createChallenge);
 

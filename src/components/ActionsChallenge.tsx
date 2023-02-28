@@ -6,12 +6,18 @@ import { IChallengeNavigation } from '../interfaces/IChallengeNavigation';
 import ActionCard from './ActionCard';
 import { IAction } from '../interfaces/IAction';
 
-const ActionsChallenge = ({ setChallengeNavigation }: IChallengeNavigation) => {
+const ActionsChallenge = ({
+	setChallengeNavigation,
+	setActionsList,
+	actionsList,
+}: {
+	setChallengeNavigation: (navigation: string) => void;
+	setActionsList: (ids: string[]) => void;
+	actionsList: string[];
+}) => {
 	// const challengeData = useContext(ChallengeContext);
 
 	const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
-
-	const [actionsList, setActionsList] = useState<IAction['id'][]>([]);
 
 	const addAction = (action: IAction) => {
 		setActionsList([...actionsList, action.id]);
