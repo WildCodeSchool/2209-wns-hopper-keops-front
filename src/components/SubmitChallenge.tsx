@@ -4,7 +4,11 @@ import { ChallengeContext } from '../context/CreateChallengeProvider';
 import { createChallenge } from '../graphql/createChallenge';
 import { IAction } from '../interfaces/IAction';
 
-const SubmitChallenge = (actionsList: any) => {
+interface SubmitChallengeProps {
+	actionsList: string[];
+}
+
+const SubmitChallenge = ({ actionsList }: SubmitChallengeProps) => {
 	const dataChallenge = useContext(ChallengeContext);
 	console.log('this is challenge contexte bis :', dataChallenge);
 	console.log(actionsList);
