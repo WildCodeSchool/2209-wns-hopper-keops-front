@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ActionsChallenge from '../components/ActionsChallenge';
 import InitializeChallenge from '../components/InitializeChallenge';
-import InvitationChallenge from '../components/InvitationChallenge';
+import SubmitChallenge from '../components/SubmitChallenge';
 import CreateChallengeProvider from '../context/CreateChallengeProvider';
 
 const CreateChallenge = () => {
@@ -15,7 +15,7 @@ const CreateChallenge = () => {
 			) : challengeNavigation === 'actions' ? (
 				<ActionsChallenge setChallengeNavigation={setChallengeNavigation} />
 			) : challengeNavigation === 'invitation' ? (
-				<InvitationChallenge />
+				<SubmitChallenge />
 			) : null}
 		</CreateChallengeProvider>
 	);
