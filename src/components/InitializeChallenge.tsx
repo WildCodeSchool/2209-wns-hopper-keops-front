@@ -13,30 +13,6 @@ const CreateChallenge = ({ setChallengeNavigation }: IChallengeNavigation) => {
 		});
 	};
 
-	// const [createChallengeMutation, { loading, error }] =
-	// 	useMutation(createChallenge);
-
-	// async function onSubmit(event: { preventDefault: () => void }) {
-	// 	event.preventDefault();
-
-	// 	try {
-	// 		await createChallengeMutation({
-	// 			variables: {
-	// 				data: {
-	// 					name,
-	// 					length,
-	// 					start_date: startDate,
-	// 				},
-	// 			},
-	// 		});
-	// 		setName('');
-	// 		setStartDate(new Date());
-	// 		setLength(0);
-	// 	} catch {
-	// 		console.log(error);
-	// 	}
-	// }
-
 	return (
 		<div>
 			<h1>Commençons un nouveau challenge !</h1>
@@ -80,13 +56,6 @@ const CreateChallenge = ({ setChallengeNavigation }: IChallengeNavigation) => {
 						onChange={handleInputChange}
 					/>
 				</div>
-				{/* <div className="form-example">
-						<input
-							type="submit"
-							value="Choisir les actions"
-							onClick={onSubmit}
-						/>
-					</div> */}
 			</form>
 			<button onClick={() => setChallengeNavigation('actions')}>Actions</button>
 		</div>

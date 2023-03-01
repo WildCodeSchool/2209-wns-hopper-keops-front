@@ -15,35 +15,38 @@ interface IChallengeData {
 
 const SubmitChallenge = (props: SubmitChallengeProps) => {
 	const dataChallenge = useContext(ChallengeContext);
-	console.log('this is challenge contexte bis :', dataChallenge);
+	console.log(
+		'this is challenge contexte bis :',
+		dataChallenge.challengeData.length,
+	);
 	console.log('this is action list', props.actionsList);
 
 	const challengeDataArray = [dataChallenge.challengeData];
 
-	// const [createChallengeMutation, { loading, error }] =
-	// useMutation(createChallenge);
+	const [createChallengeMutation, { error }] = useMutation(createChallenge);
 
-	// async function onSubmit(event: { preventDefault: () => void }) {
-	// event.preventDefault();
+	console.log(typeof dataChallenge.challengeData.length);
 
-	// try {
-	// 	await createChallengeMutation({
-	// 		variables: {
-	// 			data: {
-	// 				name,
-	// 				length,
-	// 				start_date: startDate,
-	// 			},
-	// 		},
-	// 	});
-	// 	setName('');
-	// 	setStartDate(new Date());
-	// 	setLength(0);
-	// } catch {
-	// 	console.log(error);
-	// }
-	// }
-	// challengeData
+	async function onSubmit(event: { preventDefault: () => void }) {
+		event.preventDefault();
+
+		try {
+			const actionIds = props.actionsList.map(action => ({ id: action.id }));
+
+			await createChallengeMutation({
+				variables: {
+					data: {
+						actions: actionIds,
+						name: dataChallenge?.challengeData.name,
+						length: Number(dataChallenge.challengeData.length),
+						start_date: dataChallenge?.challengeData.startDate,
+					},
+				},
+			});
+		} catch {
+			console.log(error);
+		}
+	}
 
 	return (
 		<div>
@@ -61,6 +64,9 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
 					<li>{action.title}</li>
 				))}
 			</ul>
+			<button type="submit" onClick={onSubmit}>
+				Créer
+			</button>
 		</div>
 	);
 };

@@ -9,8 +9,8 @@ function Signin() {
 	const tokenContext = useToken();
 	const user = useContext(UserContext);
 
-	const [email, setEmail] = useState('yoyo@gmail.com');
-	const [password, setPassword] = useState('123456789');
+	const [email, setEmail] = useState('admin@keops.fr');
+	const [password, setPassword] = useState('superSecret');
 	const [wrongCredentials, setWrongCredentials] = useState(false);
 
 	const [doSigninMutation, { loading, error }] = useMutation(signin);
