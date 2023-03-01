@@ -29,6 +29,8 @@ function AuthProvider(props: { children: React.ReactNode }) {
 		// une fois la requête reçu par le front, elle va dans le useEffect et donne soit data.me soit null.
 	});
 
+	// on aura pas de probleme si il annule ?
+
 	// Verify the connexion and set User state
 	useEffect(() => {
 		console.log('Got data:', data);
