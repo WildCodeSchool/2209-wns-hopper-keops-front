@@ -3,15 +3,23 @@ import React, { useContext } from 'react';
 import { ChallengeContext } from '../context/CreateChallengeProvider';
 import { createChallenge } from '../graphql/createChallenge';
 import { IAction } from '../interfaces/IAction';
+import { SubmitChallengeProps } from '../interfaces/IChallenge';
 
-interface SubmitChallengeProps {
-	actionsList: string[];
+interface IChallengeData {
+	name: string;
+	startDate: string;
+	length: number;
+	start_date: Date;
+	actions: IAction;
 }
 
-const SubmitChallenge = ({ actionsList }: SubmitChallengeProps) => {
+const SubmitChallenge = (props: SubmitChallengeProps) => {
 	const dataChallenge = useContext(ChallengeContext);
 	console.log('this is challenge contexte bis :', dataChallenge);
-	console.log(actionsList);
+	console.log('this is action list', props.actionsList);
+
+	const challengeDataArray = [dataChallenge.challengeData];
+
 	// const [createChallengeMutation, { loading, error }] =
 	// useMutation(createChallenge);
 
@@ -35,7 +43,26 @@ const SubmitChallenge = ({ actionsList }: SubmitChallengeProps) => {
 	// 	console.log(error);
 	// }
 	// }
-	return <div>InvitationChallenge</div>;
+	// challengeData
+
+	return (
+		<div>
+			<ul>
+				{challengeDataArray.map((challenge: IChallengeData) => (
+					<>
+						<li>Nom : {challenge.name}</li>
+						<li>Date de début : {challenge.startDate}</li>
+						<li>Durée du challenge : {challenge.length}</li>
+					</>
+				))}
+			</ul>
+			<ul>
+				{props.actionsList.map(action => (
+					<li>{action.title}</li>
+				))}
+			</ul>
+		</div>
+	);
 };
 
 export default SubmitChallenge;

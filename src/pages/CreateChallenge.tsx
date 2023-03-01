@@ -9,7 +9,9 @@ const CreateChallenge = () => {
 	const [challengeNavigation, setChallengeNavigation] =
 		useState<string>('initialize');
 
-	const [actionsList, setActionsList] = useState<IAction['id'][]>([]);
+	const [actionsList, setActionsList] = useState<
+		Array<{ id: string; title: string }>
+	>([]);
 
 	return (
 		<CreateChallengeProvider>

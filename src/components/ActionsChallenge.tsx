@@ -12,15 +12,15 @@ const ActionsChallenge = ({
 	actionsList,
 }: {
 	setChallengeNavigation: (navigation: string) => void;
-	setActionsList: (ids: string[]) => void;
-	actionsList: string[];
+	setActionsList: (actions: Array<{ id: string; title: string }>) => void;
+	actionsList: Array<{ id: string; title: string }>;
 }) => {
 	// const challengeData = useContext(ChallengeContext);
 
 	const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
 
 	const addAction = (action: IAction) => {
-		setActionsList([...actionsList, action.id]);
+		setActionsList([...actionsList, { id: action.id, title: action.title }]);
 	};
 
 	console.log('This is actionList', actionsList);
