@@ -11,11 +11,15 @@
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "axios": "^0.27.2",
+    "date-fns": "^2.29.3",
     "graphql": "^16.6.0",
+    "jsonwebtoken": "^9.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",
     "typescript": "^4.8.3",
@@ -25,7 +29,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "docker": "docker compose up --build",
+    "docker -f": "docker compose up --build --force-recreate"
   },
   "eslintConfig": {
     "extends": [
