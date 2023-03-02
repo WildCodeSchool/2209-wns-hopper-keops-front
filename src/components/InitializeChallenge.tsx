@@ -8,17 +8,29 @@ const InitializeChallenge = ({
 }: IChallengeNavigation) => {
   const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChallengeData({
-      ...challengeData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
   const isFormComplete =
     challengeData.name !== "" &&
-    challengeData.start_date.toString() !== "" &&
-    challengeData.length.toString() !== "";
+    challengeData.start_date &&
+    challengeData.length;
+  console.log(
+    challengeData.name !== "",
+    challengeData.start_date,
+    challengeData.length
+  );
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.name === "start_date") {
+      setChallengeData({
+        ...challengeData,
+        start_date: new Date(event.target.value),
+      });
+    } else {
+      setChallengeData({
+        ...challengeData,
+        [event.target.name]: event.target.value,
+      });
+    }
+  };
 
   return (
     <div>
@@ -29,6 +41,7 @@ const InitializeChallenge = ({
           <input
             type="text"
             name="name"
+            data-testid="challengeName"
             value={challengeData.name}
             id="name"
             required
@@ -36,22 +49,23 @@ const InitializeChallenge = ({
           />
         </div>
         <div className="form-example">
-          <label htmlFor="startDate">Date de début :</label>
+          <label htmlFor="start_date">Date de début :</label>
           <input
             type="date"
-            name="startDate"
+            name="start_date"
+            placeholder="yyyy-MM-dd"
             value={
               challengeData.start_date
                 ? format(challengeData.start_date, "yyyy-MM-dd")
                 : undefined
             }
-            id="startDate"
+            id="start_date"
             required
             onChange={handleInputChange}
           />
         </div>
         <div className="form-example">
-          <label htmlFor="length">Durée prévue (en jours) :</label>
+          <label htmlFor="length">Durée prévue en jours :</label>
           <input
             type="number"
             name="length"
