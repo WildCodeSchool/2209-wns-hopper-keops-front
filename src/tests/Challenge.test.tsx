@@ -6,7 +6,7 @@ import CreateChallengeProvider from '../context/CreateChallengeProvider';
 describe('Initialize Challenge component', () => {
 	it('should disable "Actions" button when all fields are not filled', () => {
 		// Question pour Orélien-san
-		const { getByText, getByLabelText } = render(
+		render(
 			<CreateChallengeProvider>
 				<InitializeChallenge
 					setChallengeNavigation={function (value: string): void {
