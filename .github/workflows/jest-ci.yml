@@ -8,8 +8,8 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
-      - name: Goto client and run tests
-        run: cd client && npm i && npm test
+      - name: Goto src and run tests
+        run: cd src && npm i && npm test
 
   docker:
     needs: front-test
@@ -31,6 +31,3 @@ jobs:
           push: true
           context: "{{defaultContext}}:client"
           tags: keopsepikeco/epikeco_front:latest
-
-
-# dckr_pat_Ur_Jt8dl1i6SQmLtUy9MVGY7SyI
