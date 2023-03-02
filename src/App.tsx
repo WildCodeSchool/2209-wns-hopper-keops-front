@@ -7,6 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 
+
 function App() {
   const user = useContext(UserContext);
   console.log(user);
@@ -37,6 +38,7 @@ function App() {
       )}
     </>
   );
+
 }
 
 export default App;
