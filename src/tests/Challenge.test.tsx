@@ -16,20 +16,22 @@ describe("Initialize Challenge component", () => {
     );
 
     const nameField = screen.getByTestId("challengeName");
-    // const startDateField = screen.getByLabelText(/Date de début :/i);
-    // const lengthField = screen.getByLabelText(/Durée prévue en jours :/i);
+    const startDateField = screen.getByLabelText(/Date de début :/i);
+    const lengthField = screen.getByLabelText(/Durée prévue en jours :/i);
 
     const actionsButton = screen.getByText(/Actions/i);
 
     expect(actionsButton).toBeDisabled();
 
     fireEvent.change(nameField, { target: { value: "Challenge 1" } });
-    // fireEvent.change(startDateField, { target: { value: "2023-03-01" } });
-    // fireEvent.change(lengthField, { target: { value: "10" } });
+    fireEvent.change(startDateField, { target: { value: "2023-03-01" } });
+    fireEvent.change(lengthField, { target: { value: 10 } });
 
     console.log("this is", nameField);
     // expect(nameField).toHaveTextContent("Challenge 1");
-    expect(nameField).toHaveTextContent("Challenge 1");
+    expect(nameField).toHaveValue("Challenge 1");
+    expect(startDateField).toHaveValue("2023-03-01");
+    expect(lengthField).toHaveValue(10);
 
     expect(actionsButton).toBeEnabled();
   });
