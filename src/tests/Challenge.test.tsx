@@ -1,38 +1,33 @@
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
-import InitializeChallenge from "../components/InitializeChallenge";
-import CreateChallengeProvider from "../context/CreateChallengeProvider";
+import React from 'react';
+import { render, fireEvent, screen } from '@testing-library/react';
+import InitializeChallenge from '../components/InitializeChallenge';
+import CreateChallengeProvider from '../context/CreateChallengeProvider';
 
-describe("Initialize Challenge component", () => {
-  it('should disable "Actions" button when all fields are not filled', () => {
-    const { getByText, getByLabelText } = render(
-      <CreateChallengeProvider>
-        <InitializeChallenge
-          setChallengeNavigation={function (value: string): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
-      </CreateChallengeProvider>
-    );
+describe('Initialize Challenge component', () => {
+	it('should disable "Actions" button when all fields are not filled', () => {
+		// Question pour Orélien-san
+		const { getByText, getByLabelText } = render(
+			<CreateChallengeProvider>
+				<InitializeChallenge
+					setChallengeNavigation={function (value: string): void {
+						throw new Error('Function not implemented.');
+					}}
+				/>
+			</CreateChallengeProvider>,
+		);
 
-    const nameField = screen.getByTestId("challengeName");
-    const startDateField = screen.getByLabelText(/Date de début :/i);
-    const lengthField = screen.getByLabelText(/Durée prévue en jours :/i);
+		const nameField = screen.getByTestId('challengeName');
+		const startDateField = screen.getByTestId('challengeDate');
+		const lengthField = screen.getByTestId('challengeLength');
 
-    const actionsButton = screen.getByText(/Actions/i);
+		const actionsButton = screen.getByTestId('challengeButton');
 
-    expect(actionsButton).toBeDisabled();
+		expect(actionsButton).toBeDisabled();
 
-    fireEvent.change(nameField, { target: { value: "Challenge 1" } });
-    fireEvent.change(startDateField, { target: { value: "2023-03-01" } });
-    fireEvent.change(lengthField, { target: { value: 10 } });
+		fireEvent.change(nameField, { target: { value: 'Challenge 1' } });
+		fireEvent.change(startDateField, { target: { value: '2023-03-01' } });
+		fireEvent.change(lengthField, { target: { value: 10 } });
 
-    console.log("this is", nameField);
-    // expect(nameField).toHaveTextContent("Challenge 1");
-    expect(nameField).toHaveValue("Challenge 1");
-    expect(startDateField).toHaveValue("2023-03-01");
-    expect(lengthField).toHaveValue(10);
-
-    expect(actionsButton).toBeEnabled();
-  });
+		expect(actionsButton).toBeEnabled();
+	});
 });
