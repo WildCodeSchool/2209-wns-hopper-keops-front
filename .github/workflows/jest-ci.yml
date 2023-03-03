@@ -12,7 +12,7 @@ jobs:
         run: cd src && npm i && npm test
   docker:
     needs: front-test
-    # if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
