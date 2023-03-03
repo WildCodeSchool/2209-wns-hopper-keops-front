@@ -1,6 +1,6 @@
   name: dockerdocker
 
-  on: push :
+  on: pull_request :
    branches:
       - "dev"
 
@@ -21,5 +21,4 @@
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: "{{defaultContext}}:src"
           tags: keopsepikeco/epikeco_front:latest
