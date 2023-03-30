@@ -1,6 +1,9 @@
-name: front-tests-workflow
+name: staging-ci
 
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - "dev"
 
 jobs:
   front-test:
@@ -27,5 +30,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: keopsepikeco/epikeco_front:latest
+          tags: keopsepikeco/epikeco_front:staging
