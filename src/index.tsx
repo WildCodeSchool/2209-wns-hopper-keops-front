@@ -12,7 +12,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import AuthProvider from "./context/AuthProvider";
 
-const API_URL = () => {
+const getApiUrl = () => {
   if (window.location.href.includes("hopper3.wns")) {
     if (window.location.href.includes("staging")) {
       return "https://api.staging.hopper3.wns.wilders.dev/";
@@ -26,7 +26,7 @@ const API_URL = () => {
 
 // uri = api
 const httpLink = createHttpLink({
-  uri: API_URL,
+  uri: getApiUrl(),
 });
 
 // give token to the request header
