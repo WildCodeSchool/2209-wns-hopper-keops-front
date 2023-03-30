@@ -10,10 +10,9 @@ jobs:
         uses: actions/checkout@v2
       - name: Goto src and run tests
         run: cd src && npm i && npm test
-
   docker:
     needs: front-test
-    if: github.ref == 'refs/heads/dev'
+    # if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -28,6 +27,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
-          context: "{{defaultContext}}:client"
-          tags: keopsepikeco/epikeco_front:latest
+          tags: keopsepikeco/epikeco_front:staging
