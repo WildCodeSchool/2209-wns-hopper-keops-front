@@ -5,6 +5,8 @@ import { createChallenge } from '../graphql/createChallenge';
 import { IAction } from '../interfaces/IAction';
 import { SubmitChallengeProps } from '../interfaces/IChallenge';
 
+import format from 'date-fns/format';
+
 interface IChallengeData {
 	name: string;
 	startDate: string;
@@ -21,7 +23,16 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
 	);
 	console.log('this is action list', props.actionsList);
 
+	console.log('Challenge with new team:', dataChallenge.challengeData);
+
+	console.log(
+		'Start date with new team:',
+		format(dataChallenge.challengeData.start_date, 'yyyy-MM-dd'),
+	);
+
 	const challengeDataArray = [dataChallenge.challengeData];
+
+	console.log('This is challengeDataArray', challengeDataArray);
 
 	const [createChallengeMutation, { error }] = useMutation(createChallenge);
 
@@ -39,7 +50,7 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
 						actions: actionIds,
 						name: dataChallenge?.challengeData.name,
 						length: Number(dataChallenge.challengeData.length),
-						start_date: dataChallenge?.challengeData.startDate,
+						start_date: dataChallenge?.challengeData.start_date,
 					},
 				},
 			});
@@ -54,7 +65,9 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
 				{challengeDataArray.map((challenge: IChallengeData) => (
 					<>
 						<li>Nom : {challenge.name}</li>
-						<li>Date de début : {challenge.startDate}</li>
+						<li>
+							Date de début : {format(challenge.start_date, 'yyyy-MM-dd')}
+						</li>
 						<li>Durée du challenge : {challenge.length}</li>
 					</>
 				))}
