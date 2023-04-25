@@ -7,7 +7,7 @@ export interface IChallenge {
   length: number,
   actions: IAction;
   id: string,
-  readAllChallenges: () => IChallenge[];
+  readMyChallenges: () => IChallenge[];
 }
 
 export interface SubmitChallengeProps {
