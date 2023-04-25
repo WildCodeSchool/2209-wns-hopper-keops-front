@@ -6,6 +6,8 @@ export interface IChallenge {
   startDate: string;
   length: number,
   actions: IAction;
+  id: string,
+  readAllChallenges: () => IChallenge[];
 }
 
 export interface SubmitChallengeProps {
