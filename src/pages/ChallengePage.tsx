@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { IParticipantChallenge } from '../interfaces/IChallenge';
 import { IUser } from '../interfaces/IUser';
 import { IAction } from '../interfaces/IAction';
-import { IUserToChallenge } from '../interfaces/IUserToChallenge';
 import { readOneChallenge } from '../graphql/readOneChallenge';
 import { Navigate, useParams } from 'react-router-dom';
 
