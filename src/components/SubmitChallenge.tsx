@@ -2,18 +2,10 @@ import { useMutation } from '@apollo/client';
 import React, { useContext } from 'react';
 import { ChallengeContext } from '../context/CreateChallengeProvider';
 import { createChallenge } from '../graphql/createChallenge';
-import { IAction } from '../interfaces/IAction';
+import { IChallenge } from '../interfaces/IChallenge';
 import { SubmitChallengeProps } from '../interfaces/IChallenge';
 
 import format from 'date-fns/format';
-
-interface IChallengeData {
-	name: string;
-	startDate: string;
-	length: number;
-	start_date: Date;
-	actions: IAction;
-}
 
 const SubmitChallenge = (props: SubmitChallengeProps) => {
 	const dataChallenge = useContext(ChallengeContext);
@@ -62,7 +54,7 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
 	return (
 		<div>
 			<ul>
-				{challengeDataArray.map((challenge: IChallengeData) => (
+				{challengeDataArray.map((challenge: IChallenge) => (
 					<>
 						<li>Nom : {challenge.name}</li>
 						<li>

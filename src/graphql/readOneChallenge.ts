@@ -10,7 +10,6 @@ export const readOneChallenge = gql`
       start_date
       createdBy {
         id
-        name
       }
       actions {
         description

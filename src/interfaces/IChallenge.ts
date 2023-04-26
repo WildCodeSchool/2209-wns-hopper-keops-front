@@ -1,14 +1,23 @@
 import { IAction } from "./IAction";
+import { IUser } from "./IUser";
 
 export interface IChallenge {
-  name: string,
-  start_date: Date,
+  name: string;
+  start_date: Date;
   startDate: string;
-  length: number,
-  actions: IAction;
-  id: string,
+  end_date: Date;
+  length: number;
+  actions: IAction[];
+  id: string;
+  is_in_progress: boolean;
   readMyChallenges: () => IChallenge[];
 }
+
+export interface IParticipantChallenge extends IChallenge {
+  userToChallenges: { user: IUser }[];
+  createdBy: IUser;
+} 
+
 
 export interface SubmitChallengeProps {
 	actionsList: Array<{ id: string; title: string }>;

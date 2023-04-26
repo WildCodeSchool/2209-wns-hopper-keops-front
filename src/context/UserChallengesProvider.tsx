@@ -1,19 +1,19 @@
 // import React, { createContext, useState } from 'react';
-// import { IUserChallenge } from '../interfaces/IUserChallenge';
+// import { IParticipantChallenge } from '../interfaces/IParticipantChallenge';
 
 // interface UserChallengesContextProps {
-// 	userChallenges: IUserChallenge;
-// 	setUserChallenges: React.Dispatch<React.SetStateAction<IUserChallenge>>;
+// 	userChallenges: IParticipantChallenge;
+// 	setUserChallenges: React.Dispatch<React.SetStateAction<IParticipantChallenge>>;
 // }
 
 // export const UserChallengesContext = createContext<UserChallengesContextProps>({
-// 	userChallenges: {} as IUserChallenge,
+// 	userChallenges: {} as IParticipantChallenge,
 // 	setUserChallenges: () => {},
 // });
 
 // const UserChallengesProvider = (props: { children: React.ReactNode }) => {
-// 	const [userChallenges, setUserChallenges] = useState<IUserChallenge>(
-// 		{} as IUserChallenge,
+// 	const [userChallenges, setUserChallenges] = useState<IParticipantChallenge>(
+// 		{} as IParticipantChallenge,
 // 	);
 
 // 	return (
