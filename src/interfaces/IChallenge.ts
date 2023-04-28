@@ -14,11 +14,10 @@ export interface IChallenge {
 }
 
 export interface IParticipantChallenge extends IChallenge {
-  userToChallenges: { user: IUser }[];
+  userToChallenges: { id: string; user: IUser }[];
   createdBy: IUser;
-} 
-
+}
 
 export interface SubmitChallengeProps {
-	actionsList: Array<{ id: string; title: string }>;
+  actionsList: Array<{ id: string; title: string }>;
 }

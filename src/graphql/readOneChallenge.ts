@@ -18,6 +18,7 @@ export const readOneChallenge = gql`
         title
       }
       userToChallenges {
+        id
         user {
           id
           name
@@ -25,4 +26,4 @@ export const readOneChallenge = gql`
       }
     }
   }
-`
+`;
