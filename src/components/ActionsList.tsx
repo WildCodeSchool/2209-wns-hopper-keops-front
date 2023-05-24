@@ -8,7 +8,13 @@ const ActionsList = (props: { challenge: IChallenge }) => {
 			<h4>Actions:</h4>
 			<ul>
 				{props.challenge.actions.map((action: IAction) => {
-					return <ActionTile action={action} length={props.challenge.length} />;
+					return (
+						<ActionTile
+							action={action}
+							length={props.challenge.length}
+							id={props.challenge.id}
+						/>
+					);
 				})}
 			</ul>
 
