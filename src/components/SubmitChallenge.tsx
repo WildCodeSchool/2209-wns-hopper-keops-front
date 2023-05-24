@@ -2,18 +2,15 @@ import { useMutation } from "@apollo/client";
 import React, { useContext } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import { createChallenge } from "../graphql/createChallenge";
-import { IAction } from "../interfaces/IAction";
+import { IChallenge } from "../interfaces/IChallenge";
 import { SubmitChallengeProps } from "../interfaces/IChallenge";
+import { useNavigate } from "react-router-dom";
+import { readMyChallenges } from "../graphql/readMyChallenges";
 
-interface IChallengeData {
-  name: string;
-  startDate: string;
-  length: number;
-  start_date: Date;
-  actions: IAction;
-}
+import format from "date-fns/format";
 
 const SubmitChallenge = (props: SubmitChallengeProps) => {
+  const navigate = useNavigate();
   const dataChallenge = useContext(ChallengeContext);
   console.log(
     "this is challenge contexte bis :",
@@ -21,9 +18,20 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
   );
   console.log("this is action list", props.actionsList);
 
+  console.log("Challenge with new team:", dataChallenge.challengeData);
+
+  console.log(
+    "Start date with new team:",
+    format(dataChallenge.challengeData.start_date, "yyyy-MM-dd")
+  );
+
   const challengeDataArray = [dataChallenge.challengeData];
 
-  const [createChallengeMutation, { error }] = useMutation(createChallenge);
+  console.log("This is challengeDataArray", challengeDataArray);
+
+  const [createChallengeMutation, { error }] = useMutation(createChallenge, {
+    refetchQueries: [readMyChallenges],
+  });
 
   console.log(typeof dataChallenge.challengeData.length);
 
@@ -39,10 +47,11 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
             actions: actionIds,
             name: dataChallenge?.challengeData.name,
             length: Number(dataChallenge.challengeData.length),
-            start_date: dataChallenge?.challengeData.startDate,
+            start_date: dataChallenge?.challengeData.start_date,
           },
         },
       });
+      navigate("/dashboard", { replace: true });
     } catch {
       console.log(error);
     }
@@ -51,10 +60,12 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
   return (
     <div>
       <ul>
-        {challengeDataArray.map((challenge: IChallengeData) => (
+        {challengeDataArray.map((challenge: IChallenge) => (
           <>
             <li>Nom : {challenge.name}</li>
-            <li>Date de début : {challenge.startDate}</li>
+            <li>
+              Date de début : {format(challenge.start_date, "yyyy-MM-dd")}
+            </li>
             <li>Durée du challenge : {challenge.length}</li>
           </>
         ))}
