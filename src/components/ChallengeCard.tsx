@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import "./ChallengeCard.css";
+
 
 const ChallengeCard = ({
   id,
@@ -12,17 +14,16 @@ const ChallengeCard = ({
   onClick: () => void;
 }) => {
   return (
-    <div className="cardContainer">
-      <div className="cardsList">
-        <div className="cardContent">
-          <h2>{name}</h2>
-          {/* <p>{format(start_date, 'yyyy-MM-dd')}</p> */}
-        </div>
-        <Link to={`/challenges/${id}`}>
-          <button>Plus d'info</button>
-        </Link>
+    <article className="grid">
+      <div className="infos">
+        <h3 className="title">{name}</h3>
+        <p>Infos sur le challenge</p>
+        {/* <p>{format(start_date, 'yyyy-MM-dd')}</p> */}
       </div>
-    </div>
+      <div className="actions">
+        <Link to={`/challenges/${id}`}>Plus d'info</Link>
+      </div>
+    </article>   
   );
 };
 
