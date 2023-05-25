@@ -1,0 +1,104 @@
+/* Teal Light scheme (Default) */
+/* Can be forced with data-theme="light" */
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --primary: #00897b;
+  --primary-hover: #00796b;
+  --primary-focus: rgba(0, 137, 123, 0.125);
+  --primary-inverse: #fff;
+  --danger: #d81b60;
+  --infos: #dbebe9;
+}
+
+/* Teal Dark scheme (Auto) */
+/* Automatically enabled if user has Dark mode enabled */
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --primary: #00897b;
+    --primary-hover: #009688;
+    --primary-focus: rgba(0, 137, 123, 0.25);
+    --primary-inverse: #fff;
+    --danger: #d81b60;
+    --infos: #dbebe9;
+  }
+}
+
+/* Teal Dark scheme (Forced) */
+/* Enabled if forced with data-theme="dark" */
+[data-theme="dark"] {
+  --primary: #00897b;
+  --primary-hover: #009688;
+  --primary-focus: rgba(0, 137, 123, 0.25);
+  --primary-inverse: #fff;
+  --danger: #d81b60;
+  --infos: #dbebe9;
+}
+
+/* Teal (Common styles) */
+:root {
+  --form-element-active-border-color: var(--primary);
+  --form-element-focus-color: var(--primary-focus);
+  --switch-color: var(--primary-inverse);
+  --switch-checked-background-color: var(--primary);
+}
+
+.brand:focus {
+  background: none;
+  color: var(--primary);
+}
+
+.title {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+article .title {
+  margin-top: 0;
+}
+
+.danger {
+  color: var(--danger);
+}
+
+article.alert {
+  background-color: #dbebe9;
+  box-shadow: none;
+}
+
+article.alert p {
+  color: var(--primary);
+  margin: 0;
+}
+
+hr {
+  border-top: 1px solid var(--infos);
+}
+
+.button-inline {
+  width: 200px;
+  margin: 0;
+}
+
+.container-button-alone {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container-button-multiple {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 992px) {
+  .button-inline {
+    width: 100%;
+  }
+}
+
+.previous-icon {
+  margin-right: 1rem;
+}
+
+.next-icon {
+  margin-left: 1rem;
+}

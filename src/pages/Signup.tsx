@@ -19,34 +19,41 @@ function Signup() {
           },
         },
       });
-      setEmail("");
-      setPassword("");
     } catch {}
   }
 
   return (
-    <div>
-      <h1>Inscription</h1>
-      Email :
-      <input
-        type="email"
-        value={email}
-        disabled={loading}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      Mot de passe :
-      <input
-        type="password"
-        value={password}
-        disabled={loading}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={doSignup}>Inscription</button>
-      {error && (
-        <p>Il y a un problème.. Email ou mot de passe au mauvais format.</p>
-      )}
-      <Link to="/signin">J'ai déjà un compte</Link>
-    </div>
+    <>
+      <article>
+        <h1 className="title">Inscription</h1>
+        {error && <p className="danger">Email ou mot de passe invalide</p>}
+        <form>
+          <label>Email :</label>
+          <input
+            type="email"
+            placeholder="Ton email"
+            required
+            value={email}
+            disabled={loading}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <label>Mot de passe :</label>
+          <input
+            type="password"
+            placeholder="Ton mot de passe"
+            required
+            value={password}
+            disabled={loading}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          <button onClick={doSignup} type="button">
+            Inscription
+          </button>
+          <Link to="/signin">J'ai déjà un compte</Link>
+        </form>
+      </article>
+    </>
   );
 }
 

@@ -1,22 +1,29 @@
-import { Link } from 'react-router-dom';
-import { useToken, useUser } from '../context/AuthProvider';
-import ChallengesList from '../components/ChallengesList';
+import { Link } from "react-router-dom";
+import { useUser } from "../context/AuthProvider";
+import ChallengesList from "../components/ChallengesList";
+import { PlusCircleDotted } from "react-bootstrap-icons";
+
+import "./Dashboard.css";
 
 function Dashboard() {
-	const userContext = useUser();
-	const tokenContext = useToken();
+  const userContext = useUser();
 
-	return (
-		<>
-			<h1>Dashboard</h1>
-			<button onClick={() => tokenContext.onTokenChange(null)}>Log out</button>
-			<p>Hello {userContext.email}!</p>
-			<Link to="/create-challenge">
-				<button> Créer un nouveau challenge !</button>
-			</Link>
-			<ChallengesList />
-		</>
-	);
+  return (
+    <>
+      <div className="hero">
+        <h1 className="title">Dashboard</h1>
+        <article className="alert">
+          <p>Content de vous revoir {userContext.email}!</p>
+        </article>
+        <Link to="/create-challenge" role="button">
+          <PlusCircleDotted size={34} className="previous-icon" />
+          Créer un nouveau challenge !
+        </Link>
+      </div>
+      <hr className="separator" />
+      <ChallengesList />
+    </>
+  );
 }
 
 export default Dashboard;

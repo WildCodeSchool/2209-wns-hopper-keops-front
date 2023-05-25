@@ -18,6 +18,6 @@ export interface IParticipantChallenge extends IChallenge {
   createdBy: IUser;
 }
 
-export interface SubmitChallengeProps {
+export interface SubmitChallenge {
   actionsList: Array<{ id: string; title: string }>;
 }
