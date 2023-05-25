@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "./ChallengeCard.css";
 
+
 const ChallengeCard = ({
   id,
   name,
@@ -22,7 +23,7 @@ const ChallengeCard = ({
       <div className="actions">
         <Link to={`/challenges/${id}`}>Plus d'info</Link>
       </div>
-    </article>
+    </article>   
   );
 };
 
