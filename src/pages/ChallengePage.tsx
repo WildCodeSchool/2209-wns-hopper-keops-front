@@ -72,7 +72,7 @@ const ChallengePage = () => {
       // Math.ceil arrondi à l'entier supérieur
       const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
 
-      if (daysRemaining === 0) {
+      if (daysRemaining >= 0) {
         return (
 			<>
 			  <p>Le challenge est en cours !!!</p>
