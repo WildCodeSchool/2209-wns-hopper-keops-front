@@ -3,13 +3,16 @@ import React, { useContext } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import { createChallenge } from "../graphql/createChallenge";
 import { IChallenge } from "../interfaces/IChallenge";
-import { SubmitChallengeProps } from "../interfaces/IChallenge";
 import { useNavigate } from "react-router-dom";
 import { readMyChallenges } from "../graphql/readMyChallenges";
-
 import format from "date-fns/format";
 
-const SubmitChallenge = (props: SubmitChallengeProps) => {
+type IProps = {
+  setChallengeNavigation: (navigation: string) => void;
+  actionsList: Array<{ id: string; title: string }>;
+};
+
+const SubmitChallenge = (props: IProps) => {
   const navigate = useNavigate();
   const dataChallenge = useContext(ChallengeContext);
   console.log(
@@ -75,6 +78,12 @@ const SubmitChallenge = (props: SubmitChallengeProps) => {
           <li>{action.title}</li>
         ))}
       </ul>
+      <button
+        className="nextBtn"
+        onClick={() => props.setChallengeNavigation("actions")}
+      >
+        Précédent
+      </button>
       <button type="submit" onClick={onSubmit}>
         Créer
       </button>

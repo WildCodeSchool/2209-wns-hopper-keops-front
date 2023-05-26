@@ -1,39 +1,37 @@
 import format from "date-fns/format";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import { IChallengeNavigation } from "../interfaces/IChallengeNavigation";
+import { ArrowRight } from "react-bootstrap-icons";
 
 const InitializeChallenge = ({
   setChallengeNavigation,
 }: IChallengeNavigation) => {
   const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
-  const isFormComplete =
-    challengeData.name !== "" &&
-    challengeData.start_date &&
-    challengeData.length;
-  console.log(
-    challengeData.name !== "",
-    challengeData.start_date,
-    challengeData.length
+  const [name, setName] = useState(challengeData.name || "");
+  const [startDate, setStartDate] = useState(
+    challengeData.start_date || new Date()
   );
+  const [length, setLength] = useState(challengeData.length || 1);
+  const [isFormComplete, setIsFormComplete] = useState(false);
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.name === "start_date") {
-      setChallengeData({
-        ...challengeData,
-        start_date: new Date(event.target.value),
-      });
-    } else {
-      setChallengeData({
-        ...challengeData,
-        [event.target.name]: event.target.value,
-      });
+  useEffect(() => {
+    if (name !== "" && startDate && length) {
+      setIsFormComplete(true);
     }
+  }, [name, startDate, length]);
+
+  const handleSubmit = () => {
+    challengeData.name = name;
+    challengeData.start_date = startDate;
+    challengeData.length = length;
+    setChallengeData({ ...challengeData });
+    setChallengeNavigation("actions");
   };
 
   return (
-    <div>
+    <article>
       <h1>Commençons un nouveau challenge !</h1>
       <form>
         <div className="form-example">
@@ -42,52 +40,56 @@ const InitializeChallenge = ({
             type="text"
             name="name"
             data-testid="challengeName"
-            value={challengeData.name}
+            placeholder="Choisis un super nom"
+            value={name}
             id="name"
             required
-            onChange={handleInputChange}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="form-example">
-          <label htmlFor="start_date">Date de début :</label>
-          <input
-            type="date"
-            name="start_date"
-            data-testid="challengeDate"
-            placeholder="yyyy-MM-dd"
-            value={
-              challengeData.start_date
-                ? format(challengeData.start_date, "yyyy-MM-dd")
-                : undefined
-            }
-            id="start_date"
-            required
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="form-example">
-          <label htmlFor="length">Durée prévue en jours :</label>
-          <input
-            type="number"
-            name="length"
-            data-testid="challengeLength"
-            value={challengeData.length}
-            id="length"
-            min="1"
-            step="1"
-            required
-            onChange={handleInputChange}
-          />
+        <div className="grid">
+          <div>
+            <label htmlFor="start_date">Date de début :</label>
+            <input
+              type="date"
+              name="start_date"
+              min={format(new Date(), "yyyy-MM-dd")}
+              data-testid="challengeDate"
+              placeholder="yyyy-mm-dd"
+              value={format(startDate, "yyyy-MM-dd")}
+              id="start_date"
+              required
+              onChange={(e) => setStartDate(new Date(e.target.value))}
+            />
+          </div>
+          <div>
+            <label htmlFor="length">Durée prévue en jours :</label>
+            <input
+              type="number"
+              name="length"
+              data-testid="challengeLength"
+              placeholder="Nombre de jour du challenge"
+              value={length}
+              id="length"
+              min="1"
+              step="1"
+              required
+              onChange={(e) => setLength(Number(e.target.value))}
+            />
+          </div>
         </div>
       </form>
-      <button
-        data-testid="challengeButton"
-        disabled={!isFormComplete}
-        onClick={() => setChallengeNavigation("actions")}
-      >
-        Actions
-      </button>
-    </div>
+      <div className="container-button-alone">
+        <button
+          className="button-inline"
+          data-testid="challengeButton"
+          disabled={!isFormComplete}
+          onClick={() => handleSubmit()}
+        >
+          Suivant <ArrowRight className="next-icon" />
+        </button>
+      </div>
+    </article>
   );
 };
 

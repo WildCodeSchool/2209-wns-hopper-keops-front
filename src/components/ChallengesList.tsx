@@ -15,7 +15,7 @@ const ChallengesList = () => {
 
   return (
     <div>
-      <p>Ici les challenges</p>
+      <h2 className="title">Mes challenges</h2>
       {data?.readMyChallenges.map((challenge) => (
         <ChallengeCard
           key={challenge.id}

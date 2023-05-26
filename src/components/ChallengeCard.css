@@ -1,0 +1,10 @@
+article .infos h3,
+article .infos p {
+  margin: 0;
+}
+
+article .actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
