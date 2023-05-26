@@ -13,15 +13,16 @@ import { deleteMyChallenge } from "../graphql/deleteMyChallenge";
 import { useNavigate } from "react-router-dom";
 import { readMyChallenges } from "../graphql/readMyChallenges";
 import ActionsList from "../components/ActionsList";
+import UpdateChallenge from "../components/UpdateChallenge";
 
 const ChallengePage = () => {
-  // const [challengeIsEditable, setChallengeIsEditable] =
-  //   useState<boolean>(false);
   const navigate = useNavigate();
 
   const user = useContext(UserContext);
 
   const { challengeId } = useParams();
+
+  const [editableMode, setEditableMode] = useState<Boolean>(false);
 
   const [challenge, setChallenge] = useState<
     null | IParticipantChallenge | undefined
@@ -57,26 +58,32 @@ const ChallengePage = () => {
   // Question à poser à Aurélien
 
   function calculateDaysRemaining() {
-    const today = new Date();
+    if (challenge != null) {
+      const today = new Date();
 
-    const challengeStartDate = challenge?.start_date
-      ? new Date(challenge.start_date)
-      : undefined;
-
-    if (challengeStartDate) {
-      // Calcul en millisecondes entre aujourd'hui et la date de début du challenge
-      const timeDiff = challengeStartDate.getTime() - today.getTime();
-
-      // Calcul du nombre de jours restants (1000 = nombre de millisecondes dans une seconde, 3600 secondes dans une heure)
-      const milisecondInADay = 1000 * 3600 * 24;
-      // Math.ceil arrondi à l'entier supérieur
-      const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
-
-      if (daysRemaining === 0) {
-        return "Le challenge est en cours !";
+      if (new Date(challenge.end_date) < today) {
+        return "Ce challenge est terminé.";
       }
 
-      return `Patience ! Le challenge commence dans ${daysRemaining} jours`;
+      const challengeStartDate = challenge?.start_date
+        ? new Date(challenge.start_date)
+        : undefined;
+
+      if (challengeStartDate) {
+        // Calcul en millisecondes entre aujourd'hui et la date de début du challenge
+        const timeDiff = challengeStartDate.getTime() - today.getTime();
+
+        // Calcul du nombre de jours restants (1000 = nombre de millisecondes dans une seconde, 3600 secondes dans une heure)
+        const milisecondInADay = 1000 * 3600 * 24;
+        // Math.ceil arrondi à l'entier supérieur
+        const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
+
+        if (daysRemaining === 0) {
+          return "Le challenge est en cours !";
+        } else {
+          return `Patience ! Le challenge commence dans ${daysRemaining} jours`;
+        }
+      }
     } else {
       console.log("La date de début du challenge est manquante.");
     }
@@ -97,8 +104,8 @@ const ChallengePage = () => {
           if (data.readOneChallenge.createdBy.id === user?.id) {
             setUserStatus("owner");
           }
+          console.log("User Status:", userStatus);
         }
-        console.log("User Status:", userStatus);
       }
     }
   }, [data, user?.id, userStatus, userToChallengeId]);
@@ -149,10 +156,6 @@ const ChallengePage = () => {
     }
   };
 
-  const updateChallenge = async () => {
-    console.log("modifier le challenge");
-  };
-
   const deleteChallenge = async () => {
     try {
       await deleteMyChallengeMutation({
@@ -172,38 +175,55 @@ const ChallengePage = () => {
   } else if (challenge !== undefined && challenge !== null) {
     return (
       <div>
-        <h2>{challenge.name}</h2>
-        {
-          <p>
-            Date de début:{" "}
-            {format(new Date(challenge.start_date), "yyyy-MM-dd")}
-          </p>
-        }
-        <p>Durée : {challenge.length}</p>
-        <p>Créé par : {challenge.createdBy.id}</p>
+        {editableMode === false ? (
+          <div>
+            <h2>{challenge.name}</h2>
+            <p>
+              Date de début:{" "}
+              {format(new Date(challenge.start_date), "yyyy-MM-dd")}
+            </p>
+            <p>Durée : {challenge.length}</p>
+            <p>Créé par : {challenge.createdBy.id}</p>
 
-        <button onClick={shareChallenge}>Partager ce challenge</button>
+            <button onClick={shareChallenge}>Partager ce challenge</button>
 
-        {userStatus === null ? (
-          <button onClick={participateToChallenge}>Je participe !</button>
-        ) : userStatus === "owner" ? (
-          <>
-            <button onClick={deleteChallenge}>Supprimer le challenge</button>
-            <button onClick={updateChallenge}>Modifier le challenge</button>
-          </>
+            {userStatus === null ? (
+              <button onClick={participateToChallenge}>Je participe !</button>
+            ) : userStatus === "owner" ? (
+              <>
+                <button onClick={deleteChallenge}>
+                  Supprimer le challenge
+                </button>
+                <button
+                  onClick={() => {
+                    setEditableMode(true);
+                    console.log("editableMode: ", editableMode);
+                  }}
+                >
+                  Modifier le challenge
+                </button>
+              </>
+            ) : (
+              <button onClick={quitChallenge}>Quitter le challenge</button>
+            )}
+
+            <h4>Participants:</h4>
+            <li>
+              {challenge.userToChallenges.map(
+                (participant: { user: IUser }) => {
+                  return (
+                    <p key={participant.user.id}>{participant.user.name}</p>
+                  );
+                }
+              )}
+            </li>
+
+            {calculateDaysRemaining()}
+            <ActionsList challenge={challenge} />
+          </div>
         ) : (
-          <button onClick={quitChallenge}>Quitter le challenge</button>
+          <UpdateChallenge challenge={challenge} />
         )}
-
-        <h4>Participants:</h4>
-        <li>
-          {challenge.userToChallenges.map((participant: { user: IUser }) => {
-            return <p key={participant.user.id}>{participant.user.name}</p>;
-          })}
-        </li>
-
-        {calculateDaysRemaining()}
-        <ActionsList challenge={challenge} />
       </div>
     );
   } else {
