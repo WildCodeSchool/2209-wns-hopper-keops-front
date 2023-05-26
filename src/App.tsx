@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import ChallengePage from "./pages/ChallengePage";
 import Header from "./components/Header";
 import Profil from "./pages/Profil";
+import ChallengeLeaderboardPage from './pages/ChallengeLeaderboardPage';
 
 function App() {
   const user = useContext(UserContext);
@@ -39,6 +40,8 @@ function App() {
                       element={<ChallengePage />}
                     />
                     <Route path="/profil" element={<Profil />} />
+					<Route path="/challenges/:challengeId/leaderboard" element={<ChallengeLeaderboardPage />}
+					/>
 
                     <Route path="*" element={<Navigate to="/dashboard" />} />
                   </>

@@ -5,4 +5,5 @@ export interface IUserToChallenge {
   isAccepted?: boolean;
   challenge?: IChallenge;
   user?: IUser;
+  challengeScore: number
 }

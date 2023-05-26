@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { IParticipantChallenge } from "../interfaces/IChallenge";
 import { IUser } from "../interfaces/IUser";
 import { readOneChallenge } from "../graphql/readOneChallenge";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 
 import format from "date-fns/format";
 import { createUserToChallenge } from "../graphql/createUserToChallenge";
@@ -72,11 +72,18 @@ const ChallengePage = () => {
       // Math.ceil arrondi à l'entier supérieur
       const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
 
-      if (daysRemaining === 0) {
-        return "Le challenge est en cours !";
+      if (daysRemaining >= 0) {
+        return (
+			<>
+			  <p>Le challenge est en cours !!!</p>
+			  <Link to={`/challenges/${challengeId}/leaderboard`}>
+				<button>Voir le classement</button>
+			  </Link>
+			</>
+		  );
       }
 
-      return `Patience ! Le challenge commence dans ${daysRemaining} jours`;
+      return `Patience ! Le challenge commence dans ${daysRemaining} jour(s)`;
     } else {
       console.log("La date de début du challenge est manquante.");
     }
