@@ -55,6 +55,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
 
   async function validateSuccess(e: React.MouseEvent<HTMLInputElement, MouseEvent>, i: number) {
     const target = e.target as HTMLInputElement; 
+    // addDays est une fonction de format/date-fns
     const successDate = format(addDays(startDate, i), "yyyy-MM-dd");
     const successKey = `${successDate}-${actionId}`;
  
@@ -93,6 +94,16 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     }
   }
 
+  function isDisabled(i: number): boolean {
+    const dateToday = format(new Date(), "yyyy-MM-dd");
+    const succesDate = format(addDays(startDate, i), "yyyy-MM-dd");
+    if (dateToday >= succesDate) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   const checkboxes = useMemo(() => {
     const newCheckboxes = [];
     for (let i = 0; i < props.challenge.length; i++) {
@@ -103,11 +114,11 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
             type="checkbox"
             onClick={(e) => validateSuccess(e, i)}
             checked={isChecked(i, actionId)}
+            disabled={isDisabled(i)}
           />
         </div>
       );
     }
-
     return newCheckboxes;
   }, [successesMap]);
 
