@@ -2,18 +2,17 @@ import { useMutation } from "@apollo/client";
 import React, { useContext } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import { createChallenge } from "../graphql/createChallenge";
-import { useNavigate } from "react-router-dom";
 import { readMyChallenges } from "../graphql/readMyChallenges";
 import format from "date-fns/format";
 import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
+import "./SubmitChallenge.scoped.css";
 
 type IProps = {
   setChallengeNavigation: (navigation: string) => void;
 };
 
 const SubmitChallenge = (props: IProps) => {
-  const navigate = useNavigate();
-  const { challengeData } = useContext(ChallengeContext);
+  const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
   const [createChallengeMutation, { error }] = useMutation(createChallenge, {
     refetchQueries: [readMyChallenges],
@@ -27,7 +26,7 @@ const SubmitChallenge = (props: IProps) => {
         id: action.id,
       }));
 
-      await createChallengeMutation({
+      const { data } = await createChallengeMutation({
         variables: {
           data: {
             actions: actionIds,
@@ -37,7 +36,10 @@ const SubmitChallenge = (props: IProps) => {
           },
         },
       });
-      navigate("/dashboard", { replace: true });
+
+      challengeData.id = data.createChallenge.id;
+      setChallengeData({ ...challengeData });
+      props.setChallengeNavigation("successfull");
     } catch {
       console.log(error);
     }
@@ -46,24 +48,30 @@ const SubmitChallenge = (props: IProps) => {
   return (
     <article>
       <h1>Récapitulatif</h1>
-      <details open>
-        <summary>Infos générale</summary>
-        <ul>
-          <li>Nom : {challengeData.name}</li>
-          <li>
-            Date de début : {format(challengeData.start_date, "yyyy-MM-dd")}
-          </li>
-          <li>Durée du challenge : {challengeData.length}</li>
-        </ul>
-      </details>
-      <details open>
-        <summary>Liste des actions</summary>
-        <ul>
-          {challengeData.actions.map((action) => (
-            <li key={action.id}>{action.title}</li>
-          ))}
-        </ul>
-      </details>
+      <section>
+        <details open>
+          <summary>
+            <b>Infos générale</b>
+          </summary>
+          <ul>
+            <li>Nom : {challengeData.name}</li>
+            <li>
+              Commencera le : {format(challengeData.start_date, "yyyy/MM/dd")}
+            </li>
+            <li>Durera : {challengeData.length} jour(s)</li>
+          </ul>
+        </details>
+        <details open>
+          <summary>
+            <b>Liste des actions</b>
+          </summary>
+          <ul>
+            {challengeData.actions.map((action) => (
+              <li key={action.id}>{action.title}</li>
+            ))}
+          </ul>
+        </details>
+      </section>
       <div className="container-button-multiple">
         <button
           className="nextBtn button-inline"

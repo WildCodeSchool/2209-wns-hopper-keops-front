@@ -9,8 +9,6 @@ const ChallengesList = () => {
     { fetchPolicy: "cache-and-network" }
   );
 
-  const viewDetails = () => {};
-
   console.log("All challenges dashboard", data);
 
   return (
@@ -21,7 +19,6 @@ const ChallengesList = () => {
           <ChallengeCard
             key={challenge.id}
             {...challenge}
-            onClick={() => viewDetails}
           />
         ))}
       </div>

@@ -1,5 +1,5 @@
 import { DashCircle, PlusCircle } from "react-bootstrap-icons";
-import styles from "./ActionCard.module.css";
+import "./ActionCard.scoped.css";
 
 const ActionCard = ({
   title,
@@ -23,7 +23,7 @@ const ActionCard = ({
           </summary>
           <p>{description}</p>
         </details>
-        <div className={styles.test}>
+        <div className="test">
           {isSelected ? (
             <DashCircle
               size={34}

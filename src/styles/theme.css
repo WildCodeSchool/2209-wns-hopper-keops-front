@@ -48,6 +48,11 @@
   --switch-checked-background-color: var(--primary);
 }
 
+body {
+  margin: 0;
+  margin-bottom: 4rem;
+}
+
 .brand:focus {
   background: none;
   color: var(--primary);
