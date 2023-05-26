@@ -7,15 +7,7 @@ import format from "date-fns/format";
 import { addDays } from "date-fns";
 import { readMyChallengeSuccesses } from "../graphql/readMyChallengeSuccess";
 import { deleteMySuccess } from "../graphql/deleteMySuccess";
-import { log } from "console";
-
-interface ISuccess {
-  id: string;
-  date: string;
-  action: {
-    id: number;
-  };
-}
+import { ISuccess } from "../interfaces/ISuccess";
 
 const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const startDate = new Date(props.challenge.start_date);
@@ -27,7 +19,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   });
 
   const [
-    deleteMySuccessMutation, //{ error: deleteMyChallengeError }
+    deleteMySuccessMutation,
   ] = useMutation(deleteMySuccess, { 
     refetchQueries: [readMyChallengeSuccesses] 
   });
@@ -54,17 +46,10 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
       }
     }
     setSuccessesMap(keys);
-    console.log(successesMap);
   }, [data]);
 
   const isChecked = (i: number, actionId: string): boolean => {
     const key = `${format(addDays(startDate, i), "yyyy-MM-dd")}-${actionId}`;
-    // objet key value =! tableau
-    // 
-    console.log(key, JSON.stringify(successesMap), successesMap);
-    // if (successesMap.includes(key)) {
-    //   console.log("youpi");
-    // }
     return key in successesMap;
   };
 
@@ -72,8 +57,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     const target = e.target as HTMLInputElement; 
     const successDate = format(addDays(startDate, i), "yyyy-MM-dd");
     const successKey = `${successDate}-${actionId}`;
-    console.log("Console de sucessKey: ",successKey);
-    console.log("Ceci est notre console.log: ",successesMap[successKey]);
+ 
     if (target.checked) {
       try {
         await createSuccessMutation({
@@ -89,9 +73,9 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
             },
           },
         });
-        console.log("Success with createSuccessMutation");
+        console.log("Success create !");
       } catch {
-        console.log("Error with createSuccessMutation");
+        console.log("Error with success create");
       }
     } else {
       try {
@@ -104,7 +88,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
         });
         console.log("Success removed !");
       } catch (error) {
-        console.log("error :", error);
+        console.log("error with success removed:", error);
       }
     }
   }
@@ -117,7 +101,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
           Jour {i + 1} :{" "}
           <input
             type="checkbox"
-            onClick={(e) => validateSuccess(e, i)} // e.target.ckecked pour savoir si on a coché ou décoché la case
+            onClick={(e) => validateSuccess(e, i)}
             checked={isChecked(i, actionId)}
           />
         </div>
