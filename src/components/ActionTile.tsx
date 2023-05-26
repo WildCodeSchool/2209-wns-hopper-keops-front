@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
 import { readMyChallengeSuccesses } from "../graphql/readMyChallengeSuccess";
+import { deleteMySuccess } from "../graphql/deleteMySuccess";
 import { log } from "console";
 
 interface ISuccess {
@@ -25,6 +26,12 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     refetchQueries: [readMyChallengeSuccesses],
   });
 
+  const [
+    deleteMySuccessMutation, //{ error: deleteMyChallengeError }
+  ] = useMutation(deleteMySuccess, { 
+    refetchQueries: [readMyChallengeSuccesses] 
+  });
+
   const { data } = useQuery<{ readMyChallengeSuccesses: ISuccess[] }>(
     readMyChallengeSuccesses,
     {
@@ -34,62 +41,83 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     }
   );
 
-  const [successesKeys, setSuccessesKeys] = useState<string[]>([]);
+  const [successesMap, setSuccessesMap] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
-    const keys: string[] = [];
+    const keys: any = {};
 
     if (data?.readMyChallengeSuccesses) {
       for (const success of data.readMyChallengeSuccesses as ISuccess[]) {
         const successDate = new Date(success.date);
 
-        keys.push(`${format(successDate, "yyyy-MM-dd")}-${success.action.id}`);
+        keys[`${format(successDate, "yyyy-MM-dd")}-${success.action.id}`] = success.id;
       }
     }
-
-    setSuccessesKeys(keys);
+    setSuccessesMap(keys);
+    console.log(successesMap);
   }, [data]);
 
   const isChecked = (i: number, actionId: string): boolean => {
     const key = `${format(addDays(startDate, i), "yyyy-MM-dd")}-${actionId}`;
-    console.log(key, JSON.stringify(successesKeys), successesKeys);
-    if (successesKeys.includes(key)) {
-      console.log("youpi");
-    }
-    return successesKeys.includes(key);
+    // objet key value =! tableau
+    // 
+    console.log(key, JSON.stringify(successesMap), successesMap);
+    // if (successesMap.includes(key)) {
+    //   console.log("youpi");
+    // }
+    return key in successesMap;
   };
 
-  async function validateSuccess(i: number) {
-    try {
-      await createSuccessMutation({
-        variables: {
-          data: {
-            action: {
-              id: actionId,
+  async function validateSuccess(e: React.MouseEvent<HTMLInputElement, MouseEvent>, i: number) {
+    const target = e.target as HTMLInputElement; 
+    const successDate = format(addDays(startDate, i), "yyyy-MM-dd");
+    const successKey = `${successDate}-${actionId}`;
+    console.log("Console de sucessKey: ",successKey);
+    console.log("Ceci est notre console.log: ",successesMap[successKey]);
+    if (target.checked) {
+      try {
+        await createSuccessMutation({
+          variables: {
+            data: {
+              action: {
+                id: actionId,
+              },
+              challenge: {
+                id: challengeId,
+              },
+              date: format(addDays(startDate, i), "yyyy-MM-dd"),
             },
-            challenge: {
-              id: challengeId,
-            },
-            date: format(addDays(startDate, i), "yyyy-MM-dd"),
           },
-        },
-      });
-      console.log("Success with createSuccessMutation");
-    } catch {
-      console.log("Error with createSuccessMutation");
+        });
+        console.log("Success with createSuccessMutation");
+      } catch {
+        console.log("Error with createSuccessMutation");
+      }
+    } else {
+      try {
+        await deleteMySuccessMutation({
+          variables: {
+            data: {
+              id: successesMap[successKey],
+            }
+          },
+        });
+        console.log("Success removed !");
+      } catch (error) {
+        console.log("error :", error);
+      }
     }
   }
 
   const checkboxes = useMemo(() => {
     const newCheckboxes = [];
-    console.log("nous calculons les checkboxes", JSON.stringify(successesKeys));
     for (let i = 0; i < props.challenge.length; i++) {
       newCheckboxes.push(
         <div key={i}>
           Jour {i + 1} :{" "}
           <input
             type="checkbox"
-            onClick={(e) => validateSuccess(i)} // e.target.ckecked pour savoir si on a coché ou décoché la case
+            onClick={(e) => validateSuccess(e, i)} // e.target.ckecked pour savoir si on a coché ou décoché la case
             checked={isChecked(i, actionId)}
           />
         </div>
@@ -97,7 +125,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     }
 
     return newCheckboxes;
-  }, [successesKeys]);
+  }, [successesMap]);
 
   return (
     <li key={props.action.id}>
