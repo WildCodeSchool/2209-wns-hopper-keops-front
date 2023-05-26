@@ -8,25 +8,14 @@ const CreateChallenge = () => {
   const [challengeNavigation, setChallengeNavigation] =
     useState<string>("initialize");
 
-  const [actionsList, setActionsList] = useState<
-    Array<{ id: string; title: string }>
-  >([]);
-
   return (
     <CreateChallengeProvider>
       {challengeNavigation === "initialize" ? (
         <InitializeChallenge setChallengeNavigation={setChallengeNavigation} />
       ) : challengeNavigation === "actions" ? (
-        <ActionsChallenge
-          setChallengeNavigation={setChallengeNavigation}
-          setActionsList={setActionsList}
-          actionsList={actionsList}
-        />
+        <ActionsChallenge setChallengeNavigation={setChallengeNavigation} />
       ) : challengeNavigation === "invitation" ? (
-        <SubmitChallenge
-          actionsList={actionsList}
-          setChallengeNavigation={setChallengeNavigation}
-        />
+        <SubmitChallenge setChallengeNavigation={setChallengeNavigation} />
       ) : null}
     </CreateChallengeProvider>
   );

@@ -16,13 +16,15 @@ const ChallengesList = () => {
   return (
     <div>
       <h2 className="title">Mes challenges</h2>
-      {data?.readMyChallenges.map((challenge) => (
-        <ChallengeCard
-          key={challenge.id}
-          {...challenge}
-          onClick={() => viewDetails}
-        />
-      ))}
+      <div className="list">
+        {data?.readMyChallenges.map((challenge) => (
+          <ChallengeCard
+            key={challenge.id}
+            {...challenge}
+            onClick={() => viewDetails}
+          />
+        ))}
+      </div>
     </div>
   );
 };
