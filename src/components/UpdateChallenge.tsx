@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { IChallenge } from "../interfaces/IChallenge";
+import { useMutation } from "@apollo/client";
+import { updateChallenge } from "../graphql/updateChallenge";
 
 const UpdateChallenge = (props: { challenge: IChallenge }) => {
   const [challenge, setChallenge] = useState(props.challenge);
@@ -7,10 +9,31 @@ const UpdateChallenge = (props: { challenge: IChallenge }) => {
   const [length, setLength] = useState(props.challenge.length);
   const [startDate, setStartDate] = useState(props.challenge.start_date);
 
-  const saveUpdatedChallenge = () => {
-    // setChallenge({ ...challenge, name: "Blabla" });
-    console.log(challenge);
-  };
+  const [updateChallengeMutation, { error }] = useMutation(updateChallenge, {
+    // refetchQueries: [readMyChallenges],
+  });
+
+  async function saveUpdatedChallenge(event: { preventDefault: () => void }) {
+    event.preventDefault();
+
+    try {
+      // const actionIds = props.challenge.actions.map((action) => ({ id: action.id }));
+
+      await updateChallengeMutation({
+        variables: {
+          // data: {
+          //   actions: actionIds,
+          //   name: challenge.name,
+          //   length: Number(challenge.name),
+          //   start_date: challenge.start_date,
+          // },
+        },
+      });
+      navigate("/challenges/", { replace: true });
+    } catch {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     setChallenge({ ...challenge, name, length, start_date: startDate });
