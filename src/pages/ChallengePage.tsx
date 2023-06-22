@@ -7,7 +7,7 @@ import { UserContext } from "../context/AuthProvider";
 import UpdateChallenge from "../components/UpdateChallenge";
 import ReadChallenge from "../components/ReadChallenge";
 import ActionsList from "../components/ActionsList";
-import ActionsChallenge from "../components/ActionsChallenge";
+import UpdateActionsChallenge from "../components/UpdateActionsChallenge";
 
 const ChallengePage = () => {
   const user = useContext(UserContext);
@@ -55,8 +55,13 @@ const ChallengePage = () => {
   } else if (challenge !== undefined && challenge !== null) {
     return (
       <div>
-        {editableMode === false ? (
+        {editableMode ? (
           <>
+                    <UpdateChallenge challenge={challenge}
+          toggleEditableMode={() => setEditableMode(false)}
+          />
+              </>
+        ) : (
           <ReadChallenge
             challenge={challenge}
             userToChallengeId={Number(userToChallengeId)}
@@ -64,21 +69,11 @@ const ChallengePage = () => {
             toggleEditableMode={setEditableMode}
             userStatus={userStatus}
           />
-          
-
-              </>
-        ) : (
-          <UpdateChallenge challenge={challenge}
-          toggleEditableMode={() => setEditableMode(false)}
-          />
         )}
         {editableActionsMode === false ? (
-          <ActionsList challenge={challenge} userState={userStatus} toggleEditableActionsMode={() => setEditableActionsMode(true)}/>
+          <ActionsList challenge={challenge} userStatus={userStatus} toggleEditableActionsMode={() => setEditableActionsMode(true)}/>
         ) : (
-          // <ActionsChallenge 
-					// setActionsList={}
-					// actionsList={} />
-          <p></p>
+          <UpdateActionsChallenge challenge={challenge} />
         )}
       </div>
     );

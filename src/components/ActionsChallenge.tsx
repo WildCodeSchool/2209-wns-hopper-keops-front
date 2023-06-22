@@ -9,7 +9,7 @@ import { ChallengeContext } from "../context/CreateChallengeProvider";
 const ActionsChallenge = ({
   setChallengeNavigation,
 }: {
-  setChallengeNavigation: (navigation: string) => void;
+  setChallengeNavigation?: (navigation: string) => void;
 }) => {
   const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
   const { challengeData, setChallengeData } = useContext(ChallengeContext);
@@ -47,7 +47,9 @@ const ActionsChallenge = ({
           onRemove={() => removeAction(action.id)}
         />
       ))}
-      <div className="container-button-multiple">
+
+    {setChallengeNavigation && (
+<div className="container-button-multiple">
         <button
           className="nextBtn button-inline"
           onClick={() => {
@@ -68,6 +70,8 @@ const ActionsChallenge = ({
           Suivant <ArrowRight className="next-icon" />
         </button>
       </div>
+    )}
+      
     </article>
   );
 };

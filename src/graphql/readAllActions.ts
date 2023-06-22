@@ -6,6 +6,7 @@ export const readAllActions = gql`
       id
       title
       description
+      successValue
     }
   }
-`
+`;
