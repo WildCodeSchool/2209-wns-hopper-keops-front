@@ -7,6 +7,8 @@
   --primary-focus: rgba(0, 137, 123, 0.125);
   --primary-inverse: #fff;
   --danger: #d81b60;
+  --danger-hover: #c2185b;
+  --danger-focus: rgba(216, 27, 96, 0.125);
   --infos: #dbebe9;
 }
 
@@ -19,6 +21,8 @@
     --primary-focus: rgba(0, 137, 123, 0.25);
     --primary-inverse: #fff;
     --danger: #d81b60;
+    --danger-hover: #c2185b;
+    --danger-focus: rgba(216, 27, 96, 0.125);
     --infos: #dbebe9;
   }
 }
@@ -31,6 +35,8 @@
   --primary-focus: rgba(0, 137, 123, 0.25);
   --primary-inverse: #fff;
   --danger: #d81b60;
+  --danger-hover: #c2185b;
+  --danger-focus: rgba(216, 27, 96, 0.125);
   --infos: #dbebe9;
 }
 
@@ -40,6 +46,11 @@
   --form-element-focus-color: var(--primary-focus);
   --switch-color: var(--primary-inverse);
   --switch-checked-background-color: var(--primary);
+}
+
+body {
+  margin: 0;
+  margin-bottom: 4rem;
 }
 
 .brand:focus {
@@ -58,6 +69,10 @@ article .title {
 
 .danger {
   color: var(--danger);
+}
+
+.primary {
+  color: var(--primary);
 }
 
 article.alert {
@@ -79,6 +94,21 @@ hr {
   margin: 0;
 }
 
+.button-icon {
+  cursor: pointer;
+}
+
+button.danger {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: var(--primary-inverse);
+}
+
+button.danger:hover {
+  background-color: var(--danger-hover);
+  border-color: var(--danger-hover);
+}
+
 .container-button-alone {
   display: flex;
   justify-content: flex-end;
@@ -93,6 +123,10 @@ hr {
   .button-inline {
     width: 100%;
   }
+  .container-button-multiple {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
 }
 
 .previous-icon {
@@ -101,4 +135,14 @@ hr {
 
 .next-icon {
   margin-left: 1rem;
+}
+
+article.selected {
+  background-color: var(--infos);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
