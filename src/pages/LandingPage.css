@@ -1,0 +1,19 @@
+.landingPageContainer {
+    margin-top: 50px;
+}
+
+.landingTitle h1 {
+    margin-bottom: 0;
+}
+
+.gamePresentation p {
+    width: 80%;
+}
+
+.hidden {
+    display : none
+}
+
+.startGame button {
+    width: auto;
+}
