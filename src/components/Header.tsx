@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { UserContext, useToken } from "../context/AuthProvider";
 import { useContext } from "react";
+import logo from "../logoEpikEco.png";
+import "./Header.css";
 
 const Header = () => {
   const user = useContext(UserContext);
@@ -11,7 +13,7 @@ const Header = () => {
       <ul>
         <li>
           <Link to="/" className="brand">
-            <strong>Epik'Eco</strong>
+            <img src={logo} alt="logo Epik'Eco" />
           </Link>
         </li>
       </ul>
