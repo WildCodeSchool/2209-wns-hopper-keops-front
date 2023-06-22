@@ -9,4 +9,4 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
       - name: Goto src and run tests
-        run: cd src && npm i && npm test
+        run: cd src && npm i --legacy-peer-deps && npm test

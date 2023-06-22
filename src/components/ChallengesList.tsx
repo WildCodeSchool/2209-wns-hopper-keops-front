@@ -9,20 +9,19 @@ const ChallengesList = () => {
     { fetchPolicy: "cache-and-network" }
   );
 
-  const viewDetails = () => {};
-
   console.log("All challenges dashboard", data);
 
   return (
     <div>
-      <p>Ici les challenges</p>
-      {data?.readMyChallenges.map((challenge) => (
-        <ChallengeCard
-          key={challenge.id}
-          {...challenge}
-          onClick={() => viewDetails}
-        />
-      ))}
+      <h2 className="title">Mes challenges</h2>
+      <div className="list">
+        {data?.readMyChallenges.map((challenge) => (
+          <ChallengeCard
+            key={challenge.id}
+            {...challenge}
+          />
+        ))}
+      </div>
     </div>
   );
 };

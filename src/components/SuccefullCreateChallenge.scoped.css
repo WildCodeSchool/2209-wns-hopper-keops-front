@@ -1,0 +1,15 @@
+.share-input {
+  position: relative;
+}
+
+.share-input input {
+  margin-bottom: 2rem;
+}
+
+.share-input .button-icon {
+  background-color: white;
+  padding: 5px;
+  position: absolute;
+  top: -20px;
+  right: -10px;
+}

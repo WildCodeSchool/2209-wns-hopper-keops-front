@@ -164,7 +164,7 @@ const ReadChallenge = (props: {
       </li>
 
       {calculateDaysRemaining()}
-      <ActionsList challenge={challenge} />
+     
     </div>
   );
 };

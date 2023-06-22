@@ -1,0 +1,26 @@
+.test {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+summary {
+  display: flex;
+}
+
+details {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+details p,
+details h2 {
+  margin: 0;
+}
+
+@media screen and (max-width: 992px) {
+  details {
+    margin-bottom: 1rem;
+  }
+}

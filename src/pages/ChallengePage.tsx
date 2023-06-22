@@ -6,6 +6,8 @@ import { Navigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/AuthProvider";
 import UpdateChallenge from "../components/UpdateChallenge";
 import ReadChallenge from "../components/ReadChallenge";
+import ActionsList from "../components/ActionsList";
+import ActionsChallenge from "../components/ActionsChallenge";
 
 const ChallengePage = () => {
   const user = useContext(UserContext);
@@ -16,6 +18,7 @@ const ChallengePage = () => {
   );
   const [userToChallengeId, setUserToChallengeId] = useState<string>("");
   const [editableMode, setEditableMode] = useState<Boolean>(false);
+  const [editableActionsMode, setEditableActionsMode] = useState<Boolean>(false);
   const [challenge, setChallenge] = useState<
     null | IParticipantChallenge | undefined
   >(undefined);
@@ -53,6 +56,7 @@ const ChallengePage = () => {
     return (
       <div>
         {editableMode === false ? (
+          <>
           <ReadChallenge
             challenge={challenge}
             userToChallengeId={Number(userToChallengeId)}
@@ -60,10 +64,21 @@ const ChallengePage = () => {
             toggleEditableMode={setEditableMode}
             userStatus={userStatus}
           />
+          
+
+              </>
         ) : (
           <UpdateChallenge challenge={challenge}
           toggleEditableMode={() => setEditableMode(false)}
           />
+        )}
+        {editableActionsMode === false ? (
+          <ActionsList challenge={challenge} userState={userStatus} toggleEditableActionsMode={() => setEditableActionsMode(true)}/>
+        ) : (
+          // <ActionsChallenge 
+					// setActionsList={}
+					// actionsList={} />
+          <p></p>
         )}
       </div>
     );

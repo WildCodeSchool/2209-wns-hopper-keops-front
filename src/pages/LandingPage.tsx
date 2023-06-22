@@ -1,16 +1,12 @@
-import { Link } from 'react-router-dom';
+import "./LandingPage.css";
 
 const LandingPage = () => {
-	return (
-		<div>
-			<h1>LandingPage</h1>
-			<button>
-				<p>
-					<Link to="/signin"> Clique</Link>
-				</p>
-			</button>
-		</div>
-	);
+  return (
+    <div>
+      <h1>Epik'Eco</h1>
+      <h3>Le jeu des éco-héros engagés !</h3>
+    </div>
+  );
 };
 
 export default LandingPage;
