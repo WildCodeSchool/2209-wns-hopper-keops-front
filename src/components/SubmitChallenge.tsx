@@ -2,92 +2,92 @@ import { useMutation } from "@apollo/client";
 import React, { useContext } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import { createChallenge } from "../graphql/createChallenge";
-import { IChallenge } from "../interfaces/IChallenge";
-import { useNavigate } from "react-router-dom";
 import { readMyChallenges } from "../graphql/readMyChallenges";
 import format from "date-fns/format";
+import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
+import "./SubmitChallenge.scoped.css";
 
 type IProps = {
   setChallengeNavigation: (navigation: string) => void;
-  actionsList: Array<{ id: string; title: string }>;
 };
 
 const SubmitChallenge = (props: IProps) => {
-  const navigate = useNavigate();
-  const dataChallenge = useContext(ChallengeContext);
-  console.log(
-    "this is challenge contexte bis :",
-    dataChallenge.challengeData.length
-  );
-  console.log("this is action list", props.actionsList);
-
-  console.log("Challenge with new team:", dataChallenge.challengeData);
-
-  console.log(
-    "Start date with new team:",
-    format(dataChallenge.challengeData.start_date, "yyyy-MM-dd")
-  );
-
-  const challengeDataArray = [dataChallenge.challengeData];
-
-  console.log("This is challengeDataArray", challengeDataArray);
+  const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
   const [createChallengeMutation, { error }] = useMutation(createChallenge, {
     refetchQueries: [readMyChallenges],
   });
 
-  console.log(typeof dataChallenge.challengeData.length);
-
   async function onSubmit(event: { preventDefault: () => void }) {
     event.preventDefault();
 
     try {
-      const actionIds = props.actionsList.map((action) => ({ id: action.id }));
+      const actionIds = challengeData.actions.map((action) => ({
+        id: action.id,
+      }));
 
-      await createChallengeMutation({
+      const { data } = await createChallengeMutation({
         variables: {
           data: {
             actions: actionIds,
-            name: dataChallenge?.challengeData.name,
-            length: Number(dataChallenge.challengeData.length),
-            start_date: dataChallenge?.challengeData.start_date,
+            name: challengeData.name,
+            length: Number(challengeData.length),
+            start_date: challengeData.start_date,
           },
         },
       });
-      navigate("/dashboard", { replace: true });
+
+      challengeData.id = data.createChallenge.id;
+      setChallengeData({ ...challengeData });
+      props.setChallengeNavigation("successfull");
     } catch {
       console.log(error);
     }
   }
 
   return (
-    <div>
-      <ul>
-        {challengeDataArray.map((challenge: IChallenge) => (
-          <>
-            <li>Nom : {challenge.name}</li>
+    <article>
+      <h1>Récapitulatif</h1>
+      <section>
+        <details open>
+          <summary>
+            <b>Infos générale</b>
+          </summary>
+          <ul>
+            <li>Nom : {challengeData.name}</li>
             <li>
-              Date de début : {format(challenge.start_date, "yyyy-MM-dd")}
+              Commencera le : {format(challengeData.start_date, "yyyy/MM/dd")}
             </li>
-            <li>Durée du challenge : {challenge.length}</li>
-          </>
-        ))}
-      </ul>
-      <ul>
-        {props.actionsList.map((action) => (
-          <li>{action.title}</li>
-        ))}
-      </ul>
-      <button
-        className="nextBtn"
-        onClick={() => props.setChallengeNavigation("actions")}
-      >
-        Précédent
-      </button>
-      <button type="submit" onClick={onSubmit}>
-        Créer
-      </button>
-    </div>
+            <li>Durera : {challengeData.length} jour(s)</li>
+          </ul>
+        </details>
+        <details open>
+          <summary>
+            <b>Liste des actions</b>
+          </summary>
+          <ul>
+            {challengeData.actions.map((action) => (
+              <li key={action.id}>{action.title}</li>
+            ))}
+          </ul>
+        </details>
+      </section>
+      <div className="container-button-multiple">
+        <button
+          className="nextBtn button-inline"
+          onClick={() => props.setChallengeNavigation("actions")}
+        >
+          <ArrowLeft className="previous-icon" /> Précédent
+        </button>
+        <button
+          className="nextBtn button-inline"
+          type="submit"
+          onClick={onSubmit}
+        >
+          Créer <ArrowRight className="next-icon" />
+        </button>
+      </div>
+    </article>
   );
 };
 

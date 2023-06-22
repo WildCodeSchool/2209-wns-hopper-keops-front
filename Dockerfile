@@ -8,10 +8,11 @@ WORKDIR /app
 
 # COPY copie le fichier indiqué dans l'image
 COPY package*.json ./
-RUN npm i
+RUN npm i --legacy-peer-deps
 
 COPY public public
 COPY src src
+COPY craco.config.ts craco.config.ts
 COPY tsconfig.json tsconfig.json
 
 # Commande démarrant le fichier

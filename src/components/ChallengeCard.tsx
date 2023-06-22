@@ -1,17 +1,14 @@
 import { Link } from "react-router-dom";
-import "./ChallengeCard.css";
-
+import "./ChallengeCard.scoped.css";
 
 const ChallengeCard = ({
   id,
   name,
   start_date,
-  onClick,
 }: {
   id: string;
   name: string;
   start_date: Date;
-  onClick: () => void;
 }) => {
   return (
     <article className="grid">
@@ -23,7 +20,7 @@ const ChallengeCard = ({
       <div className="actions">
         <Link to={`/challenges/${id}`}>Plus d'info</Link>
       </div>
-    </article>   
+    </article>
   );
 };
 
