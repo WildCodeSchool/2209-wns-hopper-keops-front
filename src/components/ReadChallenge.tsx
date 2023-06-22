@@ -7,13 +7,14 @@ import { readMyChallenges } from "../graphql/readMyChallenges";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
+import ActionsList from "./ActionsList";
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
   userToChallengeId: number;
-  toggleUserStatus: void;
+  toggleUserStatus: (status: "participant" | "owner" | null) => void;
   userStatus: "participant" | "owner" | null;
-  toggleEditableMode: boolean;
+  toggleEditableMode: (editable: boolean) => void;
 }) => {
   const navigate = useNavigate();
   const challenge = props.challenge;
@@ -49,7 +50,6 @@ const ReadChallenge = (props: {
       if (challengeStartDate) {
         // Calcul en millisecondes entre aujourd'hui et la date de début du challenge
         const timeDiff = challengeStartDate.getTime() - today.getTime();
-
         // Calcul du nombre de jours restants (1000 = nombre de millisecondes dans une seconde, 3600 secondes dans une heure)
         const milisecondInADay = 1000 * 3600 * 24;
         // Math.ceil arrondi à l'entier supérieur
@@ -164,7 +164,7 @@ const ReadChallenge = (props: {
       </li>
 
       {calculateDaysRemaining()}
-      {/* <ActionsList challenge={challenge} /> */}
+      <ActionsList challenge={challenge} />
     </div>
   );
 };

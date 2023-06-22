@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const updateChallenge = gql`
-  mutation UpdateChallenge($data: UserInput!) {
-    updateChallenge(data: $data) {
+  mutation Mutation($challengeId: ID!, $data: UpdateChallengeInput!) {
+    updateChallenge(challengeId: $challengeId, data: $data) {
       id
     }
   }

@@ -14,15 +14,8 @@ const ChallengePage = () => {
   const [userStatus, setUserStatus] = useState<null | "participant" | "owner">(
     null
   );
-
-  let status = null;
-
-  let initialEditableMode = false;
-
   const [userToChallengeId, setUserToChallengeId] = useState<string>("");
-
   const [editableMode, setEditableMode] = useState<Boolean>(false);
-
   const [challenge, setChallenge] = useState<
     null | IParticipantChallenge | undefined
   >(undefined);
@@ -35,10 +28,6 @@ const ChallengePage = () => {
       },
     }
   );
-
-  const toggleUserStatus = (status: "participant" | "owner" | null): void => {
-    setUserStatus(status);
-  };
 
   useEffect(() => {
     if (data) {
@@ -67,12 +56,14 @@ const ChallengePage = () => {
           <ReadChallenge
             challenge={challenge}
             userToChallengeId={Number(userToChallengeId)}
-            toggleUserStatus={toggleUserStatus(status)}
-            toggleEditableMode={toggleEditableMode(initialEditableMode)}
+            toggleUserStatus={setUserStatus}
+            toggleEditableMode={setEditableMode}
             userStatus={userStatus}
           />
         ) : (
-          <UpdateChallenge challenge={challenge} />
+          <UpdateChallenge challenge={challenge}
+          toggleEditableMode={() => setEditableMode(false)}
+          />
         )}
       </div>
     );
