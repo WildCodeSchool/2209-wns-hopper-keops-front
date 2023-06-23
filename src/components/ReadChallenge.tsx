@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
 import ActionsList from "./ActionsList";
+import { useEffect } from "react";
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -32,6 +33,10 @@ const ReadChallenge = (props: {
   const [
     deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
   ] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
+
+useEffect(() => {
+  console.log("challenge", challenge)
+}, [challenge])
 
   // Question à poser à Aurélien
 
@@ -135,7 +140,7 @@ const ReadChallenge = (props: {
         Date de début: {format(new Date(challenge.start_date), "yyyy-MM-dd")}
       </p>
       <p>Durée : {challenge.length}</p>
-      <p>Créé par : {challenge.createdBy.id}</p>
+      <p>Créé par : {challenge.createdBy.name}</p>
 
       <button onClick={shareChallenge}>Partager ce challenge</button>
 
