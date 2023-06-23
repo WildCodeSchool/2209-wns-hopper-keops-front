@@ -1,3 +1,6 @@
 .hero {
-  margin-bottom: 3rem;
+  margin: 3rem 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -25,7 +25,6 @@ function Dashboard() {
 	return (
 		<>
 			<div className="hero">
-				<h1 className="title">Dashboard</h1>
 				{isConnected && (
 					<article className="alert alert-popup">
 						<p>Content de vous revoir {user.name} !</p>
@@ -35,6 +34,10 @@ function Dashboard() {
 					<PlusCircleDotted size={34} className="previous-icon" />
 					Créer un nouveau challenge !
 				</Link>
+				<article className="score">
+					🏆 Mon score général : <span className="bold">{user.score}</span>{' '}
+					points.
+				</article>
 			</div>
 			<hr className="separator" />
 			<ChallengesList />

@@ -1,6 +1,6 @@
-import { IChallenge } from "../interfaces/IChallenge";
-import { IAction } from "../interfaces/IAction";
-import ActionTile from "./ActionTile";
+import { IChallenge } from '../interfaces/IChallenge';
+import { IAction } from '../interfaces/IAction';
+import ActionTile from './ActionTile';
 
 const ActionsList = (props: {
   challenge: IChallenge;
