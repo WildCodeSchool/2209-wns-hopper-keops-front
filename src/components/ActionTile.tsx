@@ -2,31 +2,19 @@ import React, { useEffect, useMemo, useState } from "react";
 import { IAction } from "../interfaces/IAction";
 import { IChallenge } from "../interfaces/IChallenge";
 import { createSuccess } from "../graphql/createSuccess";
-import { useMutation, useQuery } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
 import { readMyChallengeSuccesses } from "../graphql/readMyChallengeSuccess";
 import { deleteMySuccess } from "../graphql/deleteMySuccess";
 import { ISuccess } from "../interfaces/ISuccess";
 import "./ActionTile.scoped.css";
-import { log } from "console";
+import { readChallengeLeaderboard } from "../graphql/readChallengeLeaderboard";
 
 const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const startDate = new Date(props.challenge.start_date);
   const actionId = props.action.id;
   const challengeId = props.challenge.id;
-
-  const [createSuccessMutation, { error }] = useMutation(createSuccess, {
-    refetchQueries: [readMyChallengeSuccesses],
-  });
-
-  useEffect(() => {console.log("challenge", props.challenge )}, [props.challenge]);
-
-  const [
-    deleteMySuccessMutation,
-  ] = useMutation(deleteMySuccess, { 
-    refetchQueries: [readMyChallengeSuccesses] 
-  });
 
   const { data } = useQuery<{ readMyChallengeSuccesses: ISuccess[] }>(
     readMyChallengeSuccesses,
@@ -36,6 +24,28 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
       },
     }
   );
+
+  // TODO refetch readChallengerLeaderboard (score)
+  const {data : particpant} = useQuery<any>(readChallengeLeaderboard, {
+    variables: { challengeId },
+  });
+  
+
+  // useEffect(() => {
+  //   console.log("Participant! :", participant)
+  // }, [participant])
+
+  const [createSuccessMutation] = useMutation(createSuccess, {
+    refetchQueries: [readMyChallengeSuccesses, readChallengeLeaderboard]
+  });
+
+  const [
+    deleteMySuccessMutation,
+  ] = useMutation(deleteMySuccess, { 
+    refetchQueries: [readMyChallengeSuccesses, readChallengeLeaderboard] 
+  });
+
+  
 
   const [successesMap, setSuccessesMap] = useState<{ [key: string]: string }>({});
 

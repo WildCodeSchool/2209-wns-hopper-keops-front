@@ -1,3 +1,5 @@
+@import "./alert.css";
+
 /* Teal Light scheme (Default) */
 /* Can be forced with data-theme="light" */
 [data-theme="light"],
