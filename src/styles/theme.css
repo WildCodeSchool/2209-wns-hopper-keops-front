@@ -148,3 +148,11 @@ article.selected {
   flex-direction: column;
   gap: 1rem;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.actionTile {
+  list-style-type: none;
+}

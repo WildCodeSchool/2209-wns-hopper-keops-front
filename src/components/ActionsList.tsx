@@ -1,14 +1,17 @@
-import { IChallenge } from "../interfaces/IChallenge";
-import { IAction } from "../interfaces/IAction";
-import ActionTile from "./ActionTile";
+import { IChallenge } from '../interfaces/IChallenge';
+import { IAction } from '../interfaces/IAction';
+import ActionTile from './ActionTile';
 
 const ActionsList = (props: {
   challenge: IChallenge;
   userStatus?: null | "participant" | "owner";
   toggleEditableActionsMode?: () => void;
 }) => {
+  
+
   return (
     <div>
+
       <h4>Actions:</h4>
       {props.userStatus === "owner" &&
         props.challenge.is_in_progress === false && (
