@@ -54,8 +54,6 @@ const ChallengePage = () => {
     }
   );
 
-  // Question à poser à Aurélien
-
   function calculateDaysRemaining() {
     const today = new Date();
 
