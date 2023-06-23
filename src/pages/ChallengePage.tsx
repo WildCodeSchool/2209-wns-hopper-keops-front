@@ -57,7 +57,7 @@ const ChallengePage = () => {
       <div>
         {editableMode ? (
           <>
-                    <UpdateChallenge challenge={challenge}
+          <UpdateChallenge challenge={challenge}
           toggleEditableMode={() => setEditableMode(false)}
           />
               </>
@@ -73,7 +73,7 @@ const ChallengePage = () => {
         {editableActionsMode === false ? (
           <ActionsList challenge={challenge} userStatus={userStatus} toggleEditableActionsMode={() => setEditableActionsMode(true)}/>
         ) : (
-          <UpdateActionsChallenge challenge={challenge} />
+          <UpdateActionsChallenge challenge={challenge} toggleEditableActionsMode={() => setEditableActionsMode(false)}/>
         )}
       </div>
     );

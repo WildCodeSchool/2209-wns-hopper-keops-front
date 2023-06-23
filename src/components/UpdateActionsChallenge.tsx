@@ -5,12 +5,13 @@ import { IAction } from "../interfaces/IAction";
 import { ArrowRight } from "react-bootstrap-icons";
 import { useState } from "react";
 import { IParticipantChallenge } from "../interfaces/IChallenge";
-import { updateChallenge } from "../graphql/updateChallenge";
 import { readMyChallenges } from "../graphql/readMyChallenges";
 import { readOneChallenge } from "../graphql/readOneChallenge";
+import { updateActionToChallenge } from "../graphql/updateActionToCHallenge";
 
 const ActionsChallenge = (props: {
   challenge: IParticipantChallenge,
+  toggleEditableActionsMode: () => void;
 }) => {
   const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
 
@@ -18,8 +19,8 @@ const ActionsChallenge = (props: {
     props.challenge.actions || []
   );
 
-  const [updateChallengeMutation, { error }] = useMutation(updateChallenge, {
-    refetchQueries: [readMyChallenges, readOneChallenge],
+  const [doUpdateActionToChallengeMutation] = useMutation<IAction[]>(updateActionToChallenge, {
+    refetchQueries: [readOneChallenge],
   });
 
   const addAction = (action: IAction) => {
@@ -37,8 +38,19 @@ const ActionsChallenge = (props: {
 
   const onSubmitActionsChallenge = () => {
     try{
-      //TODO:
-      // updateChallengeMutation(actionsList);
+      const actionsIdsArray = actionsList.map((action) => ({id: action.id}));
+
+      console.log("actionsIdsArray", actionsIdsArray);
+      
+
+      doUpdateActionToChallengeMutation({variables: {
+        data: {
+          actions: actionsIdsArray
+        },
+        challengeId: props.challenge.id
+      }});
+
+      props.toggleEditableActionsMode();
     } catch(err) {
       console.log(err);
     }
