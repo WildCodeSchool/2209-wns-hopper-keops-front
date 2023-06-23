@@ -11,13 +11,13 @@ const ActionsList = (props: {
 
   return (
     <div>
-      <h4>Actions:</h4>
+      <h4>Actions :</h4>  
       {props.userStatus === "owner" && new Date(props.challenge.start_date) > currentDate && (
         <button onClick={props.toggleEditableActionsMode}>
           Modifier les actions du challenge
         </button>
       )}
-
+      
       <ul>
         {props.challenge.actions.map((action: IAction) => {
           return <ActionTile action={action} challenge={props.challenge} />;

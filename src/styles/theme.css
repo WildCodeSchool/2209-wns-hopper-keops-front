@@ -150,3 +150,7 @@ article.selected {
 .bold {
   font-weight: bold;
 }
+
+.actionTile {
+  list-style-type: none;
+}
