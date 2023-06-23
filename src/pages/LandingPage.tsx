@@ -1,18 +1,15 @@
 import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import Terre from "../assets/images/planete-terre.png";
+import { useState } from "react";
 
 const LandingPage = () => {
-  const bouton: HTMLElement | null = document.getElementById("enSavoirPlus");
-  const concept: HTMLElement | null = document.getElementById("concept");
+  const [conceptHidden, setConceptHidden] = useState(true);
 
-  if (bouton && concept) {
-    bouton.addEventListener("click", function() {
-      if (concept instanceof HTMLElement) {
-        concept.classList.toggle("hidden");
-      }
-    });
-  }
+  const toggleConcept = () => {
+    setConceptHidden(!conceptHidden);
+  };
+
   return (
     <div className="landingPageContainer">
       <div className="landingTitle">
@@ -31,8 +28,10 @@ const LandingPage = () => {
         </p>
         <img src={Terre} alt="planète Terre" />
       </section>
-      <button id="enSavoirPlus">En savoir plus sur le concept</button>
-      <article id="concept" className="hidden">
+      <button id="enSavoirPlus" onClick={toggleConcept}>
+        En savoir plus sur le concept
+      </button>
+      <article id="concept" className={conceptHidden ? "hidden" : ""}>
         <div className="infos">
           <p>
             Avec notre concept unique de challenges écologiques, vous pouvez
@@ -55,12 +54,14 @@ const LandingPage = () => {
         </div>
       </article>
       <section className="startGame">
-        <p>
-          Alors, êtes-vous prêt à devenir un éco-héros ? <br />
-          Rejoignez-nous dès maintenant sur Epik'Eco et prouvez que vous avez le
-          pouvoir de changer le monde en vous amusant. Ensemble, nous pouvons
-          faire la différence !
-        </p>
+        <div className="startGameContainer">
+          <h3>Alors, êtes-vous prêt à devenir un éco-héros ?</h3>
+          <p>
+            Rejoignez-nous dès maintenant sur Epik'Eco et prouvez que vous avez
+            le pouvoir de changer le monde en vous amusant. Ensemble, nous
+            pouvons faire la différence !
+          </p>
+        </div>
         <Link to="/signup">
           <button>C'est parti !</button>
         </Link>
