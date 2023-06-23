@@ -1,0 +1,10 @@
+.checkbox-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cards-wrapper {
+  display: grid;
+  row-gap: 2em;
+  grid-template-columns: repeat(7, 1fr);
+}

@@ -8,6 +8,8 @@ import { addDays } from "date-fns";
 import { readMyChallengeSuccesses } from "../graphql/readMyChallengeSuccess";
 import { deleteMySuccess } from "../graphql/deleteMySuccess";
 import { ISuccess } from "../interfaces/ISuccess";
+import "./ActionTile.scoped.css";
+import { log } from "console";
 
 const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const startDate = new Date(props.challenge.start_date);
@@ -17,6 +19,8 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const [createSuccessMutation, { error }] = useMutation(createSuccess, {
     refetchQueries: [readMyChallengeSuccesses],
   });
+
+  useEffect(() => {console.log("challenge", props.challenge )}, [props.challenge]);
 
   const [
     deleteMySuccessMutation,
@@ -108,8 +112,8 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     const newCheckboxes = [];
     for (let i = 0; i < props.challenge.length; i++) {
       newCheckboxes.push(
-        <div key={i}>
-          Jour {i + 1} :{" "}
+        <div key={i} className="checkbox-card">
+          J{i + 1}
           <input
             type="checkbox"
             onClick={(e) => validateSuccess(e, i)}
@@ -120,12 +124,12 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
       );
     }
     return newCheckboxes;
-  }, [successesMap]);
+  }, [successesMap, props.challenge]);
 
   return (
     <li key={props.action.id}>
       <h6>{props.action.title}</h6>
-      <div>{checkboxes}</div>
+      <div className="cards-wrapper">{checkboxes}</div>
     </li>
   );
 };
