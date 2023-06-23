@@ -7,7 +7,6 @@ import { readMyChallenges } from "../graphql/readMyChallenges";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
-import ActionsList from "./ActionsList";
 import { useEffect } from "react";
 
 const ReadChallenge = (props: {
@@ -34,23 +33,19 @@ const ReadChallenge = (props: {
     deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
   ] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
 
-  const today = new Date();
-
-useEffect(() => {
-  console.log("challenge", challenge)
-}, [challenge])
-
   // Question à poser à Aurélien
 
   function calculateDaysRemaining() {
-    if (challenge != null) {
-      
+
+    if (challenge && challenge.start_date) {
+      const today = new Date();
+
 
       if (new Date(challenge.end_date) < today) {
         return "Ce challenge est terminé.";
       }
 
-      const challengeStartDate = challenge?.start_date
+      const challengeStartDate = challenge.start_date
         ? new Date(challenge.start_date)
         : undefined;
 
@@ -77,10 +72,10 @@ useEffect(() => {
     let url = document.location.href;
 
     navigator.clipboard.writeText(url).then(
-      function () {
+      function() {
         console.log("Copied!");
       },
-      function () {
+      function() {
         console.log("Copy error");
       }
     );
@@ -151,7 +146,16 @@ useEffect(() => {
       ) : userStatus === "owner" ? (
         <>
           <button onClick={deleteChallenge}>Supprimer le challenge</button>
-          { new Date(challenge.start_date) >= today && <button onClick={() => { props.toggleEditableMode(true); }}>Modifier le challenge</button>}
+          {props.challenge.is_in_progress === false && (
+            <button
+              onClick={() => {
+                props.toggleEditableMode(true);
+              }}
+            >
+              Modifier le challenge
+            </button>
+          )}
+
         </>
       ) : (
         <button onClick={quitChallenge}>Quitter le challenge</button>
@@ -165,7 +169,6 @@ useEffect(() => {
       </li>
 
       {calculateDaysRemaining()}
-     
     </div>
   );
 };

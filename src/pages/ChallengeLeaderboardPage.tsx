@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useQuery } from "@apollo/client";
 import { readChallengeLeaderboard } from "../graphql/readChallengeLeaderboard";
 import { IUserToChallenge } from "../interfaces/IUserToChallenge";
@@ -14,6 +14,16 @@ const ChallengeLeaderboardPage = () => {
     variables: { challengeId },
   });
 
+  const userToChallenges: IUserToChallenge[] = useMemo(() => {
+    if(data) {
+      return data.readChallengeLeaderboard;
+    } else {
+      return [];
+    } 
+  }, [data]);
+
+  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -22,7 +32,7 @@ const ChallengeLeaderboardPage = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  const userToChallenges: IUserToChallenge[] = data?.readChallengeLeaderboard ?? [];
+  
 
   // userToChallenges.sort((a, b) => b.challengeScore - a.challengeScore);
 
