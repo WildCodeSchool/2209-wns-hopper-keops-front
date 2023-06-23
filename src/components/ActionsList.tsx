@@ -7,10 +7,12 @@ const ActionsList = (props: {
   userStatus?: null | "participant" | "owner";
   toggleEditableActionsMode?: () => void;
 }) => {
+  const currentDate = new Date(); 
+
   return (
     <div>
       <h4>Actions:</h4>
-      {props.userStatus === "owner" && (
+      {props.userStatus === "owner" && new Date(props.challenge.start_date) > currentDate && (
         <button onClick={props.toggleEditableActionsMode}>
           Modifier les actions du challenge
         </button>
@@ -21,8 +23,6 @@ const ActionsList = (props: {
           return <ActionTile action={action} challenge={props.challenge} />;
         })}
       </ul>
-
-      <button>Valider mes actions</button>
     </div>
   );
 };

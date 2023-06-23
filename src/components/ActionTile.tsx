@@ -10,6 +10,7 @@ import { deleteMySuccess } from "../graphql/deleteMySuccess";
 import { ISuccess } from "../interfaces/ISuccess";
 import "./ActionTile.scoped.css";
 import { log } from "console";
+import { isToday } from 'date-fns';
 
 const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const startDate = new Date(props.challenge.start_date);
@@ -111,6 +112,10 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const checkboxes = useMemo(() => {
     const newCheckboxes = [];
     for (let i = 0; i < props.challenge.length; i++) {
+      const checkboxDate = addDays(startDate, i);
+      const isCurrentDay = isToday(checkboxDate);
+      const checkboxStyle = isCurrentDay ? { border: "3px solid #00897b" } : {};
+
       newCheckboxes.push(
         <div key={i} className="checkbox-card">
           J{i + 1}
@@ -119,6 +124,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
             onClick={(e) => validateSuccess(e, i)}
             checked={isChecked(i, actionId)}
             disabled={isDisabled(i)}
+            style={checkboxStyle}
           />
         </div>
       );

@@ -34,6 +34,8 @@ const ReadChallenge = (props: {
     deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
   ] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
 
+  const today = new Date();
+
 useEffect(() => {
   console.log("challenge", challenge)
 }, [challenge])
@@ -42,7 +44,7 @@ useEffect(() => {
 
   function calculateDaysRemaining() {
     if (challenge != null) {
-      const today = new Date();
+      
 
       if (new Date(challenge.end_date) < today) {
         return "Ce challenge est terminé.";
@@ -149,13 +151,7 @@ useEffect(() => {
       ) : userStatus === "owner" ? (
         <>
           <button onClick={deleteChallenge}>Supprimer le challenge</button>
-          <button
-            onClick={() => {
-              props.toggleEditableMode(true);
-            }}
-          >
-            Modifier le challenge
-          </button>
+          { new Date(challenge.start_date) >= today && <button onClick={() => { props.toggleEditableMode(true); }}>Modifier le challenge</button>}
         </>
       ) : (
         <button onClick={quitChallenge}>Quitter le challenge</button>
