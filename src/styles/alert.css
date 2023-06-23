@@ -1,0 +1,6 @@
+.alert-popup {
+  position: fixed;
+  bottom: 0;
+  right: 2%;
+  width: fit-content;
+}

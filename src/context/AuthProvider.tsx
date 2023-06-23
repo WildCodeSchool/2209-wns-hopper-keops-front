@@ -1,19 +1,28 @@
 import { useQuery } from '@apollo/client';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+	Dispatch,
+	SetStateAction,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import { me } from '../graphql/me';
 import { createContext } from 'react';
+import { IUser } from '../interfaces/IUser';
 
-interface IUser {
-	email: string;
-	id: string;
-}
 // useContext
 interface ITokenContext {
 	onTokenChange: (token: string | null) => void;
 }
 
+interface IConnected {
+	isConnected: boolean;
+	setIsConnected: Dispatch<SetStateAction<boolean>>;
+}
+
 export const TokenContext = createContext<ITokenContext | null>(null);
 export const UserContext = createContext<null | IUser | undefined>(null);
+export const IsConnectedContext = createContext<IConnected>({} as IConnected);
 
 function AuthProvider(props: { children: React.ReactNode }) {
 	const [user, setUser] = useState<null | IUser | undefined>(undefined);
@@ -55,6 +64,8 @@ function AuthProvider(props: { children: React.ReactNode }) {
 		refetch();
 	};
 
+	const [isConnected, setIsConnected] = useState(false);
+
 	return (
 		<UserContext.Provider value={user}>
 			<TokenContext.Provider
@@ -62,7 +73,9 @@ function AuthProvider(props: { children: React.ReactNode }) {
 					onTokenChange: tokenChange,
 				}}
 			>
-				{props.children}
+				<IsConnectedContext.Provider value={{ isConnected, setIsConnected }}>
+					{props.children}
+				</IsConnectedContext.Provider>
 			</TokenContext.Provider>
 		</UserContext.Provider>
 	);
