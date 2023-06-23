@@ -9,7 +9,9 @@ import { ChallengeContext } from '../context/CreateChallengeProvider';
 const ActionsChallenge = ({
 	setChallengeNavigation,
 }: {
-	setChallengeNavigation: (navigation: string) => void;
+
+setChallengeNavigation: (navigation: string) => void;
+
 }) => {
 	const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
 	const { challengeData, setChallengeData } = useContext(ChallengeContext);
