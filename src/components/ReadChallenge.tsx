@@ -7,7 +7,32 @@ import { readMyChallenges } from "../graphql/readMyChallenges";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+
+interface ConfirmationDialogProps {
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
+  message,
+  onConfirm,
+  onCancel,
+}) => {
+  return (
+    <dialog open>
+      <article className="dialog">
+        <p>{message}</p>
+        <div className="dialog-buttons">
+          <button onClick={onCancel}>Annuler</button>
+          <button onClick={onConfirm}>Confirmer</button>
+        </div>
+      </article>
+    </dialog>
+  );
+};
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -21,6 +46,10 @@ const ReadChallenge = (props: {
   const userToChallengeId = props.userToChallengeId;
   const userStatus = props.userStatus;
   const [isCopied, setIsCopied] = useState(false);
+  const [isParticipating, setIsParticipating] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
+  const [showQuitNotification, setShowQuitNotification] = useState(false);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
 
   const [
     createUserToChallengeMutation, //{ error: createUserToChallengeError }
@@ -82,7 +111,7 @@ const ReadChallenge = (props: {
       function() {
         console.log("Copied!");
         setIsCopied(true);
-        resetCopiedState();
+        resetCopiedState()
       },
       function() {
         console.log("Copy error");
@@ -90,8 +119,6 @@ const ReadChallenge = (props: {
     );
   }
 
-  
-  
 
   const participateToChallenge = async () => {
     try {
@@ -105,6 +132,12 @@ const ReadChallenge = (props: {
       console.log("Participation OK");
 
       props.toggleUserStatus("participant");
+      setIsParticipating(true);
+      setTimeout(() => {
+        setIsParticipating(false);
+        setRefreshPage(true);
+      }, 4000);
+      
     } catch (error) {
       console.log("error :", error);
     }
@@ -112,20 +145,36 @@ const ReadChallenge = (props: {
 
   const quitChallenge = async () => {
     console.log("THIS IS userToChallenge :", userToChallengeId);
-    try {
-      await removeUserToChallengeMutation({
-        variables: {
-          data: {
-            userToChallengeId,
-          },
-        },
-      });
-      props.toggleUserStatus(null);
+    setShowConfirmationDialog(true);
+  };
 
-      console.log("Quit the challenge");
-    } catch (error) {
-      console.log("error from quit challenge:", error);
-    }
+  const handleConfirmQuit = async () => {
+      try {
+        await removeUserToChallengeMutation({
+          variables: {
+            data: {
+              userToChallengeId,
+            },
+          },
+        });
+        props.toggleUserStatus(null);
+
+        console.log("Quit the challenge");
+        
+        setShowQuitNotification(true); 
+        setTimeout(() => {
+          setShowQuitNotification(false);
+          setRefreshPage(true); 
+        }, 4000);
+      } catch (error) {
+        console.log("error from quit challenge:", error);
+      } finally {
+        setShowConfirmationDialog(false);
+      }
+  };
+
+  const handleCancelQuit = () => {
+    setShowConfirmationDialog(false);
   };
 
   const deleteChallenge = async () => {
@@ -142,6 +191,12 @@ const ReadChallenge = (props: {
     }
   };
 
+  useEffect(() => {
+    if (refreshPage) {
+      window.location.reload(); 
+    }
+  }, [refreshPage]);
+
   return (
     <div>
       <h2>{challenge.name}</h2>
@@ -155,6 +210,12 @@ const ReadChallenge = (props: {
       {isCopied && (
         <article className="alert alert-popup">
           <p>Le lien a été copié avec succès !</p>
+        </article>
+      )}
+
+      {isParticipating && (
+        <article className="alert alert-popup">
+          <p>🌱 Bravo ! Votre participation au challenge est confirmée. <br />Ensemble, faisons la différence pour notre planète ! 🌍</p>
         </article>
       )}	
 		
@@ -175,16 +236,32 @@ const ReadChallenge = (props: {
 
         </>
       ) : (
+        <>
         <button onClick={quitChallenge}>Quitter le challenge</button>
+        {showQuitNotification && (
+          <article className="yellow alert-popup">
+            <p>😞 Oh! tu quittes le challenge.<br /> Votre éco-aventure continue, n'oubliez pas que vous avez déjà planté<br />des graines écologiques dans nos cœurs.<br /> A très vite Epikopain(e) ! 🌿</p>
+          </article>
+        )}
+        {showConfirmationDialog && (          
+            <ConfirmationDialog
+              message="Êtes-vous sûr de vouloir quitter le challenge ?"
+              onConfirm={handleConfirmQuit}
+              onCancel={handleCancelQuit}
+            />      
+          )}
+          
+        </>
       )}
+      <hr className="separator" />
 
       <h4>Participants:</h4>
-      <li>
+      <li style={{ display: "inline" }}>
         {challenge.userToChallenges.map((participant: { user: IUser }) => {
           return <p key={participant.user.id}>{participant.user.name}</p>;
         })}
       </li>
-
+      <hr className="separator" />
       {calculateDaysRemaining()}
     </div>
   );
