@@ -7,7 +7,7 @@ import { readMyChallenges } from "../graphql/readMyChallenges";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
-import { useEffect } from "react";
+import { useState } from "react";
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -20,6 +20,7 @@ const ReadChallenge = (props: {
   const challenge = props.challenge;
   const userToChallengeId = props.userToChallengeId;
   const userStatus = props.userStatus;
+  const [isCopied, setIsCopied] = useState(false);
 
   const [
     createUserToChallengeMutation, //{ error: createUserToChallengeError }
@@ -68,18 +69,29 @@ const ReadChallenge = (props: {
     }
   }
 
+  function resetCopiedState() {
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 3000);
+    }
+
   function shareChallenge() {
     let url = document.location.href;
 
     navigator.clipboard.writeText(url).then(
       function() {
         console.log("Copied!");
+        setIsCopied(true);
+        resetCopiedState();
       },
       function() {
         console.log("Copy error");
       }
     );
   }
+
+  
+  
 
   const participateToChallenge = async () => {
     try {
@@ -140,7 +152,12 @@ const ReadChallenge = (props: {
       <p>Créé par : {challenge.createdBy.name}</p>
 
       <button onClick={shareChallenge}>Partager ce challenge</button>
-
+      {isCopied && (
+        <article className="alert alert-popup">
+          <p>Le lien a été copié avec succès !</p>
+        </article>
+      )}	
+		
       {userStatus === null ? (
         <button onClick={participateToChallenge}>Je participe !</button>
       ) : userStatus === "owner" ? (
