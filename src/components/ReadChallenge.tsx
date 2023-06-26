@@ -9,31 +9,6 @@ import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
 import { useEffect, useState } from "react";
 
-
-interface ConfirmationDialogProps {
-  message: string;
-  onConfirm: () => void;
-  onCancel: () => void;
-}
-
-const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
-  message,
-  onConfirm,
-  onCancel,
-}) => {
-  return (
-    <dialog open>
-      <article className="dialog">
-        <p>{message}</p>
-        <div className="dialog-buttons">
-          <button onClick={onCancel}>Annuler</button>
-          <button onClick={onConfirm}>Confirmer</button>
-        </div>
-      </article>
-    </dialog>
-  );
-};
-
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
   userToChallengeId: number;
@@ -175,6 +150,24 @@ const ReadChallenge = (props: {
 
   const handleCancelQuit = () => {
     setShowConfirmationDialog(false);
+  };
+
+  const ConfirmationDialog = (props: {
+    message: string,
+    onConfirm: () => void;
+    onCancel: () => void;
+  }) => {
+    return (
+      <dialog open>
+        <article className="dialog">
+          <p>{props.message}</p>
+          <div className="dialog-buttons">
+            <button onClick={props.onCancel}>Annuler</button>
+            <button onClick={props.onConfirm}>Confirmer</button>
+          </div>
+        </article>
+      </dialog>
+    );
   };
 
   const deleteChallenge = async () => {
