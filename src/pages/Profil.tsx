@@ -3,8 +3,6 @@ import { useEffect, useState } from 'react';
 import { useUser } from '../context/AuthProvider';
 import { useMutation } from '@apollo/client';
 import { editUser } from '../graphql/editUser';
-import "./Profil.css";
-
 
 
 const Profil = () => {
