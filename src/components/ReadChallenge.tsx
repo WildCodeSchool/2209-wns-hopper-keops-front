@@ -163,7 +163,7 @@ const ReadChallenge = (props: {
         <article className="dialog">
           <p>{props.message}</p>
           <div className="dialog-buttons">
-            <button onClick={props.onCancel}>Annuler</button>
+            <button onClick={props.onCancel} className="secondary">Annuler</button>
             <button onClick={props.onConfirm}>Confirmer</button>
           </div>
         </article>
