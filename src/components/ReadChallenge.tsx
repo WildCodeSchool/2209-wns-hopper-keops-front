@@ -25,6 +25,7 @@ const ReadChallenge = (props: {
   const [refreshPage, setRefreshPage] = useState(false);
   const [showQuitNotification, setShowQuitNotification] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] = useState(false);
 
   const [
     createUserToChallengeMutation, //{ error: createUserToChallengeError }
@@ -171,6 +172,10 @@ const ReadChallenge = (props: {
   };
 
   const deleteChallenge = async () => {
+    setShowDeleteConfirmationDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
     try {
       await deleteMyChallengeMutation({
         variables: {
@@ -181,7 +186,13 @@ const ReadChallenge = (props: {
       navigate("/dashboard", { replace: true });
     } catch (error) {
       console.log("error :", error);
+    } finally {
+      setShowDeleteConfirmationDialog(false);
     }
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmationDialog(false);
   };
 
   useEffect(() => {
@@ -246,6 +257,15 @@ const ReadChallenge = (props: {
           
         </>
       )}
+
+      {showDeleteConfirmationDialog && (
+        <ConfirmationDialog
+          message="Êtes-vous sûr de vouloir supprimer le challenge ?"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
+      
       <hr className="separator" />
 
       <h4>Participants:</h4>
