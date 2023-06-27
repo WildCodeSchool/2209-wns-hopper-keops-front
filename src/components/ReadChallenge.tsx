@@ -249,11 +249,13 @@ const ReadChallenge = (props: {
       <hr className="separator" />
 
       <h4>Participants:</h4>
-      <li style={{ display: "inline" }}>
-        {challenge.userToChallenges.map((participant: { user: IUser }) => {
-          return <p key={participant.user.id}>{participant.user.name}</p>;
-        })}
-      </li>
+      <ul>
+        {challenge.userToChallenges.map((participant: { user: IUser }) => (
+          <li key={participant.user.id}>
+            <p>{participant.user.name}</p>
+          </li>
+        ))}
+      </ul>
       <hr className="separator" />
       {calculateDaysRemaining()}
     </div>
