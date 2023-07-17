@@ -1,9 +1,15 @@
-Tutorial react-router-dom with apollo-client
-https://www.howtographql.com/react-apollo/4-routing/
+# Epik'eco front-end
 
-Informations by Aurélien :
-	const navigate = useNavigate(); = Redirige un utilisateur suite à l'action d'une requete (par exemple
-  quand je créer un article, je suis automatiquement redirigé vers l'article).
-  <Link to="/here"> Clique</Link> = Pour naviguer dans un élement jsx.
+Everything is dockerized, just install Docker on you host machine then run:
 
-React Beta : context 5
+```
+docker compose up --build
+```
+
+To work locally, you should install the NPM dependencies by running:
+
+```
+npm i
+```
+
+Please note that everytime you install a new NPM package, you should rerun you docker compose command.

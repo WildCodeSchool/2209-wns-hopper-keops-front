@@ -15,6 +15,7 @@ import Profil from "./pages/Profil";
 import ChallengeLeaderboardPage from "./pages/ChallengeLeaderboardPage";
 import Footer from "./components/Footer";
 
+
 function App() {
   const user = useContext(UserContext);
   console.log(user);
@@ -37,16 +38,15 @@ function App() {
                       path="/create-challenge"
                       element={<CreateChallenge />}
                     />
-                    <Route
-                      path="/challenges/:challengeId"
-                      element={<ChallengePage />}
-                    />
                     <Route path="/profil" element={<Profil />} />
                     <Route
-                      path="/challenges/:challengeId/leaderboard"
-                      element={<ChallengeLeaderboardPage />}
+                      path="/challenges/:challengeId/:view"
+                      element={<ChallengePage />}
                     />
-
+                    <Route
+                      path="/challenges/:challengeId"
+                      element={<Navigate to="./infos" />}
+                    />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
                   </>
                 ) : (
@@ -62,6 +62,7 @@ function App() {
         </>
       )}
       <Footer />
+
     </>
   );
 }

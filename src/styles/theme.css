@@ -1,3 +1,5 @@
+@import "./alert.css";
+
 /* Teal Light scheme (Default) */
 /* Can be forced with data-theme="light" */
 [data-theme="light"],
@@ -145,4 +147,25 @@ article.selected {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.actionTile {
+  list-style-type: none;
+}
+
+article.info {
+  background-color: #d9ecfa;
+  box-shadow: none;
+}
+
+article.yellow {
+  position: fixed;
+  bottom: 0;
+  right: 2%;
+  width: fit-content;
+  background-color: rgb(245, 240, 197);
 }

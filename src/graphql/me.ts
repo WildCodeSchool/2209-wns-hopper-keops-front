@@ -6,6 +6,7 @@ export const me = gql`
       id
       email
       name
+      score
     }
   }
 `;

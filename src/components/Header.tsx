@@ -3,10 +3,16 @@ import { UserContext, useToken } from "../context/AuthProvider";
 import { useContext } from "react";
 import logo from "../logoEpikEco.png";
 import "./Header.css";
+import { useState } from 'react';
 
 const Header = () => {
   const user = useContext(UserContext);
   const tokenContext = useToken();
+  const [showNotification, setShowNotification] = useState(false);
+
+  const hideNotification = () => {
+    setShowNotification(false);
+  };
 
   return (
     <nav className="container">
@@ -32,6 +38,8 @@ const Header = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   tokenContext.onTokenChange(null);
+                  setShowNotification(true);
+                  setTimeout(hideNotification, 3000);
                 }}
               >
                 Déconnexion
@@ -46,6 +54,11 @@ const Header = () => {
           </li>
         )}
       </ul>
+      {showNotification && (
+        <article className="info alert-popup">
+          A bientôt Epikopain(e)!
+        </article>
+      )}
     </nav>
   );
 };
