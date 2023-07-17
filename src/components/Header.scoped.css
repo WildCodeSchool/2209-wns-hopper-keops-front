@@ -1,0 +1,38 @@
+.brand-container {
+  max-width: 250px;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* .icone-navigation {
+  display: none;
+} */
+
+@media screen and (max-width: 800px) {
+  .brand-container {
+    max-width: 150px;
+  }
+
+  .navigation {
+    gap: 0.5rem;
+  }
+
+  .icone-navigation {
+    display: inline-block;
+  }
+  .text-navigation {
+    display: none;
+  }
+}
