@@ -7,7 +7,7 @@ import { readMyChallenges } from "../graphql/readMyChallenges";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -20,6 +20,12 @@ const ReadChallenge = (props: {
   const challenge = props.challenge;
   const userToChallengeId = props.userToChallengeId;
   const userStatus = props.userStatus;
+  const [isCopied, setIsCopied] = useState(false);
+  const [isParticipating, setIsParticipating] = useState(false);
+  const [refreshPage, setRefreshPage] = useState(false);
+  const [showQuitNotification, setShowQuitNotification] = useState(false);
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [showDeleteConfirmationDialog, setShowDeleteConfirmationDialog] = useState(false);
 
   const [
     createUserToChallengeMutation, //{ error: createUserToChallengeError }
@@ -68,18 +74,27 @@ const ReadChallenge = (props: {
     }
   }
 
+  function resetCopiedState() {
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 3000);
+    }
+
   function shareChallenge() {
     let url = document.location.href;
 
     navigator.clipboard.writeText(url).then(
       function() {
         console.log("Copied!");
+        setIsCopied(true);
+        resetCopiedState()
       },
       function() {
         console.log("Copy error");
       }
     );
   }
+
 
   const participateToChallenge = async () => {
     try {
@@ -93,6 +108,12 @@ const ReadChallenge = (props: {
       console.log("Participation OK");
 
       props.toggleUserStatus("participant");
+      setIsParticipating(true);
+      setTimeout(() => {
+        setIsParticipating(false);
+        setRefreshPage(true);
+      }, 4000);
+      
     } catch (error) {
       console.log("error :", error);
     }
@@ -100,23 +121,61 @@ const ReadChallenge = (props: {
 
   const quitChallenge = async () => {
     console.log("THIS IS userToChallenge :", userToChallengeId);
-    try {
-      await removeUserToChallengeMutation({
-        variables: {
-          data: {
-            userToChallengeId,
-          },
-        },
-      });
-      props.toggleUserStatus(null);
+    setShowConfirmationDialog(true);
+  };
 
-      console.log("Quit the challenge");
-    } catch (error) {
-      console.log("error from quit challenge:", error);
-    }
+  const handleConfirmQuit = async () => {
+      try {
+        await removeUserToChallengeMutation({
+          variables: {
+            data: {
+              userToChallengeId,
+            },
+          },
+        });
+        props.toggleUserStatus(null);
+
+        console.log("Quit the challenge");
+        
+        setShowQuitNotification(true); 
+        setTimeout(() => {
+          setShowQuitNotification(false);
+          setRefreshPage(true); 
+        }, 4000);
+      } catch (error) {
+        console.log("error from quit challenge:", error);
+      } finally {
+        setShowConfirmationDialog(false);
+      }
+  };
+
+  const handleCancelQuit = () => {
+    setShowConfirmationDialog(false);
+  };
+
+  const ConfirmationDialog = (props: {
+    message: string,
+    onConfirm: () => void;
+    onCancel: () => void;
+  }) => {
+    return (
+      <dialog open>
+        <article className="dialog">
+          <p>{props.message}</p>
+          <div className="dialog-buttons">
+            <button onClick={props.onCancel} className="secondary">Annuler</button>
+            <button onClick={props.onConfirm}>Confirmer</button>
+          </div>
+        </article>
+      </dialog>
+    );
   };
 
   const deleteChallenge = async () => {
+    setShowDeleteConfirmationDialog(true);
+  };
+
+  const handleConfirmDelete = async () => {
     try {
       await deleteMyChallengeMutation({
         variables: {
@@ -127,8 +186,20 @@ const ReadChallenge = (props: {
       navigate("/dashboard", { replace: true });
     } catch (error) {
       console.log("error :", error);
+    } finally {
+      setShowDeleteConfirmationDialog(false);
     }
   };
+
+  const handleCancelDelete = () => {
+    setShowDeleteConfirmationDialog(false);
+  };
+
+  useEffect(() => {
+    if (refreshPage) {
+      window.location.reload(); 
+    }
+  }, [refreshPage]);
 
   return (
     <div>
@@ -140,7 +211,18 @@ const ReadChallenge = (props: {
       <p>Créé par : {challenge.createdBy.name}</p>
 
       <button onClick={shareChallenge}>Partager ce challenge</button>
+      {isCopied && (
+        <article className="alert alert-popup">
+          <p>Le lien a été copié avec succès !</p>
+        </article>
+      )}
 
+      {isParticipating && (
+        <article className="alert alert-popup">
+          <p>🌱 Bravo ! Votre participation au challenge est confirmée. <br />Ensemble, faisons la différence pour notre planète ! 🌍</p>
+        </article>
+      )}	
+		
       {userStatus === null ? (
         <button onClick={participateToChallenge}>Je participe !</button>
       ) : userStatus === "owner" ? (
@@ -158,16 +240,43 @@ const ReadChallenge = (props: {
 
         </>
       ) : (
+        <>
         <button onClick={quitChallenge}>Quitter le challenge</button>
+        {showQuitNotification && (
+          <article className="yellow alert-popup">
+            <p>😞 Oh! tu quittes le challenge.<br /> Votre éco-aventure continue, n'oubliez pas que vous avez déjà planté<br />des graines écologiques dans nos cœurs.<br /> A très vite Epikopain(e) ! 🌿</p>
+          </article>
+        )}
+        {showConfirmationDialog && (          
+            <ConfirmationDialog
+              message="Êtes-vous sûr de vouloir quitter le challenge ?"
+              onConfirm={handleConfirmQuit}
+              onCancel={handleCancelQuit}
+            />      
+          )}
+          
+        </>
       )}
 
-      <h4>Participants:</h4>
-      <li>
-        {challenge.userToChallenges.map((participant: { user: IUser }) => {
-          return <p key={participant.user.id}>{participant.user.name}</p>;
-        })}
-      </li>
+      {showDeleteConfirmationDialog && (
+        <ConfirmationDialog
+          message="Êtes-vous sûr de vouloir supprimer le challenge ?"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+        />
+      )}
+      
+      <hr className="separator" />
 
+      <h4>Participants:</h4>
+      <ul>
+        {challenge.userToChallenges.map((participant: { user: IUser }) => (
+          <li key={participant.user.id}>
+            <p>{participant.user.name}</p>
+          </li>
+        ))}
+      </ul>
+      <hr className="separator" />
       {calculateDaysRemaining()}
     </div>
   );
