@@ -33,7 +33,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   const {data : particpant} = useQuery<any>(readChallengeLeaderboard, {
     variables: { challengeId },
   });
-  
+
 
   // useEffect(() => {
   //   console.log("Participant! :", participant)
@@ -45,11 +45,11 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
 
   const [
     deleteMySuccessMutation,
-  ] = useMutation(deleteMySuccess, { 
-    refetchQueries: [readMyChallengeSuccesses, readChallengeLeaderboard] 
+  ] = useMutation(deleteMySuccess, {
+    refetchQueries: [readMyChallengeSuccesses, readChallengeLeaderboard]
   });
 
-  
+
 
   const [successesMap, setSuccessesMap] = useState<{ [key: string]: string }>({});
 
@@ -72,11 +72,11 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   };
 
   async function validateSuccess(e: React.MouseEvent<HTMLInputElement, MouseEvent>, i: number) {
-    const target = e.target as HTMLInputElement; 
+    const target = e.target as HTMLInputElement;
     // addDays est une fonction de format/date-fns
     const successDate = format(addDays(startDate, i), "yyyy-MM-dd");
     const successKey = `${successDate}-${actionId}`;
- 
+
     if (target.checked) {
       try {
         await createSuccessMutation({
@@ -112,10 +112,13 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     }
   }
 
+  console.log("Lenght of challenge:", props.challenge.length);
+
   function isDisabled(i: number): boolean {
-    const dateToday = format(new Date(), "yyyy-MM-dd");
-    const succesDate = format(addDays(startDate, i), "yyyy-MM-dd");
-    if (dateToday >= succesDate) {
+    const dateToday = new Date();
+    const endDate = addDays(dateToday, props.challenge.length);
+    const succesDate = addDays(startDate, i);
+    if (dateToday >= succesDate && dateToday <= endDate) {
       return false;
     } else {
       return true;
