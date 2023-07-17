@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import "@picocss/pico";
 import "./styles/theme.css";
+import "./styles/alert.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { UserContext } from "./context/AuthProvider";
 import CreateChallenge from "./pages/CreateChallenge";
@@ -11,6 +12,9 @@ import Signup from "./pages/Signup";
 import ChallengePage from "./pages/ChallengePage";
 import Header from "./components/Header";
 import Profil from "./pages/Profil";
+import ChallengeLeaderboardPage from "./pages/ChallengeLeaderboardPage";
+import Footer from "./components/Footer";
+
 
 function App() {
   const user = useContext(UserContext);
@@ -57,6 +61,8 @@ function App() {
           </div>
         </>
       )}
+      <Footer />
+
     </>
   );
 }
