@@ -1,0 +1,13 @@
+.footer {
+    background-color: var(--primary);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.footer a, .footer p {
+    color: white;
+}
+.footer section {
+    margin: 20px 0;
+    padding: 45px;
+}
