@@ -1,45 +1,49 @@
 import "./Footer.css";
+import { FaFacebookSquare, FaLinkedin, FaInstagram } from "react-icons/fa";
+
 const Footer = () => {
+  let iconeStyle = { fontSize: "28px", color: "white" };
+
   return (
     <div className="footer">
-      <section>
-        <a href="">A propos</a>
-      </section>
-
-      <section>
+      <section className="firstBlock">
+        <a href="http://localhost:3000/">A propos</a>
         <a href="mailto:keops.epikeco@gmail.com">Nous contacter</a>
-      </section>
-
-      <section>
         <p>Mentions légales</p>
       </section>
 
       <section>
-        <p>Suivez-nous sur nos réseaux sociaux!</p>
-        <a
-          className="social-networks"
-          href="https://www.facebook.com/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Logo Facebook
-        </a>
-        <a
-          className="social-networks"
-          href="https://www.instagram.com/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Logo Instagram
-        </a>
-        <a
-          className="social-networks"
-          href="https://www.linkedin.com/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Logo LinkedIn
-        </a>
+        <p>Suivez-nous sur nos réseaux sociaux !</p>
+        <div className="sociaIconsContainer">
+          <a
+            className="socialNetworks"
+            href="https://www.facebook.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaFacebookSquare style={iconeStyle} />
+          </a>
+          <a
+            className="socialNetworks"
+            href="https://www.instagram.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaInstagram style={iconeStyle} />
+          </a>
+          <a
+            className="socialNetworks"
+            href="https://www.linkedin.com/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaLinkedin style={iconeStyle} />
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <p>©KEOP's</p>
       </section>
     </div>
   );
