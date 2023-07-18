@@ -65,6 +65,30 @@
     margin-bottom: 20px;
 }
 
+.timeline {
+    margin-top: 109px;
+}
+
+.css-1v41xfw-MuiTimelineDot-root, .css-1uwk1ka-MuiTimelineDot-root, .css-7kp53o-MuiTimelineDot-root, .css-v6mo1y-MuiTimelineDot-root {
+    background-color: var(--primary) !important;
+}
+.css-1v41xfw-MuiTimelineDot-root, .css-1uwk1ka-MuiTimelineDot-root, .css-7kp53o-MuiTimelineDot-root, .css-v6mo1y-MuiTimelineDot-root {
+    color: #FFFF!important;
+}
+.css-2ulfj5-MuiTypography-root {
+    font-weight: 600 !important;
+}
+.css-1oug4av-MuiTypography-root-MuiTimelineOppositeContent-root, .css-l4x062-MuiTypography-root-MuiTimelineOppositeContent-root {
+    font-size: 24px !important;
+    color: #5EBA7D !important;
+    font-weight: 500 !important;
+}
+
+.css-1nb3yh0-MuiTimelineConnector-root {
+    background-color: var(--primary) !important;
+}
+
+
 /* Media queries */
 /* Smaller devices */
 
@@ -100,6 +124,14 @@
 
     .startGame a {
         margin-left: unset;
+    }
+
+}
+
+@media (max-width: 575px) { 
+
+    .css-1oug4av-MuiTypography-root-MuiTimelineOppositeContent-root, .css-l4x062-MuiTypography-root-MuiTimelineOppositeContent-root {
+        font-size: 21px !important;
     }
 
 }
