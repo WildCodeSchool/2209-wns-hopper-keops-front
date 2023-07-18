@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import Terre from "../assets/images/planete-terre.png";
 import { useState } from "react";
+import Timeline from "../components/Timeline";
 
 const LandingPage = () => {
   const [conceptHidden, setConceptHidden] = useState(true);
@@ -27,6 +28,10 @@ const LandingPage = () => {
           compte.
         </p>
         <img src={Terre} alt="planète Terre" />
+      </section>
+      <section className="timeline">
+        <h3>Comment ça marche ?</h3>
+        <Timeline />
       </section>
       <button id="enSavoirPlus" onClick={toggleConcept}>
         En savoir plus sur le concept
