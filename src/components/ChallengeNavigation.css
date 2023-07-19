@@ -1,0 +1,39 @@
+.challengePageContainer {
+    margin-top: 40px;
+}
+
+.challengePageContainer nav {
+    margin-bottom: 30px;
+}
+
+/* nav [role=button] {
+    background-color: var(--primary);
+    opacity: 0.5;
+    color: var(--primary);
+    border-right: unset;
+    border-left: unset;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+} */
+
+.css-8je8zh-MuiTouchRipple-root {
+    border: 1px solid var(--primary) !important;
+    border-radius: 10px 10px 0px 0px !important; 
+    border-bottom: unset !important;
+}
+
+.css-1gsv261 {
+    border-bottom: 1px solid;
+}
+
+.css-cjctlb-MuiButtonBase-root-MuiTab-root {
+    padding: 20px 25px !important;
+}
+
+nav [role=button]:focus {
+    color: #d81b60;
+}
+
+nav button:is([aria-current],:active,:focus) {
+    color: #d81b60
+}
