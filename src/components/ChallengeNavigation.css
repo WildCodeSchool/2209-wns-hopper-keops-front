@@ -6,16 +6,6 @@
     margin-bottom: 30px;
 }
 
-/* nav [role=button] {
-    background-color: var(--primary);
-    opacity: 0.5;
-    color: var(--primary);
-    border-right: unset;
-    border-left: unset;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-} */
-
 .css-8je8zh-MuiTouchRipple-root {
     border: 1px solid var(--primary) !important;
     border-radius: 10px 10px 0px 0px !important; 
