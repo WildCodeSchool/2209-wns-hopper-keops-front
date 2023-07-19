@@ -201,6 +201,7 @@ const ReadChallenge = (props: {
 	return (
 		<div>
 			<h2>{challenge.name}</h2>
+			{calculateDaysRemaining()}
 			<p>
 				Date de début : {format(new Date(challenge.start_date), 'yyyy-MM-dd')}
 			</p>
@@ -211,6 +212,17 @@ const ReadChallenge = (props: {
 					: `${challenge.length} jours`}
 			</p>
 			<p>Créé par : {challenge.createdBy.name}</p>
+			<hr className="separator" />
+
+			<h4>Participants:</h4>
+			<ul>
+				{challenge.userToChallenges.map((participant: { user: IUser }) => (
+					<li key={participant.user.id}>
+						<p>{participant.user.name}</p>
+					</li>
+				))}
+			</ul>
+			<hr className="separator" />
 
 			<button onClick={shareChallenge}>Partager</button>
 			{isCopied && (
@@ -275,19 +287,6 @@ const ReadChallenge = (props: {
 					onCancel={handleCancelDelete}
 				/>
 			)}
-
-			<hr className="separator" />
-
-			<h4>Participants:</h4>
-			<ul>
-				{challenge.userToChallenges.map((participant: { user: IUser }) => (
-					<li key={participant.user.id}>
-						<p>{participant.user.name}</p>
-					</li>
-				))}
-			</ul>
-			<hr className="separator" />
-			{calculateDaysRemaining()}
 		</div>
 	);
 };
