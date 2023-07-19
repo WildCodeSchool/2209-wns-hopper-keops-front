@@ -42,32 +42,28 @@ const ReadChallenge = (props: {
 		deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
 	] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
 
-	// Question à poser à Aurélien
+	const { differenceInDays } = require('date-fns');
 
 	function calculateDaysRemaining() {
 		if (challenge && challenge.start_date) {
 			const today = new Date();
 
-			if (new Date(challenge.end_date) < today) {
-				return 'Ce challenge est terminé.';
-			}
+			console.log(challenge);
 
 			const challengeStartDate = challenge.start_date
 				? new Date(challenge.start_date)
 				: undefined;
 
 			if (challengeStartDate) {
-				// Calcul en millisecondes entre aujourd'hui et la date de début du challenge
-				const timeDiff = challengeStartDate.getTime() - today.getTime();
-				// Calcul du nombre de jours restants (1000 = nombre de millisecondes dans une seconde, 3600 secondes dans une heure)
-				const milisecondInADay = 1000 * 3600 * 24;
-				// Math.ceil arrondi à l'entier supérieur
-				const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
-
-				if (daysRemaining === 0) {
+				const daysRemaining = differenceInDays(challengeStartDate, today);
+				if (!challenge.is_in_progress && daysRemaining >= 0) {
+					const daysRemainingLabel = daysRemaining <= 1 ? 1 : daysRemaining;
+					const day = daysRemainingLabel === 1 ? 'jour' : 'jours';
+					return `Patience ! Le challenge commence dans ${daysRemainingLabel} ${day}.`;
+				} else if (challenge.is_in_progress && daysRemaining <= 0) {
 					return 'Le challenge est en cours !';
 				} else {
-					return `Patience ! Le challenge commence dans ${daysRemaining} jours`;
+					return 'Le challenge est terminé.';
 				}
 			}
 		} else {
@@ -205,11 +201,28 @@ const ReadChallenge = (props: {
 	return (
 		<div>
 			<h2>{challenge.name}</h2>
+			{calculateDaysRemaining()}
 			<p>
-				Date de début: {format(new Date(challenge.start_date), 'yyyy-MM-dd')}
+				Date de début : {format(new Date(challenge.start_date), 'yyyy-MM-dd')}
 			</p>
-			<p>Durée : {challenge.length}</p>
+			<p>
+				Durée :{' '}
+				{challenge.length === 1
+					? `${challenge.length} jour`
+					: `${challenge.length} jours`}
+			</p>
 			<p>Créé par : {challenge.createdBy.name}</p>
+			<hr className="separator" />
+
+			<h4>Participants:</h4>
+			<ul>
+				{challenge.userToChallenges.map((participant: { user: IUser }) => (
+					<li key={participant.user.id}>
+						<p>{participant.user.name}</p>
+					</li>
+				))}
+			</ul>
+			<hr className="separator" />
 
 			<button onClick={shareChallenge}>Partager</button>
 			{isCopied && (
@@ -274,19 +287,6 @@ const ReadChallenge = (props: {
 					onCancel={handleCancelDelete}
 				/>
 			)}
-
-			<hr className="separator" />
-
-			<h4>Participants:</h4>
-			<ul>
-				{challenge.userToChallenges.map((participant: { user: IUser }) => (
-					<li key={participant.user.id}>
-						<p>{participant.user.name}</p>
-					</li>
-				))}
-			</ul>
-			<hr className="separator" />
-			{calculateDaysRemaining()}
 		</div>
 	);
 };
