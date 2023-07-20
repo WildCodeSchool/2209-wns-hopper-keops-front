@@ -30,13 +30,14 @@ function Dashboard() {
 						<p>Content de vous revoir {user.name} !</p>
 					</article>
 				)}
-				<Link to="/create-challenge" role="button">
+				<Link to="/create-challenge" role="button" className="createChallenge">
 					<PlusCircleDotted size={34} className="previous-icon" />
 					Créer un nouveau challenge !
 				</Link>
 				<article className="score">
-					🏆 Mon score général : <span className="bold">{user.score}</span>{' '}
-					points.
+					🏆 Mon score général :{' '}
+					<span className="bold scoreData">{user.score} </span>
+					points
 				</article>
 			</div>
 			<hr className="separator" />

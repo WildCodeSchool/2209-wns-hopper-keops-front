@@ -67,6 +67,14 @@ button.danger:hover {
   border-color: var(--danger-hover);
 }
 
+
+.challengeBtn {
+  width: 300px;
+  margin-right: 25px;
+  margin: unset;
+}
+
+
 .container-button-alone {
   display: flex;
   justify-content: flex-end;

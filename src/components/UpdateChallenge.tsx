@@ -66,15 +66,19 @@ const UpdateChallenge = (props: {
         defaultValue={new Date(startDate).toISOString().split("T")[0]}
         onChange={(e) => setStartDate(new Date(e.target.value))}
       />
-      <button onClick={saveUpdatedChallenge}>Sauvegarder</button>
-      <button
-        className="outline"
-        onClick={() => {
-          props.toggleEditableMode();
-        }}
-      >
-        <ArrowLeft className="next-icon" /> Annuler
-      </button>
+      <div className="btnContainer">
+        <button className="challengeBtn" onClick={saveUpdatedChallenge}>
+          Sauvegarder
+        </button>
+        <button
+          className="outline"
+          onClick={() => {
+            props.toggleEditableMode();
+          }}
+        >
+          <ArrowLeft className="next-icon" /> Annuler
+        </button>
+      </div>
     </div>
   );
 };

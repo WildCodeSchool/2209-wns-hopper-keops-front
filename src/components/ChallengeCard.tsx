@@ -51,11 +51,11 @@ const ChallengeCard = ({
 				if (!is_in_progress && daysRemaining >= 0) {
 					const daysRemainingLabel = daysRemaining <= 1 ? 1 : daysRemaining;
 					const day = daysRemainingLabel === 1 ? 'jour' : 'jours';
-					return `Patience ! Le challenge commence dans ${daysRemainingLabel} ${day}.`;
+					return `Patience ! Le challenge commence dans ${daysRemainingLabel} ${day}`;
 				} else if (is_in_progress && daysRemaining <= 0) {
 					return 'Le challenge est en cours !';
 				} else {
-					return 'Le challenge est terminé.';
+					return 'Le challenge est terminé';
 				}
 			}
 		} else {
@@ -88,21 +88,25 @@ const ChallengeCard = ({
 
 	return (
 		<Link to={`/challenges/${id}`} style={{ textDecoration: 'none' }}>
-			<article className="grid">
-				<div className="infos">
-					<div className={logoClassName}>
-						<p className="logo">{calculateDaysLogo()}</p>
-					</div>
-					<div>
-						<h3 className="title">{name}</h3>
-						<p>{calculateDaysRemaining()}</p>
-						{/* <p>{format(start_date, 'yyyy-MM-dd')}</p> */}
-					</div>
+			<div className="cardWrapper">
+				<div className="cardContainer">
+					<article className="grid">
+						<div className="infos">
+							<div className={logoClassName}>
+								<p className="logo">{calculateDaysLogo()}</p>
+							</div>
+							<div>
+								<h3 className="title">{name}</h3>
+								<p className="description">{calculateDaysRemaining()}</p>
+								{/* <p>{format(start_date, 'yyyy-MM-dd')}</p> */}
+							</div>
+						</div>
+						<div className="actions">
+							<ArrowRightCircle size={28} />
+						</div>
+					</article>
 				</div>
-				<div className="actions">
-					<ArrowRightCircle size={28} />
-				</div>
-			</article>
+			</div>
 		</Link>
 	);
 };

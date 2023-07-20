@@ -1,0 +1,57 @@
+.rankingPage table {
+    padding: 30px 38px;
+    background: var(--card-background-color);
+    box-shadow: var(--card-box-shadow);
+    border-radius: 28px;
+}
+
+.rankingPage table thead th, .rankingPage :not(thead,tfoot)>*>td {
+    padding: 40px;
+    text-align: center;
+}
+
+.rankingPage table thead th {
+    font-weight: 700;
+    font-size: 23px;
+}
+
+.rankingPage :not(thead,tfoot)>*>td {
+    font-size: 25px;
+}
+
+.rankingPage span {
+    font-size: 25px;
+}
+
+.rankingPage table tbody tr td:nth-child(1) {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.rankingPage table tbody tr td:nth-child(3) {
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 28px;
+}
+
+@media (max-width: 991.98px) {
+
+    .rankingPage table {
+    padding: unset;
+    background: unset; 
+    box-shadow: unset;
+    border-radius: unset;
+    }
+
+    .rankingPage table thead th, .rankingPage :not(thead,tfoot)>*>td {
+        padding: 5px;
+    }
+
+    .rankingPage table thead th {
+        font-size: 21px;
+    }
+
+    .rankingPage :not(thead,tfoot)>*>td, .rankingPage table tbody tr td:nth-child(3), .rankingPage span {
+        font-size: 20px;
+    }
+}

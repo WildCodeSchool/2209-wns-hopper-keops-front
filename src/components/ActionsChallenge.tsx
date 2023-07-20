@@ -60,6 +60,7 @@ setChallengeNavigation: (navigation: string) => void;
 					<ArrowLeft className="previous-icon" /> Précédent
 				</button>
 				<button
+          data-testid="nextButtonActions"
 					className="nextBtn button-inline"
 					disabled={actionsList.length < 1}
 					onClick={() => {

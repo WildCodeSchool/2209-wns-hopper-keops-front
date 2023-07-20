@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import { createChallenge } from "../graphql/createChallenge";
 import { readMyChallenges } from "../graphql/readMyChallenges";
-import format from "date-fns/format";
+import { format, isValid } from "date-fns";
 import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
 import "./SubmitChallenge.scoped.css";
 
@@ -56,7 +56,10 @@ const SubmitChallenge = (props: IProps) => {
           <ul>
             <li>Nom : {challengeData.name}</li>
             <li>
-              Commencera le : {format(challengeData.start_date, "yyyy/MM/dd")}
+              Commencera le :{" "}
+              {isValid(challengeData.start_date)
+                ? format(challengeData.start_date, "yyyy/MM/dd")
+                : "Invalid Date"}
             </li>
             <li>Durera : {challengeData.length} jour(s)</li>
           </ul>
@@ -80,6 +83,7 @@ const SubmitChallenge = (props: IProps) => {
           <ArrowLeft className="previous-icon" /> Précédent
         </button>
         <button
+          data-testid="buttonCreateChallenge"
           className="nextBtn button-inline"
           type="submit"
           onClick={onSubmit}

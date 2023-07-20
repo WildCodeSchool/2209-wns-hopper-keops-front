@@ -5,6 +5,22 @@
   align-items: center;
 }
 
+.createChallenge {
+  width: 400px;
+}
+
+.scoreData {
+  margin: 0 5px;
+}
+
+.score {
+  height: 0px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media only screen and (max-width: 768px) {
   .hero {
     flex-direction: column-reverse;

@@ -12,7 +12,7 @@ const ChallengesList = () => {
 const filtredAndSortChallenges = (challenges: IChallenge[]) => {
   const dateToday = new Date();
 
-  const isProgressChallenges = challenges.filter((challenge) => challenge.is_in_progress === true);
+  const isProgressChallenges = challenges.filter((challenge) => challenge.is_in_progress === true && new Date(challenge.end_date) > dateToday);
   const upcomingChallenges = challenges.filter((challenge) => new Date(challenge.start_date) > dateToday);
   const finishedChallenges = challenges.filter((challenge) => new Date(challenge.end_date) < dateToday);
 
@@ -29,6 +29,8 @@ const filtredAndSortChallenges = (challenges: IChallenge[]) => {
 };
 
 const filteredChallenges = filtredAndSortChallenges(data?.readMyChallenges || []);
+
+console.log(data?.readMyChallenges)
 
   return (
     <div>
