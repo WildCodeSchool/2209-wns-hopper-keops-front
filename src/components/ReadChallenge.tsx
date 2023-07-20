@@ -1,3 +1,4 @@
+import "./ReadChallenge.scoped.css";
 import { IParticipantChallenge } from "../interfaces/IChallenge";
 import { useMutation } from "@apollo/client";
 import { createUserToChallenge } from "../graphql/createUserToChallenge";
@@ -10,6 +11,7 @@ import { IUser } from "../interfaces/IUser";
 import { useEffect, useState } from "react";
 import { FaShareAlt, FaPencilAlt, FaTrash, FaClock } from "react-icons/fa";
 import "./ReadChallenge.css";
+
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -52,13 +54,16 @@ const ReadChallenge = (props: {
     if (challenge && challenge.start_date) {
       const today = new Date();
 
-      console.log(challenge);
+      if (new Date(challenge.end_date) < today) {
+        return "Ce challenge est terminé.";
+      }
 
       const challengeStartDate = challenge.start_date
         ? new Date(challenge.start_date)
         : undefined;
 
       if (challengeStartDate) {
+
         const daysRemaining = differenceInDays(challengeStartDate, today);
         if (!challenge.is_in_progress && daysRemaining >= 0) {
           const daysRemainingLabel = daysRemaining <= 1 ? 1 : daysRemaining;
