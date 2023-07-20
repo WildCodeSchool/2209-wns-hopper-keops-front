@@ -88,21 +88,25 @@ const ChallengeCard = ({
 
 	return (
 		<Link to={`/challenges/${id}`} style={{ textDecoration: 'none' }}>
-			<article className="grid">
-				<div className="infos">
-					<div className={logoClassName}>
-						<p className="logo">{calculateDaysLogo()}</p>
-					</div>
-					<div>
-						<h3 className="title">{name}</h3>
-						<p>{calculateDaysRemaining()}</p>
-						{/* <p>{format(start_date, 'yyyy-MM-dd')}</p> */}
-					</div>
+			<div className="cardWrapper">
+				<div className="cardContainer">
+					<article className="grid">
+						<div className="infos">
+							<div className={logoClassName}>
+								<p className="logo">{calculateDaysLogo()}</p>
+							</div>
+							<div>
+								<h3 className="title">{name}</h3>
+								<p>{calculateDaysRemaining()}</p>
+								{/* <p>{format(start_date, 'yyyy-MM-dd')}</p> */}
+							</div>
+						</div>
+						<div className="actions">
+							<ArrowRightCircle size={28} />
+						</div>
+					</article>
 				</div>
-				<div className="actions">
-					<ArrowRightCircle size={28} />
-				</div>
-			</article>
+			</div>
 		</Link>
 	);
 };
