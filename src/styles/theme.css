@@ -1,5 +1,6 @@
 @import "./alert.css";
 @import "./colors.css";
+@import "./animation.css";
 
 body {
   margin: 0;
@@ -66,14 +67,6 @@ button.danger:hover {
   background-color: var(--danger-hover);
   border-color: var(--danger-hover);
 }
-
-
-.challengeBtn {
-  width: 300px;
-  margin-right: 25px;
-  margin: unset;
-}
-
 
 .container-button-alone {
   display: flex;

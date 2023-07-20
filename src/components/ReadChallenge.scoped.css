@@ -32,7 +32,6 @@
 }
 
 .challengeInfoContainer section {
-  margin-left: 10px;
   padding: 30px 38px;
   background: var(--card-background-color);
   box-shadow: var(--card-box-shadow);

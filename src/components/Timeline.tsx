@@ -69,10 +69,10 @@ export default function CustomizedTimeline() {
         </TimelineOppositeContent>
         <TimelineSeparator>
           <TimelineConnector />
-          <TimelineDot color="primary" variant="outlined">
+          <TimelineDot color="primary">
             <MobileScreenShareRoundedIcon />
           </TimelineDot>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
+          <TimelineConnector />
         </TimelineSeparator>
         <TimelineContent sx={{ py: "12px", px: 2 }}>
           <Typography variant="h6" component="span">
@@ -90,7 +90,7 @@ export default function CustomizedTimeline() {
           Etape 4
         </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
+          <TimelineConnector />
           <TimelineDot color="secondary">
             <ChecklistRtlRoundedIcon />
           </TimelineDot>
@@ -112,7 +112,7 @@ export default function CustomizedTimeline() {
           Et enfin...
         </TimelineOppositeContent>
         <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
+          <TimelineConnector />
           <TimelineDot color="secondary">
             <GradeRoundedIcon />
           </TimelineDot>

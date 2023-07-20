@@ -12,7 +12,7 @@ const ActionsList = (props: {
   return (
     <div>
       <section className="changeActions">
-        <h4>Mes éco-gestes</h4>
+        <h2>Mes éco-gestes</h2>
         {props.userStatus === "owner" &&
           props.challenge.is_in_progress === false && (
             <button

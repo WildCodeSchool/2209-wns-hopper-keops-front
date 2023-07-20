@@ -11,10 +11,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 45px;
+  margin-top: 3rem;
 }
 
-.changeActions h4 {
+.changeActions h2 {
   display: block;
   margin-bottom: unset;
 }

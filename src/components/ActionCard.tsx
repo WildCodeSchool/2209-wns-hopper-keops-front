@@ -32,7 +32,12 @@ const ActionCard = ({
           onClick={onRemove}
         />
       ) : (
-        <PlusCircle size={34} className="primary button-icon" onClick={onAdd} />
+        <PlusCircle
+          size={34}
+          className="primary button-icon"
+          onClick={onAdd}
+          data-testid="addActionButton"
+        />
       )}
     </article>
   );

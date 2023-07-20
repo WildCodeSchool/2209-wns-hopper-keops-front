@@ -1,141 +1,144 @@
 .landingPageContainer {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
 .landingTitle h1 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .gamePresentation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: -30px;
-    margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -30px;
+  margin-bottom: 30px;
 }
 
 .gamePresentation p {
-    width: 59%;
-    text-align: justify;
+  width: 59%;
+  text-align: justify;
 }
 
 .gamePresentation img {
-    height: 272px;
-    margin-top: -40px;
+  height: 272px;
+  margin-top: -40px;
 }
 
 #enSavoirPlus {
-    width: auto;
-    padding: 20px;
+  width: auto;
+  padding: 20px;
+  margin: 0 auto;
 }
 
 .hidden {
-    display : none
+  display: none;
 }
 
 .startGame {
-    display: flex;
-    flex-direction: row;
-    margin-top: 109px;
-    align-items: flex-end;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-top: 109px;
+  align-items: flex-end;
+  width: 100%;
 }
 
 .startGameContainer {
-    width: 60%;
+  width: 60%;
 }
 
 .startGameContainer h3 {
-    font-size: 36px;
-    width: 79%;
+  font-size: 36px;
+  width: 79%;
 }
 
 .startGame button {
-    width: 200px;
-    padding: 20px
+  width: 200px;
+  padding: 20px;
 }
 
 .startGame p {
-    text-align: justify;
-    width: 79%;
+  text-align: justify;
+  width: 79%;
 }
 
 .startGame a {
-    margin-left: 87px;
-    margin-bottom: 20px;
+  margin-left: 87px;
+  margin-bottom: 20px;
 }
 
 .timeline {
-    margin-top: 109px;
+  margin-top: 109px;
 }
 
 .css-1uwk1ka-MuiTimelineDot-root {
-    border-color: unset;
+  border-color: unset;
 }
 
-.css-1v41xfw-MuiTimelineDot-root, .css-1uwk1ka-MuiTimelineDot-root, .css-7kp53o-MuiTimelineDot-root, .css-v6mo1y-MuiTimelineDot-root {
-    background-color: var(--primary) !important;
+.css-1v41xfw-MuiTimelineDot-root,
+.css-1uwk1ka-MuiTimelineDot-root,
+.css-7kp53o-MuiTimelineDot-root,
+.css-v6mo1y-MuiTimelineDot-root {
+  background-color: var(--primary) !important;
 }
-.css-1v41xfw-MuiTimelineDot-root, .css-1uwk1ka-MuiTimelineDot-root, .css-7kp53o-MuiTimelineDot-root, .css-v6mo1y-MuiTimelineDot-root {
-    color: #FFFF!important;
+.css-1v41xfw-MuiTimelineDot-root,
+.css-1uwk1ka-MuiTimelineDot-root,
+.css-7kp53o-MuiTimelineDot-root,
+.css-v6mo1y-MuiTimelineDot-root {
+  color: #ffff !important;
 }
 .css-2ulfj5-MuiTypography-root {
-    font-weight: 600 !important;
+  font-weight: 600 !important;
 }
-.css-1oug4av-MuiTypography-root-MuiTimelineOppositeContent-root, .css-l4x062-MuiTypography-root-MuiTimelineOppositeContent-root {
-    font-size: 24px !important;
-    color: #5EBA7D !important;
-    font-weight: 500 !important;
+.css-1oug4av-MuiTypography-root-MuiTimelineOppositeContent-root,
+.css-l4x062-MuiTypography-root-MuiTimelineOppositeContent-root {
+  font-size: 24px !important;
+  color: #5eba7d !important;
+  font-weight: 500 !important;
 }
 
 .css-1nb3yh0-MuiTimelineConnector-root {
-    background-color: var(--primary) !important;
+  background-color: var(--primary) !important;
 }
-
 
 /* Media queries */
 /* Smaller devices */
 
-@media (max-width: 1199.98px) { 
-
-    .gamePresentation img {
-        height: 207px;
-    }
+@media (max-width: 1199.98px) {
+  .gamePresentation img {
+    height: 207px;
+  }
 }
 
-@media (max-width: 820px) { 
+@media (max-width: 820px) {
+  .landingPageContainer {
+    margin: 50px 20px;
+  }
 
-    .landingPageContainer {
-        margin: 50px 20px;
-    }
+  .gamePresentation p {
+    width: 100%;
+  }
 
-    .gamePresentation p {
-        width: 100%;
-    }
+  .gamePresentation img {
+    display: none;
+  }
 
-    .gamePresentation img {
-        display: none;
-    }
+  .startGame {
+    flex-direction: column;
+    align-items: unset;
+  }
+  .startGameContainer {
+    width: 100%;
+    margin-bottom: 30px;
+  }
 
-    .startGame {
-        flex-direction: column;
-        align-items: unset;
-    }
-    .startGameContainer {
-        width: 100%;
-        margin-bottom: 30px;
-    }
-
-    .startGame a {
-        margin-left: unset;
-    }
-
+  .startGame a {
+    margin-left: unset;
+  }
 }
 
-@media (max-width: 575px) { 
-
-    .css-1oug4av-MuiTypography-root-MuiTimelineOppositeContent-root, .css-l4x062-MuiTypography-root-MuiTimelineOppositeContent-root {
-        font-size: 21px !important;
-    }
-
+@media (max-width: 575px) {
+  .css-1oug4av-MuiTypography-root-MuiTimelineOppositeContent-root,
+  .css-l4x062-MuiTypography-root-MuiTimelineOppositeContent-root {
+    font-size: 21px !important;
+  }
 }
