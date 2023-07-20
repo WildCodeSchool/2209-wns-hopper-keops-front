@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IParticipantChallenge } from "../interfaces/IChallenge";
 import { readOneChallenge } from "../graphql/readOneChallenge";
 import { Navigate, useParams } from "react-router-dom";
@@ -8,7 +8,6 @@ import UpdateChallenge from "../components/UpdateChallenge";
 import ReadChallenge from "../components/ReadChallenge";
 import ActionsList from "../components/ActionsList";
 import UpdateActionsChallenge from "../components/UpdateActionsChallenge";
-import { Link } from "react-router-dom";
 import ChallengeLeaderboardPage from "./ChallengeLeaderboardPage";
 import ChallengeNavigation from "../components/ChallengeNavigation";
 
@@ -27,6 +26,7 @@ const ChallengePage = () => {
   const [challenge, setChallenge] = useState<
     null | IParticipantChallenge | undefined
   >(undefined);
+  const [alert, setAlert] = useState(false);
 
   const { data } = useQuery<{ readOneChallenge: IParticipantChallenge }>(
     readOneChallenge,
@@ -55,64 +55,88 @@ const ChallengePage = () => {
     }
   }, [data, user, userStatus, userToChallengeId]);
 
+  useEffect(() => {
+    if (alert === true) {
+      const timer = setTimeout(() => {
+        setAlert(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
+
   if (challenge === null) {
     return <Navigate to={"/dashboard"} replace={true} />;
   } else if (challenge !== undefined && challenge !== null) {
     return (
-      <article className="grid">
-        <div className="infos">
-          {view === "infos" ? (
-            <>
-              {editableMode ? (
-                <UpdateChallenge
-                  challenge={challenge}
-                  toggleEditableMode={() => setEditableMode(false)}
-                />
-              ) : (
-                <>
-                  <ChallengeNavigation />
-                  <ReadChallenge
+      <>
+        <article className="grid">
+          <div className="infos">
+            {view === "infos" ? (
+              <>
+                {editableMode ? (
+                  <UpdateChallenge
                     challenge={challenge}
-                    userToChallengeId={Number(userToChallengeId)}
-                    toggleUserStatus={setUserStatus}
-                    toggleEditableMode={setEditableMode}
-                    userStatus={userStatus}
+                    toggleEditableMode={() => setEditableMode(false)}
+                    toggleEditableModeAndAlert={() => {
+                      setEditableMode(false);
+                      setAlert(true);
+                    }}
                   />
-                </>
-              )}
-            </>
-          ) : view === "tasks" ? (
-            <>
-              {editableActionsMode === false ? (
-                <>
-                  <ChallengeNavigation />
-                  <ActionsList
+                ) : (
+                  <>
+                    <ChallengeNavigation />
+                    <ReadChallenge
+                      challenge={challenge}
+                      userToChallengeId={Number(userToChallengeId)}
+                      toggleUserStatus={setUserStatus}
+                      toggleEditableMode={setEditableMode}
+                      userStatus={userStatus}
+                    />
+                  </>
+                )}
+              </>
+            ) : view === "tasks" ? (
+              <>
+                {editableActionsMode === false ? (
+                  <>
+                    <ChallengeNavigation />
+                    <ActionsList
+                      challenge={challenge}
+                      userStatus={userStatus}
+                      toggleEditableActionsMode={() =>
+                        setEditableActionsMode(true)
+                      }
+                    />
+                  </>
+                ) : (
+                  <UpdateActionsChallenge
                     challenge={challenge}
-                    userStatus={userStatus}
                     toggleEditableActionsMode={() =>
-                      setEditableActionsMode(true)
+                      setEditableActionsMode(false)
                     }
+                    toggleEditableActionsModeAndAlert={() => {
+                      setEditableActionsMode(false);
+                      setAlert(true);
+                    }}
                   />
-                </>
-              ) : (
-                <UpdateActionsChallenge
-                  challenge={challenge}
-                  toggleEditableActionsMode={() =>
-                    setEditableActionsMode(false)
-                  }
-                />
-              )}
-            </>
-          ) : view === "leaderboard" ? (
-            <>
-              <ChallengeNavigation />
-              <ChallengeLeaderboardPage />
-            </>
-          ) : (
-            <Navigate to={"/dashboard"} replace={true} />
-          )}
-        </div>
-      </article>
+                )}
+              </>
+            ) : view === "leaderboard" ? (
+              <>
+                <ChallengeNavigation />
+                <ChallengeLeaderboardPage />
+              </>
+            ) : (
+              <Navigate to={"/dashboard"} replace={true} />
+            )}
+          </div>
+        </article>
+        {alert && (
+          <article className="alert alert-popup">
+            <p>✅ Les modifications ont bien été enregistrées.</p>
+          </article>
+        )}
+      </>
     );
   } else {
     return <div>Loading...</div>;

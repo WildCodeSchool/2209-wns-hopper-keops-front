@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import { readAllActions } from "../graphql/readAllActions";
 import ActionCard from "./ActionCard";
 import { IAction } from "../interfaces/IAction";
-import { ArrowRight } from "react-bootstrap-icons";
+import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
 import { useState } from "react";
 import { IParticipantChallenge } from "../interfaces/IChallenge";
 import { readMyChallenges } from "../graphql/readMyChallenges";
@@ -12,6 +12,7 @@ import { updateActionToChallenge } from "../graphql/updateActionToCHallenge";
 const ActionsChallenge = (props: {
   challenge: IParticipantChallenge,
   toggleEditableActionsMode: () => void;
+  toggleEditableActionsModeAndAlert: () => void;
 }) => {
   const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
 
@@ -50,7 +51,7 @@ const ActionsChallenge = (props: {
         challengeId: props.challenge.id
       }});
 
-      props.toggleEditableActionsMode();
+      props.toggleEditableActionsModeAndAlert();
     } catch(err) {
       console.log(err);
     }
@@ -61,8 +62,8 @@ const ActionsChallenge = (props: {
   console.log("ACTIONSLIST:", actionsList);
 
   return (
-    <article className="challengeContainer">
-      <h1>Modifie les actions de ton challenge</h1>
+    <div className="challengeContainer">
+      <h2>Modifie les actions de ton challenge</h2>
       {data?.readAllActions.map((action) => (
         <ActionCard
           key={action.id}
@@ -85,7 +86,16 @@ const ActionsChallenge = (props: {
         >
           Enregistrer mes modifications <ArrowRight className="next-icon" />
         </button>
-    </article>
+
+        <button
+          className="outline"
+          onClick={() => {
+            props.toggleEditableActionsMode();
+          }}
+        >
+          <ArrowLeft className="next-icon" /> Annuler
+        </button>
+    </div>
   );
 };
 

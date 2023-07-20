@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ChallengeContext } from "../context/CreateChallengeProvider";
 import {
   ArrowRight,
@@ -12,19 +12,26 @@ const SuccefullCreateChallenge = () => {
   const { challengeData } = useContext(ChallengeContext);
 
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [alert, setAlert] = useState(false);
 
   const copyInput = () => {
     navigator.clipboard
       .writeText(`localhost:3000/challenges/${challengeData.id}`)
-      .then(
-        () => {
-          setIsCopied(true);
-        },
-        () => {
-          console.log("oups");
-        }
-      );
+      .then(() => {
+        setIsCopied(true);
+        setAlert(true);
+      });
   };
+
+  useEffect(() => {
+    if (alert === true) {
+      const timer = setTimeout(() => {
+        setAlert(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
 
   return (
     <article>
@@ -66,6 +73,12 @@ const SuccefullCreateChallenge = () => {
           Voir le challenge <ArrowRight className="next-icon" />
         </Link>
       </div>
+
+      {alert && (
+        <article className="alert alert-popup">
+          <p>✅ Le lien vers ton challenge a été copié ! </p>
+        </article>
+      )}
     </article>
   );
 };

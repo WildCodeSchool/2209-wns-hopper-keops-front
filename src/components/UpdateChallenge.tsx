@@ -4,10 +4,12 @@ import { useMutation } from "@apollo/client";
 import { updateChallenge } from "../graphql/updateChallenge";
 import { readMyChallenges } from "../graphql/readMyChallenges";
 import { readOneChallenge } from "../graphql/readOneChallenge";
+import { ArrowLeft } from "react-bootstrap-icons";
 
 const UpdateChallenge = (props: {
   challenge: IChallenge;
   toggleEditableMode: () => void;
+  toggleEditableModeAndAlert: () => void;
 }) => {
   const [challenge, setChallenge] = useState(props.challenge);
   const [name, setName] = useState(props.challenge.name);
@@ -33,7 +35,7 @@ const UpdateChallenge = (props: {
         },
       });
 
-      props.toggleEditableMode();
+      props.toggleEditableModeAndAlert();
     } catch {
       console.log(error);
     }
@@ -65,6 +67,14 @@ const UpdateChallenge = (props: {
         onChange={(e) => setStartDate(new Date(e.target.value))}
       />
       <button onClick={saveUpdatedChallenge}>Sauvegarder</button>
+      <button
+        className="outline"
+        onClick={() => {
+          props.toggleEditableMode();
+        }}
+      >
+        <ArrowLeft className="next-icon" /> Annuler
+      </button>
     </div>
   );
 };

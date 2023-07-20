@@ -43,8 +43,6 @@ const ReadChallenge = (props: {
     deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
   ] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
 
-  // Question à poser à Aurélien
-
   function calculateDaysRemaining() {
     if (challenge && challenge.start_date) {
       const today = new Date();
