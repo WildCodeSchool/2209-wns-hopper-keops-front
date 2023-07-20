@@ -160,6 +160,10 @@ article.selected {
   list-style-type: none;
 }
 
+.action-card {
+  width: 80%;
+}
+
 article.info {
   background-color: #d9ecfa;
   box-shadow: none;
