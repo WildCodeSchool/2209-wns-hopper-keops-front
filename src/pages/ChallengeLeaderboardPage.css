@@ -5,10 +5,31 @@
     border-radius: 28px;
 }
 
-.rankingPage table thead th {
+.rankingPage table thead th, .rankingPage :not(thead,tfoot)>*>td {
     padding: 40px;
+    text-align: center;
+}
+
+.rankingPage table thead th {
+    font-weight: 700;
+    font-size: 23px;
 }
 
 .rankingPage :not(thead,tfoot)>*>td {
-    padding: 40px;
+    font-size: 25px;
+}
+
+.rankingPage span {
+    font-size: 25px;
+}
+
+.rankingPage table tbody tr td:nth-child(1) {
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.rankingPage table tbody tr td:nth-child(3) {
+    color: var(--danger);
+    font-weight: 700;
+    font-size: 28px;
 }

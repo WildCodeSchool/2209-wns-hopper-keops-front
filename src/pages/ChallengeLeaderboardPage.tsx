@@ -55,7 +55,7 @@ const ChallengeLeaderboardPage = () => {
               <tr key={userToChallenge.user?.id}>
                 <td>
                   {index === 0 ? (
-                    <span className="rank-icon">{trophyEmoji}</span>
+                    <span className="rank-icon">{trophyEmoji}</span> 
                   ) : index === 1 ? (
                     <span className="rank-icon">{medalEmoji}</span>
                   ) : index === 2 ? (
