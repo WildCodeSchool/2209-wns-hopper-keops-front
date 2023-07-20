@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { IAction } from "../interfaces/IAction";
 import { IChallenge } from "../interfaces/IChallenge";
 import { createSuccess } from "../graphql/createSuccess";
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import format from "date-fns/format";
 import { addDays } from "date-fns";
 import { readMyChallengeSuccesses } from "../graphql/readMyChallengeSuccess";
@@ -15,7 +15,7 @@ import { readChallengeLeaderboard } from "../graphql/readChallengeLeaderboard";
 import { isToday } from "date-fns";
 
 const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
-  const startDate = new Date(props.challenge.start_date);
+  const startDate = new Date(props.challenge.start_date).setHours(0, 0, 0, 0);
   const actionId = props.action.id;
   const challengeId = props.challenge.id;
 
@@ -29,13 +29,9 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   );
 
   // TODO refetch readChallengerLeaderboard (score)
-  const { data: particpant } = useQuery<any>(readChallengeLeaderboard, {
+  useQuery<any>(readChallengeLeaderboard, {
     variables: { challengeId },
   });
-
-  // useEffect(() => {
-  //   console.log("Participant! :", participant)
-  // }, [participant])
 
   const [createSuccessMutation] = useMutation(createSuccess, {
     refetchQueries: [readMyChallengeSuccesses, readChallengeLeaderboard],
@@ -63,69 +59,72 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
     setSuccessesMap(keys);
   }, [data]);
 
-  const isChecked = (i: number, actionId: string): boolean => {
-    const key = `${format(addDays(startDate, i), "yyyy-MM-dd")}-${actionId}`;
-    return key in successesMap;
-  };
-
-  async function validateSuccess(
-    e: React.MouseEvent<HTMLInputElement, MouseEvent>,
-    i: number
-  ) {
-    const target = e.target as HTMLInputElement;
-    // addDays est une fonction de format/date-fns
-    const successDate = format(addDays(startDate, i), "yyyy-MM-dd");
-    const successKey = `${successDate}-${actionId}`;
-
-    if (target.checked) {
-      try {
-        await createSuccessMutation({
-          variables: {
-            data: {
-              action: {
-                id: actionId,
-              },
-              challenge: {
-                id: challengeId,
-              },
-              date: format(addDays(startDate, i), "yyyy-MM-dd"),
-            },
-          },
-        });
-        console.log("Success create !");
-      } catch {
-        console.log("Error with success create");
-      }
-    } else {
-      try {
-        await deleteMySuccessMutation({
-          variables: {
-            data: {
-              id: successesMap[successKey],
-            },
-          },
-        });
-        console.log("Success removed !");
-      } catch (error) {
-        console.log("error with success removed:", error);
-      }
-    }
-  }
-
-  console.log("Lenght of challenge:", props.challenge.length);
-
-  function isDisabled(i: number): boolean {
-    const dateToday = new Date();
-    const endDate = addDays(dateToday, props.challenge.length);
-    const succesDate = addDays(startDate, i);
-    if (dateToday >= succesDate && dateToday <= endDate) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   const checkboxes = useMemo(() => {
+    const isChecked = (i: number, actionId: string): boolean => {
+      const key = `${format(addDays(startDate, i), "yyyy-MM-dd")}-${actionId}`;
+      return key in successesMap;
+    };
+
+    async function validateSuccess(
+      e: React.MouseEvent<HTMLInputElement, MouseEvent>,
+      i: number
+    ) {
+      const target = e.target as HTMLInputElement;
+      // addDays est une fonction de format/date-fns
+      const successDate = format(addDays(startDate, i), "yyyy-MM-dd");
+      const successKey = `${successDate}-${actionId}`;
+
+      if (target.checked) {
+        try {
+          await createSuccessMutation({
+            variables: {
+              data: {
+                action: {
+                  id: actionId,
+                },
+                challenge: {
+                  id: challengeId,
+                },
+                date: format(addDays(startDate, i), "yyyy-MM-dd"),
+              },
+            },
+          });
+          console.log("Success create !");
+        } catch {
+          console.log("Error with success create");
+        }
+      } else {
+        try {
+          await deleteMySuccessMutation({
+            variables: {
+              data: {
+                id: successesMap[successKey],
+              },
+            },
+          });
+          console.log("Success removed !");
+        } catch (error) {
+          console.log("error with success removed:", error);
+        }
+      }
+    }
+
+    console.log("Lenght of challenge:", props.challenge.length);
+
+    function isDisabled(i: number): boolean {
+      const dateToday = new Date();
+      const endDate = addDays(dateToday, props.challenge.length);
+      const succesDate = addDays(startDate, i);
+      console.log("Date Today: ", dateToday);
+      console.log("End Date: ", endDate);
+      console.log("Success Date: ", succesDate);
+      if (dateToday >= succesDate && dateToday <= endDate) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
     const newCheckboxes = [];
     for (let i = 0; i < props.challenge.length; i++) {
       const checkboxDate = addDays(startDate, i);
@@ -146,7 +145,15 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
       );
     }
     return newCheckboxes;
-  }, [successesMap, props.challenge]);
+  }, [
+    actionId,
+    challengeId,
+    createSuccessMutation,
+    deleteMySuccessMutation,
+    props.challenge.length,
+    startDate,
+    successesMap,
+  ]);
 
   return (
     <li key={props.action.id} className="actionTile">
