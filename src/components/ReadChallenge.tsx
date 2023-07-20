@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
 import { useEffect, useState } from "react";
+import { FaShareAlt, FaPencilAlt, FaTrash, FaClock } from "react-icons/fa";
+import "./ReadChallenge.css";
+
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -43,6 +46,10 @@ const ReadChallenge = (props: {
     deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
   ] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
 
+  const { differenceInDays } = require("date-fns");
+
+  let iconeStyle = { fontSize: "20px", color: "white", marginRight: "10px" };
+
   function calculateDaysRemaining() {
     if (challenge && challenge.start_date) {
       const today = new Date();
@@ -56,23 +63,16 @@ const ReadChallenge = (props: {
         : undefined;
 
       if (challengeStartDate) {
-        // Calcul en millisecondes entre aujourd'hui et la date de début du challenge
-        const timeDiff = challengeStartDate.getTime() - today.getTime();
-        // Calcul du nombre de jours restants (1000 = nombre de millisecondes dans une seconde, 3600 secondes dans une heure)
-        const milisecondInADay = 1000 * 3600 * 24;
-        // Math.ceil arrondi à l'entier supérieur
-        const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
 
-        if (daysRemaining === 0) {
+        const daysRemaining = differenceInDays(challengeStartDate, today);
+        if (!challenge.is_in_progress && daysRemaining >= 0) {
+          const daysRemainingLabel = daysRemaining <= 1 ? 1 : daysRemaining;
+          const day = daysRemainingLabel === 1 ? "jour" : "jours";
+          return `Patience ! Le challenge commence dans ${daysRemainingLabel} ${day}.`;
+        } else if (challenge.is_in_progress && daysRemaining <= 0) {
           return "Le challenge est en cours !";
         } else {
-          return (
-            <div className="remaining-time-div">
-              {" "}
-              🗓 Patience, ce challenge commence dans
-              {" " + daysRemaining} jours !
-            </div>
-          );
+          return "Le challenge est terminé.";
         }
       }
     } else {
@@ -208,94 +208,118 @@ const ReadChallenge = (props: {
   }, [refreshPage]);
 
   return (
-    <div>
-      <h2>{challenge.name}</h2>
+    <div className="challengeInfoContainer">
+      <section>
+        <h2>{challenge.name}</h2>
+        <hr className="separator" />
+        <p className="whenStartGame">
+          <FaClock style={iconeStyle} /> {calculateDaysRemaining()}
+        </p>
 
-      <button onClick={shareChallenge}>Partager</button>
-      {isCopied && (
-        <article className="alert alert-popup">
-          <p>Le lien a été copié avec succès !</p>
-        </article>
-      )}
-
-      {isParticipating && (
-        <article className="alert alert-popup">
+        <div className="infosPara startDate">
+          <p>Date de début :</p>
+          <p>{format(new Date(challenge.start_date), "yyyy-MM-dd")}</p>
+        </div>
+        <div className="infosPara length">
+          <p>Durée : </p>
           <p>
-            🌱 Bravo ! Votre participation au challenge est confirmée. <br />
-            Ensemble, faisons la différence pour notre planète ! 🌍
+            {challenge.length === 1
+              ? `${challenge.length} jour`
+              : `${challenge.length} jours`}
           </p>
-        </article>
-      )}
+        </div>
+        <div className="infosPara createdBy">
+          <p>Créé par :</p>
+          <p>{challenge.createdBy.name}</p>
+        </div>
+        <hr className="separator" />
+        <div className="participantsContainer">
+          <h4>Participants:</h4>
+          <ul>
+            {challenge.userToChallenges.map((participant: { user: IUser }) => (
+              <li key={participant.user.id}>
+                <p>{participant.user.name}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
-      {userStatus === null ? (
-        <button onClick={participateToChallenge}>Je participe !</button>
-      ) : userStatus === "owner" ? (
-        <>
-          {props.challenge.is_in_progress === false && (
-            <button
-              onClick={() => {
-                props.toggleEditableMode(true);
-              }}
-            >
-              Modifier
+      <hr className="separator" />
+
+      <div className="btnContainer">
+        <button className="challengeBtn" onClick={shareChallenge}>
+          <FaShareAlt style={iconeStyle} />
+          Partager
+        </button>
+        {isCopied && (
+          <article className="alert alert-popup">
+            <p>Le lien a été copié avec succès !</p>
+          </article>
+        )}
+
+        {isParticipating && (
+          <article className="alert alert-popup">
+            <p>
+              🌱 Bravo ! Votre participation au challenge est confirmée. <br />
+              Ensemble, faisons la différence pour notre planète ! 🌍
+            </p>
+          </article>
+        )}
+
+        {userStatus === null ? (
+          <button onClick={participateToChallenge}>Je participe !</button>
+        ) : userStatus === "owner" ? (
+          <>
+            {props.challenge.is_in_progress === false && (
+              <button
+                className="challengeBtn"
+                onClick={() => {
+                  props.toggleEditableMode(true);
+                }}
+              >
+                <FaPencilAlt style={iconeStyle} />
+                Modifier
+              </button>
+            )}
+            <button className="challengeBtn" onClick={deleteChallenge}>
+              <FaTrash style={iconeStyle} />
+              Supprimer
             </button>
-          )}
-          <button onClick={deleteChallenge}>Supprimer</button>
-        </>
-      ) : (
-        <>
-          <button onClick={quitChallenge}>Quitter le challenge</button>
-          {showQuitNotification && (
-            <article className="yellow alert-popup">
-              <p>
-                😞 Oh! tu quittes le challenge.
-                <br /> Votre éco-aventure continue, n'oubliez pas que vous avez
-                déjà planté
-                <br />
-                des graines écologiques dans nos cœurs.
-                <br /> A très vite Epikopain(e) ! 🌿
-              </p>
-            </article>
-          )}
-          {showConfirmationDialog && (
-            <ConfirmationDialog
-              message="Êtes-vous sûr de vouloir quitter le challenge ?"
-              onConfirm={handleConfirmQuit}
-              onCancel={handleCancelQuit}
-            />
-          )}
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <button onClick={quitChallenge}>Quitter le challenge</button>
+            {showQuitNotification && (
+              <article className="yellow alert-popup">
+                <p>
+                  😞 Oh! tu quittes le challenge.
+                  <br /> Votre éco-aventure continue, n'oubliez pas que vous
+                  avez déjà planté
+                  <br />
+                  des graines écologiques dans nos cœurs.
+                  <br /> A très vite Epikopain(e) ! 🌿
+                </p>
+              </article>
+            )}
+            {showConfirmationDialog && (
+              <ConfirmationDialog
+                message="Êtes-vous sûr de vouloir quitter le challenge ?"
+                onConfirm={handleConfirmQuit}
+                onCancel={handleCancelQuit}
+              />
+            )}
+          </>
+        )}
 
-      {showDeleteConfirmationDialog && (
-        <ConfirmationDialog
-          message="Êtes-vous sûr de vouloir supprimer le challenge ?"
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-        />
-      )}
-
-      {calculateDaysRemaining()}
-      <hr className="separator" />
-
-      <h4>Informations générales:</h4>
-
-      <p>
-        Date de début: {format(new Date(challenge.start_date), "yyyy-MM-dd")}
-      </p>
-      <p>Durée : {challenge.length} jours</p>
-      <p>Créé par : {challenge.createdBy.name}</p>
-
-      <hr className="separator" />
-
-      <h4>Participants:</h4>
-      <ul>
-        {challenge.userToChallenges.map((participant: { user: IUser }) => (
-          <li key={participant.user.id}>
-            <p>{participant.user.name}</p>
-          </li>
-        ))}
-      </ul>
+        {showDeleteConfirmationDialog && (
+          <ConfirmationDialog
+            message="Êtes-vous sûr de vouloir supprimer le challenge ?"
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
+        )}
+      </div>
     </div>
   );
 };

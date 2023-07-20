@@ -34,7 +34,7 @@ setChallengeNavigation: (navigation: string) => void;
 	};
 
 	return (
-		<article className="challengeContainer">
+		<article className="challengeContainer" data-testid="actionsChallenge">
 			<h1>Choisis des actions à réaliser</h1>
 			{data?.readAllActions.map(action => (
 				<ActionCard
