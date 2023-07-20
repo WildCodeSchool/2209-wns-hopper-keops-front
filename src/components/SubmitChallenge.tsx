@@ -51,7 +51,7 @@ const SubmitChallenge = (props: IProps) => {
       <section>
         <details open>
           <summary>
-            <b>Infos générale</b>
+            <b>Informations générales du challenge</b>
           </summary>
           <ul>
             <li>Nom : {challengeData.name}</li>
@@ -63,7 +63,7 @@ const SubmitChallenge = (props: IProps) => {
         </details>
         <details open>
           <summary>
-            <b>Liste des actions</b>
+            <b>Liste des éco-gestes</b>
           </summary>
           <ul>
             {challengeData.actions.map((action) => (

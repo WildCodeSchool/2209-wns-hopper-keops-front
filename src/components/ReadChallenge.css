@@ -10,6 +10,18 @@
     width: 300px;
     margin-right: 25px;
 }
+.updateChallengeBtn {
+    padding: 20px 5px;
+    width: 310px;
+}
+.btnContainer :is(button,input[type=submit],input[type=button],[role=button]).outline {
+    width: 300px;
+    margin-bottom: unset;
+}
+
+.updateActions .next-icon {
+    margin-left: unset;
+}
 
 .deleteBtn:hover {
     background-color: var(--danger);

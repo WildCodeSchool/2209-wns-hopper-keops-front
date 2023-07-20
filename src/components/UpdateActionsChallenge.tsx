@@ -62,7 +62,7 @@ const ActionsChallenge = (props: {
   console.log("ACTIONSLIST:", actionsList);
 
   return (
-    <div className="challengeContainer">
+    <div className="challengeContainer updateActions">
       <h2>Modifie les actions de ton challenge</h2>
       {data?.readAllActions.map((action) => (
         <ActionCard
@@ -77,8 +77,9 @@ const ActionsChallenge = (props: {
           onRemove={() => removeAction(action.id)}
         />
       ))}
-
+      <div className="btnContainer">
         <button
+        className="challengeBtn updateChallengeBtn"
           disabled={actionsList.length < 1}
           onClick={() => {
             onSubmitActionsChallenge();
@@ -95,6 +96,7 @@ const ActionsChallenge = (props: {
         >
           <ArrowLeft className="next-icon" /> Annuler
         </button>
+    </div>
     </div>
   );
 };

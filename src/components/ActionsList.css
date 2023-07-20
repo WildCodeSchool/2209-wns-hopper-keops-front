@@ -1,9 +1,3 @@
-.challengeBtn {
-    width: 300px;
-    margin-right: 25px;
-    margin: unset;
-}
-
 .changeActions {
     display: flex;
     justify-content: space-between;
