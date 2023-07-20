@@ -16,7 +16,6 @@ import "../components/ChallengeNavigation.css";
 const ChallengePage = () => {
   const user = useContext(UserContext);
   const { challengeId, view } = useParams();
-
   const [userStatus, setUserStatus] = useState<null | "participant" | "owner">(
     null
   );
@@ -28,6 +27,8 @@ const ChallengePage = () => {
   const [challenge, setChallenge] = useState<
     null | IParticipantChallenge | undefined
   >(undefined);
+
+  const [alert, setAlert] = useState(false);
 
   const { data } = useQuery<{ readOneChallenge: IParticipantChallenge }>(
     readOneChallenge,
@@ -56,10 +57,23 @@ const ChallengePage = () => {
     }
   }, [data, user, userStatus, userToChallengeId]);
 
+  useEffect(() => {
+    if (alert === true) {
+      const timer = setTimeout(() => {
+        setAlert(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alert]);
+
+
   if (challenge === null) {
     return <Navigate to={"/dashboard"} replace={true} />;
   } else if (challenge !== undefined && challenge !== null) {
     return (
+
+              <>
+        <article className="grid">
       <div className="challengePageContainer">
         {view === "infos" ? (
           <>
@@ -67,6 +81,10 @@ const ChallengePage = () => {
               <UpdateChallenge
                 challenge={challenge}
                 toggleEditableMode={() => setEditableMode(false)}
+                toggleEditableModeAndAlert={() => {
+                      setEditableMode(false);
+                      setAlert(true);
+                    }}
               />
             ) : (
               <>
@@ -96,6 +114,10 @@ const ChallengePage = () => {
               <UpdateActionsChallenge
                 challenge={challenge}
                 toggleEditableActionsMode={() => setEditableActionsMode(false)}
+                toggleEditableActionsModeAndAlert={() => {
+                      setEditableActionsMode(false);
+                      setAlert(true);
+                    }}
               />
             )}
           </>
@@ -108,6 +130,13 @@ const ChallengePage = () => {
           <Navigate to={"/dashboard"} replace={true} />
         )}
       </div>
+                </article>
+        {alert && (
+          <article className="alert alert-popup">
+            <p>✅ Les modifications ont bien été enregistrées.</p>
+          </article>
+        )}
+      </>
     );
   } else {
     return <div>Loading...</div>;
