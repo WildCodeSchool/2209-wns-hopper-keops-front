@@ -64,7 +64,9 @@ const UpdateChallenge = (props: {
         defaultValue={new Date(startDate).toISOString().split("T")[0]}
         onChange={(e) => setStartDate(new Date(e.target.value))}
       />
-      <button onClick={saveUpdatedChallenge}>Sauvegarder</button>
+      <button className="challengeBtn" onClick={saveUpdatedChallenge}>
+        Sauvegarder
+      </button>
     </div>
   );
 };
