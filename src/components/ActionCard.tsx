@@ -38,6 +38,7 @@ const ActionCard = ({
 							size={34}
 							className="primary button-icon"
 							onClick={onAdd}
+							data-testid="addActionButton"
 						/>
 					)}
 				</div>
