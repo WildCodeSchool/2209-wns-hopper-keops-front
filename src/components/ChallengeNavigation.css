@@ -7,7 +7,7 @@
 }
 
 .css-8je8zh-MuiTouchRipple-root {
-    border: 1px solid var(--primary) !important;
+    border: 1px solid #006A75 !important;
     border-radius: 10px 10px 0px 0px !important; 
     border-bottom: unset !important;
 }
@@ -18,12 +18,18 @@
 
 .css-cjctlb-MuiButtonBase-root-MuiTab-root {
     padding: 20px 25px !important;
+    font-weight: 600 !important;
+    color: #006A75 !important;
 }
 
-nav [role=button]:focus {
-    color: #d81b60;
-}
 
-nav button:is([aria-current],:active,:focus) {
-    color: #d81b60
+/* Responsive */
+
+@media (max-width: 575.98px) { 
+
+    .css-cjctlb-MuiButtonBase-root-MuiTab-root {
+        padding: 5px 15px !important;
+        font-size: 13px !important;
+        word-break: break-word;
+    }
 }

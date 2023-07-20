@@ -1,10 +1,50 @@
+article {
+  display: flex;
+  justify-content: space-between;
+}
+
 article .infos h3,
 article .infos p {
   margin: 0;
+}
+
+article .infos {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  .logo {
+    font-size: 50px;
+  }
 }
 
 article .actions {
   display: flex;
   justify-content: end;
   align-items: center;
+}
+
+.waiting {
+  background-color: var(--secondary);
+  /* border: solid 3px #FEB272; */
+  border-radius: 10px;
+}
+
+.in-progress {
+  background-color: var(--tertiary);
+  /* border: solid 3px #8540F5; */
+  border-radius: 10px;
+}
+
+.finish {
+  background-color: var(--disabled);
+  /* border: solid 3px #3DD5F3; */
+  border-radius: 10px;
 }

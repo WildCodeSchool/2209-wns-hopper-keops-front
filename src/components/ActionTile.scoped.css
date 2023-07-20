@@ -8,3 +8,9 @@
   row-gap: 2em;
   grid-template-columns: repeat(7, 1fr);
 }
+
+.actionTile article {
+  background-color: var(--infos);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-box-shadow);
+}

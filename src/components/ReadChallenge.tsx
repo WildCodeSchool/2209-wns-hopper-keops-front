@@ -8,8 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
 import { useEffect, useState } from "react";
-import { FaTrash, FaShareAlt, FaPencilAlt, FaClock } from "react-icons/fa";
-
+import { FaShareAlt, FaPencilAlt, FaTrash, FaClock } from "react-icons/fa";
 import "./ReadChallenge.css";
 
 const ReadChallenge = (props: {
@@ -45,34 +44,30 @@ const ReadChallenge = (props: {
     deleteMyChallengeMutation, //{ error: deleteMyChallengeError }
   ] = useMutation(deleteMyChallenge, { refetchQueries: [readMyChallenges] });
 
-  let iconeStyle = { fontSize: "20px", color: "white", margin: "0px 10px" };
+  const { differenceInDays } = require("date-fns");
 
-  // Question à poser à Aurélien
+  let iconeStyle = { fontSize: "20px", color: "white", marginRight: "10px" };
 
   function calculateDaysRemaining() {
     if (challenge && challenge.start_date) {
       const today = new Date();
 
-      if (new Date(challenge.end_date) < today) {
-        return "Ce challenge est terminé.";
-      }
+      console.log(challenge);
 
       const challengeStartDate = challenge.start_date
         ? new Date(challenge.start_date)
         : undefined;
 
       if (challengeStartDate) {
-        // Calcul en millisecondes entre aujourd'hui et la date de début du challenge
-        const timeDiff = challengeStartDate.getTime() - today.getTime();
-        // Calcul du nombre de jours restants (1000 = nombre de millisecondes dans une seconde, 3600 secondes dans une heure)
-        const milisecondInADay = 1000 * 3600 * 24;
-        // Math.ceil arrondi à l'entier supérieur
-        const daysRemaining = Math.ceil(timeDiff / milisecondInADay);
-
-        if (daysRemaining === 0) {
+        const daysRemaining = differenceInDays(challengeStartDate, today);
+        if (!challenge.is_in_progress && daysRemaining >= 0) {
+          const daysRemainingLabel = daysRemaining <= 1 ? 1 : daysRemaining;
+          const day = daysRemainingLabel === 1 ? "jour" : "jours";
+          return `Patience ! Le challenge commence dans ${daysRemainingLabel} ${day}.`;
+        } else if (challenge.is_in_progress && daysRemaining <= 0) {
           return "Le challenge est en cours !";
         } else {
-          return `Patience ! Le challenge commence dans ${daysRemaining} jours`;
+          return "Le challenge est terminé.";
         }
       }
     } else {
@@ -211,20 +206,28 @@ const ReadChallenge = (props: {
     <div className="challengeInfoContainer">
       <section>
         <h2>{challenge.name}</h2>
+        <hr className="separator" />
+        <p className="whenStartGame">
+          <FaClock style={iconeStyle} /> {calculateDaysRemaining()}
+        </p>
+
         <div className="infosPara startDate">
           <p>Date de début :</p>
           <p>{format(new Date(challenge.start_date), "yyyy-MM-dd")}</p>
         </div>
         <div className="infosPara length">
-          <p>Durée :</p>
-          <p>{challenge.length}</p>
+          <p>Durée : </p>
+          <p>
+            {challenge.length === 1
+              ? `${challenge.length} jour`
+              : `${challenge.length} jours`}
+          </p>
         </div>
         <div className="infosPara createdBy">
           <p>Créé par :</p>
           <p>{challenge.createdBy.name}</p>
         </div>
         <hr className="separator" />
-
         <div className="participantsContainer">
           <h4>Participants:</h4>
           <ul>
@@ -237,8 +240,10 @@ const ReadChallenge = (props: {
         </div>
       </section>
 
+      <hr className="separator" />
+
       <div className="btnContainer">
-        <button onClick={shareChallenge} className="challengeBtn">
+        <button className="challengeBtn" onClick={shareChallenge}>
           <FaShareAlt style={iconeStyle} />
           Partager
         </button>
@@ -272,7 +277,7 @@ const ReadChallenge = (props: {
                 Modifier
               </button>
             )}
-            <button onClick={deleteChallenge} className="challengeBtn">
+            <button className="challengeBtn" onClick={deleteChallenge}>
               <FaTrash style={iconeStyle} />
               Supprimer
             </button>
@@ -310,10 +315,6 @@ const ReadChallenge = (props: {
           />
         )}
       </div>
-
-      <hr className="separator" />
-      <FaClock style={iconeStyle} />
-      <p className="whenStartGame">{calculateDaysRemaining()}</p>
     </div>
   );
 };

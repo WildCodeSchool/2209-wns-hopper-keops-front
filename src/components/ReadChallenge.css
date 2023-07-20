@@ -23,6 +23,8 @@
 
 .infosPara p:nth-child(2) {
     margin-left: 10px;
+    font-weight: 600;
+    color: #006A75;
 } 
 
 .challengeInfoContainer section {
@@ -33,13 +35,28 @@
     border-radius: 28px;
 }
 
+.challengeInfoContainer h2 {
+    margin-bottom: 25px;
+}
+
 .whenStartGame {
     text-align: center;
     font-size: 23px;
     color: var(--primary);
     font-weight: 600;
-    margin-top: 30px;
-    text-transform: uppercase;
+    margin: 50px 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.whenStartGame svg {
+    color: unset !important;
+    font-size: 24px !important;
+}
+
+.participantsContainer ul li p {
+    font-weight: 600;
+    color: #006A75;
 }
 
 
