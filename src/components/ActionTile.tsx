@@ -115,9 +115,6 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
       const dateToday = new Date();
       const endDate = addDays(dateToday, props.challenge.length);
       const succesDate = addDays(startDate, i);
-      console.log("Date Today: ", dateToday);
-      console.log("End Date: ", endDate);
-      console.log("Success Date: ", succesDate);
       if (dateToday >= succesDate && dateToday <= endDate) {
         return false;
       } else {
