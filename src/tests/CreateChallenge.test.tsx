@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
 import { gql } from '@apollo/client';
@@ -63,21 +62,29 @@ describe('Initialize Challenge component', () => {
 		const nameField = screen.getByTestId('challengeName');
 		const startDateField = screen.getByTestId('challengeDate');
 		const lengthField = screen.getByTestId('challengeLength');
+		const challengeButton = screen.getByTestId('challengeButton');
 
-		const actionsButton = screen.getByTestId('challengeButton');
-
-		expect(actionsButton).toBeDisabled();
+		expect(challengeButton).toBeDisabled();
 
 		fireEvent.change(nameField, { target: { value: 'Challenge 1' } });
 		fireEvent.change(startDateField, { target: { value: '2023-03-01' } });
 		fireEvent.change(lengthField, { target: { value: 10 } });
 
-		expect(actionsButton).toBeEnabled();
-		fireEvent.click(actionsButton);
+		expect(challengeButton).toBeEnabled();
+		fireEvent.click(challengeButton);
 
 		await waitFor(() => {
 			const actionList = screen.queryAllByTestId('actionCard');
 			expect(actionList).toHaveLength(3);
 		});
+
+		const addActionButtonList = screen.queryAllByTestId('addActionButton');
+		const nextButtonActions = screen.getByTestId('nextButtonActions');
+		expect(nextButtonActions).toBeDisabled();
+		expect(addActionButtonList).toHaveLength(3);
+
+		fireEvent.click(addActionButtonList[0]);
+		expect(nextButtonActions).toBeEnabled();
+		fireEvent.click(nextButtonActions);
 	});
 });

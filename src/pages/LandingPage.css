@@ -69,6 +69,10 @@
     margin-top: 109px;
 }
 
+.css-1uwk1ka-MuiTimelineDot-root {
+    border-color: unset;
+}
+
 .css-1v41xfw-MuiTimelineDot-root, .css-1uwk1ka-MuiTimelineDot-root, .css-7kp53o-MuiTimelineDot-root, .css-v6mo1y-MuiTimelineDot-root {
     background-color: var(--primary) !important;
 }
