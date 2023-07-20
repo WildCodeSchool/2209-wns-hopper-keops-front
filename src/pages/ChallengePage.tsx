@@ -8,10 +8,8 @@ import UpdateChallenge from "../components/UpdateChallenge";
 import ReadChallenge from "../components/ReadChallenge";
 import ActionsList from "../components/ActionsList";
 import UpdateActionsChallenge from "../components/UpdateActionsChallenge";
-import { Link } from "react-router-dom";
 import ChallengeLeaderboardPage from "./ChallengeLeaderboardPage";
 import ChallengeNavigation from "../components/ChallengeNavigation";
-import "../components/ChallengeNavigation.css";
 
 const ChallengePage = () => {
   const user = useContext(UserContext);
@@ -66,71 +64,69 @@ const ChallengePage = () => {
     }
   }, [alert]);
 
-
   if (challenge === null) {
     return <Navigate to={"/dashboard"} replace={true} />;
   } else if (challenge !== undefined && challenge !== null) {
     return (
-
-              <>
-        <article className="grid">
-      <div className="challengePageContainer">
-        {view === "infos" ? (
-          <>
-            {editableMode ? (
-              <UpdateChallenge
-                challenge={challenge}
-                toggleEditableMode={() => setEditableMode(false)}
-                toggleEditableModeAndAlert={() => {
-                      setEditableMode(false);
-                      setAlert(true);
-                    }}
-              />
-            ) : (
-              <>
-                <ChallengeNavigation />
-                <ReadChallenge
+      <>
+        <article>
+          {!editableMode && !editableActionsMode && <ChallengeNavigation />}
+          {view === "infos" ? (
+            <>
+              {editableMode ? (
+                <UpdateChallenge
                   challenge={challenge}
-                  userToChallengeId={Number(userToChallengeId)}
-                  toggleUserStatus={setUserStatus}
-                  toggleEditableMode={setEditableMode}
-                  userStatus={userStatus}
+                  toggleEditableMode={() => setEditableMode(false)}
+                  toggleEditableModeAndAlert={() => {
+                    setEditableMode(false);
+                    setAlert(true);
+                  }}
                 />
-              </>
-            )}
-          </>
-        ) : view === "tasks" ? (
-          <>
-            {editableActionsMode === false ? (
-              <>
-                <ChallengeNavigation />
-                <ActionsList
+              ) : (
+                <>
+                  <ReadChallenge
+                    challenge={challenge}
+                    userToChallengeId={Number(userToChallengeId)}
+                    toggleUserStatus={setUserStatus}
+                    toggleEditableMode={setEditableMode}
+                    userStatus={userStatus}
+                  />
+                </>
+              )}
+            </>
+          ) : view === "tasks" ? (
+            <>
+              {editableActionsMode === false ? (
+                <>
+                  <ActionsList
+                    challenge={challenge}
+                    userStatus={userStatus}
+                    toggleEditableActionsMode={() =>
+                      setEditableActionsMode(true)
+                    }
+                  />
+                </>
+              ) : (
+                <UpdateActionsChallenge
                   challenge={challenge}
-                  userStatus={userStatus}
-                  toggleEditableActionsMode={() => setEditableActionsMode(true)}
+                  toggleEditableActionsMode={() =>
+                    setEditableActionsMode(false)
+                  }
+                  toggleEditableActionsModeAndAlert={() => {
+                    setEditableActionsMode(false);
+                    setAlert(true);
+                  }}
                 />
-              </>
-            ) : (
-              <UpdateActionsChallenge
-                challenge={challenge}
-                toggleEditableActionsMode={() => setEditableActionsMode(false)}
-                toggleEditableActionsModeAndAlert={() => {
-                      setEditableActionsMode(false);
-                      setAlert(true);
-                    }}
-              />
-            )}
-          </>
-        ) : view === "leaderboard" ? (
-          <>
-            <ChallengeNavigation />
-            <ChallengeLeaderboardPage />
-          </>
-        ) : (
-          <Navigate to={"/dashboard"} replace={true} />
-        )}
-      </div>
-                </article>
+              )}
+            </>
+          ) : view === "leaderboard" ? (
+            <>
+              <ChallengeLeaderboardPage />
+            </>
+          ) : (
+            <Navigate to={"/dashboard"} replace={true} />
+          )}
+        </article>
         {alert && (
           <article className="alert alert-popup">
             <p>✅ Les modifications ont bien été enregistrées.</p>

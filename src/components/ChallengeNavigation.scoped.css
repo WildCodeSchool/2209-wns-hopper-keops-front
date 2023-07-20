@@ -1,0 +1,41 @@
+@import "../styles/colors.css";
+
+.navigation {
+  display: flex;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--primary);
+}
+
+.link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border: 2px solid var(--primary);
+  border-bottom: none;
+  border-radius: 10px 10px 0px 0px;
+  padding: 10px 25px;
+  text-transform: uppercase;
+}
+
+.link:focus {
+  background-color: var(--primary);
+  color: var(--primary-inverse);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: none;
+}
+
+@media screen and (max-width: 800px) {
+  .link {
+    width: 100%;
+  }
+  .icone-navigation {
+    display: inline-block;
+  }
+  .text-navigation {
+    display: none;
+  }
+}

@@ -5,7 +5,6 @@ import { IAction } from "../interfaces/IAction";
 import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
 import { useState } from "react";
 import { IParticipantChallenge } from "../interfaces/IChallenge";
-import { readMyChallenges } from "../graphql/readMyChallenges";
 import { readOneChallenge } from "../graphql/readOneChallenge";
 import { updateActionToChallenge } from "../graphql/updateActionToCHallenge";
 

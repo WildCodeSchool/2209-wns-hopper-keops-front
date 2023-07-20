@@ -156,15 +156,13 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
   return (
     <li key={props.action.id} className="actionTile">
       <article className="action-card">
-        <div className="grid">
-          <details>
-            <summary>
-              <h2>{props.action.title}</h2>
-            </summary>
-            <p>{props.action.description}</p>
-            <div className="cards-wrapper">{checkboxes}</div>
-          </details>
-        </div>
+        <details>
+          <summary>
+            <h2>{props.action.title}</h2>
+          </summary>
+          <p>{props.action.description}</p>
+          <div className="cards-wrapper">{checkboxes}</div>
+        </details>
       </article>
     </li>
   );

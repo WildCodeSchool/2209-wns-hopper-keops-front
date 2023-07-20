@@ -27,6 +27,7 @@ const SuccefullCreateChallenge = () => {
     if (alert === true) {
       const timer = setTimeout(() => {
         setAlert(false);
+        setIsCopied(false);
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -67,7 +68,7 @@ const SuccefullCreateChallenge = () => {
       <div className="container-button-alone">
         <Link
           to={`/challenges/${challengeData.id}`}
-          className="nextBtn outline"
+          className="nextBtn"
           role="button"
         >
           Voir le challenge <ArrowRight className="next-icon" />

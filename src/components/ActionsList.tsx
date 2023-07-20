@@ -1,7 +1,7 @@
 import { IChallenge } from "../interfaces/IChallenge";
 import { IAction } from "../interfaces/IAction";
 import ActionTile from "./ActionTile";
-import "./ActionsList.css";
+import "./ActionsList.scoped.css";
 import { FaPencilAlt } from "react-icons/fa";
 
 const ActionsList = (props: {
@@ -9,20 +9,18 @@ const ActionsList = (props: {
   userStatus?: null | "participant" | "owner";
   toggleEditableActionsMode?: () => void;
 }) => {
-  let iconeStyle = { fontSize: "20px", color: "white", marginRight: "10px" };
-
   return (
     <div>
       <section className="changeActions">
-        <h4>Mes éco-gestes</h4>
+        <h2>Mes éco-gestes</h2>
         {props.userStatus === "owner" &&
           props.challenge.is_in_progress === false && (
             <button
               className="challengeBtn"
               onClick={props.toggleEditableActionsMode}
             >
-              <FaPencilAlt style={iconeStyle} />
-              Modifier
+              <FaPencilAlt className="icone-btn" />
+              <span className="text-btn">Modifier</span>
             </button>
           )}
       </section>
