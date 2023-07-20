@@ -1,0 +1,14 @@
+.rankingPage table {
+    padding: 30px 38px;
+    background: var(--card-background-color);
+    box-shadow: var(--card-box-shadow);
+    border-radius: 28px;
+}
+
+.rankingPage table thead th {
+    padding: 40px;
+}
+
+.rankingPage :not(thead,tfoot)>*>td {
+    padding: 40px;
+}
