@@ -51,7 +51,7 @@ setChallengeNavigation: (navigation: string) => void;
 			))}
 			<div className="container-button-multiple">
 				<button
-					className="nextBtn button-inline"
+					className="nextBtn button-inline outline"
 					onClick={() => {
 						handleSubmit(actionsList);
 						setChallengeNavigation('initialize');

@@ -74,7 +74,7 @@ const SubmitChallenge = (props: IProps) => {
       </section>
       <div className="container-button-multiple">
         <button
-          className="nextBtn button-inline"
+          className="nextBtn button-inline outline"
           onClick={() => props.setChallengeNavigation("actions")}
         >
           <ArrowLeft className="previous-icon" /> Précédent

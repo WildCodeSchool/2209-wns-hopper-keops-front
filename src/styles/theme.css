@@ -1,57 +1,5 @@
 @import "./alert.css";
-
-/* Teal Light scheme (Default) */
-/* Can be forced with data-theme="light" */
-[data-theme="light"],
-:root:not([data-theme="dark"]) {
-  --primary: #25995C;
-  --primary-hover: #1f814d;
-  --primary-focus: rgba(0, 137, 123, 0.125);
-  --primary-inverse: #fff;
-  --secondary: #09A66D;
-  --tertiary: #49CB5C;
-  --disabled: #e0e0e0;
-  --danger: #d81b60;
-  --danger-hover: #c2185b;
-  --danger-focus: rgba(216, 27, 96, 0.125);
-  --infos: #dbebe9;
-}
-
-/* Teal Dark scheme (Auto) */
-/* Automatically enabled if user has Dark mode enabled */
-@media only screen and (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --primary: #00897b;
-    --primary-hover: #009688;
-    --primary-focus: rgba(0, 137, 123, 0.25);
-    --primary-inverse: #fff;
-    --danger: #d81b60;
-    --danger-hover: #c2185b;
-    --danger-focus: rgba(216, 27, 96, 0.125);
-    --infos: #dbebe9;
-  }
-}
-
-/* Teal Dark scheme (Forced) */
-/* Enabled if forced with data-theme="dark" */
-[data-theme="dark"] {
-  --primary: #00897b;
-  --primary-hover: #009688;
-  --primary-focus: rgba(0, 137, 123, 0.25);
-  --primary-inverse: #fff;
-  --danger: #d81b60;
-  --danger-hover: #c2185b;
-  --danger-focus: rgba(216, 27, 96, 0.125);
-  --infos: #dbebe9;
-}
-
-/* Teal (Common styles) */
-:root {
-  --form-element-active-border-color: var(--primary);
-  --form-element-focus-color: var(--primary-focus);
-  --switch-color: var(--primary-inverse);
-  --switch-checked-background-color: var(--primary);
-}
+@import "./colors.css";
 
 body {
   margin: 0;
@@ -103,6 +51,11 @@ hr {
   cursor: pointer;
 }
 
+button.close {
+  background-color: transparent;
+  border: none;
+}
+
 button.danger {
   background-color: var(--danger);
   border-color: var(--danger);
@@ -122,16 +75,6 @@ button.danger:hover {
 .container-button-multiple {
   display: flex;
   justify-content: space-between;
-}
-
-@media screen and (max-width: 992px) {
-  .button-inline {
-    width: 100%;
-  }
-  .container-button-multiple {
-    flex-direction: column-reverse;
-    gap: 1rem;
-  }
 }
 
 .previous-icon {
@@ -160,10 +103,6 @@ article.selected {
   list-style-type: none;
 }
 
-.action-card {
-  width: 80%;
-}
-
 article.info {
   background-color: #d9ecfa;
   box-shadow: none;
@@ -175,4 +114,31 @@ article.yellow {
   right: 2%;
   width: fit-content;
   background-color: rgb(245, 240, 197);
+}
+
+dialog h3,
+dialog p {
+  margin: 0;
+}
+
+dialog footer {
+  margin-top: 2rem;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 992px) {
+  .button-inline {
+    width: 100%;
+  }
+  .container-button-multiple {
+    flex-direction: column-reverse;
+    gap: 1rem;
+  }
+  .icone-btn {
+    display: inline-block;
+  }
+  .text-btn {
+    display: none;
+  }
 }

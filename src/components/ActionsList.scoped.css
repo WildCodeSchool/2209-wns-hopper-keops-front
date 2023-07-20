@@ -1,0 +1,44 @@
+.challengeBtn {
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  gap: 1rem;
+}
+
+.changeActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 45px;
+}
+
+.changeActions h4 {
+  display: block;
+  margin-bottom: unset;
+}
+
+details summary {
+  position: relative;
+}
+
+details summary::after {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+details summary h6 {
+  font-size: 23px;
+}
+
+ul {
+  padding: 0;
+}
+
+@media screen and (max-width: 992px) {
+  .challengeBtn {
+    width: fit-content;
+  }
+}

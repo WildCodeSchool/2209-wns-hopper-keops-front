@@ -10,8 +10,7 @@ import { format } from "date-fns";
 import { IUser } from "../interfaces/IUser";
 import { useEffect, useState } from "react";
 import { FaShareAlt, FaPencilAlt, FaTrash, FaClock } from "react-icons/fa";
-import "./ReadChallenge.css";
-
+import { BiSolidGame, BiSolidGhost } from "react-icons/bi";
 
 const ReadChallenge = (props: {
   challenge: IParticipantChallenge;
@@ -63,7 +62,6 @@ const ReadChallenge = (props: {
         : undefined;
 
       if (challengeStartDate) {
-
         const daysRemaining = differenceInDays(challengeStartDate, today);
         if (!challenge.is_in_progress && daysRemaining >= 0) {
           const daysRemainingLabel = daysRemaining <= 1 ? 1 : daysRemaining;
@@ -165,13 +163,19 @@ const ReadChallenge = (props: {
     return (
       <dialog open>
         <article className="dialog">
+          <button
+            aria-label="Close"
+            className="close"
+            data-target="modal-example"
+            onClick={props.onCancel}
+          />
+          <h3>Attention !</h3>
           <p>{props.message}</p>
-          <div className="dialog-buttons">
-            <button onClick={props.onCancel} className="secondary">
-              Annuler
+          <footer className="dialog-buttons">
+            <button onClick={props.onConfirm} className="danger">
+              Confirmer
             </button>
-            <button onClick={props.onConfirm}>Confirmer</button>
-          </div>
+          </footer>
         </article>
       </dialog>
     );
@@ -248,9 +252,9 @@ const ReadChallenge = (props: {
       <hr className="separator" />
 
       <div className="btnContainer">
-        <button className="challengeBtn" onClick={shareChallenge}>
-          <FaShareAlt style={iconeStyle} />
-          Partager
+        <button className="challengeBtn outline" onClick={shareChallenge}>
+          <FaShareAlt className="icone-btn" />
+          <span className="text-btn">Partager</span>
         </button>
         {isCopied && (
           <article className="alert alert-popup">
@@ -268,7 +272,10 @@ const ReadChallenge = (props: {
         )}
 
         {userStatus === null ? (
-          <button onClick={participateToChallenge}>Je participe !</button>
+          <button className="challengeBtn" onClick={participateToChallenge}>
+            <BiSolidGame className="icone-btn" />
+            <span className="text-btn">Je participe !</span>
+          </button>
         ) : userStatus === "owner" ? (
           <>
             {props.challenge.is_in_progress === false && (
@@ -278,18 +285,21 @@ const ReadChallenge = (props: {
                   props.toggleEditableMode(true);
                 }}
               >
-                <FaPencilAlt style={iconeStyle} />
-                Modifier
+                <FaPencilAlt className="icone-btn" />
+                <span className="text-btn">Modifier</span>
               </button>
             )}
-            <button className="challengeBtn" onClick={deleteChallenge}>
-              <FaTrash style={iconeStyle} />
-              Supprimer
+            <button className="challengeBtn danger" onClick={deleteChallenge}>
+              <FaTrash className="icone-btn" />
+              <span className="text-btn">Supprimer</span>
             </button>
           </>
         ) : (
           <>
-            <button onClick={quitChallenge}>Quitter le challenge</button>
+            <button className="challengeBtn danger" onClick={quitChallenge}>
+              <BiSolidGhost className="icone-btn" />
+              <span className="text-btn">Quitter le challenge</span>
+            </button>
             {showQuitNotification && (
               <article className="yellow alert-popup">
                 <p>
