@@ -33,3 +33,25 @@
     font-weight: 700;
     font-size: 28px;
 }
+
+@media (max-width: 991.98px) {
+
+    .rankingPage table {
+    padding: unset;
+    background: unset; 
+    box-shadow: unset;
+    border-radius: unset;
+    }
+
+    .rankingPage table thead th, .rankingPage :not(thead,tfoot)>*>td {
+        padding: 5px;
+    }
+
+    .rankingPage table thead th {
+        font-size: 21px;
+    }
+
+    .rankingPage :not(thead,tfoot)>*>td, .rankingPage table tbody tr td:nth-child(3), .rankingPage span {
+        font-size: 20px;
+    }
+}
