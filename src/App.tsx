@@ -45,7 +45,7 @@ function App() {
                     />
                     <Route
                       path="/challenges/:challengeId"
-                      element={<Navigate to="./infos" />}
+                      element={<Navigate to="./infos" replace={true} />}
                     />
                     <Route path="*" element={<Navigate to="/dashboard" />} />
                   </>

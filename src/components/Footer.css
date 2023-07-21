@@ -11,7 +11,6 @@
 }
 .footer section {
   margin: 20px 0;
-  padding: 45px;
 }
 .firstBlock {
   display: flex;
@@ -20,6 +19,7 @@
 .firstBlock a,
 .firstBlock p {
   padding: 5px;
+  margin: 0;
 }
 .sociaIconsContainer a {
   padding-right: 25px;

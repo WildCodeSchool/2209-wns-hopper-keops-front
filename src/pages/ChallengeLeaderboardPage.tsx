@@ -24,7 +24,8 @@ const ChallengeLeaderboardPage = () => {
 
   const userToChallenges: IUserToChallenge[] = useMemo(() => {
     if (data) {
-      return data.readChallengeLeaderboard;
+      const dataSorted: IUserToChallenge[] = [...data.readChallengeLeaderboard];
+      return dataSorted.sort((a, b) => b.challengeScore - a.challengeScore);
     } else {
       return [];
     }
@@ -41,9 +42,6 @@ const ChallengeLeaderboardPage = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-  // Sort the userToChallenges array by challengeScore in descending order
-  userToChallenges.sort((a, b) => b.challengeScore - a.challengeScore);
 
   return (
     <div className="rankingPage">

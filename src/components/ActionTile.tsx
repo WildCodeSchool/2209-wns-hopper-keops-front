@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import { IAction } from "../interfaces/IAction";
 import { IChallenge } from "../interfaces/IChallenge";
@@ -114,7 +113,7 @@ const ActionTile = (props: { action: IAction; challenge: IChallenge }) => {
 
     function isDisabled(i: number): boolean {
       const dateToday = new Date();
-      const endDate = addDays(dateToday, props.challenge.length);
+      const endDate = addDays(startDate, props.challenge.length);
       const succesDate = addDays(startDate, i);
       if (dateToday >= succesDate && dateToday <= endDate) {
         return false;
