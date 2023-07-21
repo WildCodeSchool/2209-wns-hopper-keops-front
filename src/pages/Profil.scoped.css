@@ -1,0 +1,33 @@
+button {
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-container-multiple {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+  button .button-container-multiple {
+    width: fit-content;
+    padding-right: 3rem;
+    padding-left: 3rem;
+  }
+  .button-container button {
+    max-width: 100%;
+  }
+  .button-container {
+    justify-content: center;
+  }
+}
