@@ -278,17 +278,18 @@ const ReadChallenge = (props: {
           </button>
         ) : userStatus === "owner" ? (
           <>
-            {props.challenge.is_in_progress === false && (
-              <button
-                className="challengeBtn"
-                onClick={() => {
-                  props.toggleEditableMode(true);
-                }}
-              >
-                <FaPencilAlt className="icone-btn" />
-                <span className="text-btn">Modifier</span>
-              </button>
-            )}
+            {props.challenge.is_in_progress === false &&
+              new Date() < new Date(props.challenge.start_date) && (
+                <button
+                  className="challengeBtn"
+                  onClick={() => {
+                    props.toggleEditableMode(true);
+                  }}
+                >
+                  <FaPencilAlt className="icone-btn" />
+                  <span className="text-btn">Modifier</span>
+                </button>
+              )}
             <button className="challengeBtn danger" onClick={deleteChallenge}>
               <FaTrash className="icone-btn" />
               <span className="text-btn">Supprimer</span>

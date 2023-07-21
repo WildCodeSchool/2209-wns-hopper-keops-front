@@ -1,10 +1,32 @@
-import { Link } from "react-router-dom";
-import React from "react";
+import { Link, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import "./ChallengeNavigation.scoped.css";
 import { FaLeaf, FaSeedling } from "react-icons/fa";
 import { PiTreeFill } from "react-icons/pi";
 
 const ChallengeNavigation = () => {
+  const params = useParams();
+
+  useEffect(() => {
+    const links = document.querySelectorAll(".link");
+    switch (params.view) {
+      case "infos":
+        let linkOne = links[0] as HTMLElement;
+        linkOne.focus();
+        break;
+      case "tasks":
+        let linkTwo = links[1] as HTMLElement;
+        linkTwo.focus();
+        break;
+      case "leaderboard":
+        let linkThree = links[2] as HTMLElement;
+        linkThree.focus();
+        break;
+      default:
+        break;
+    }
+  }, [params]);
+
   return (
     <div className="navigation">
       <Link to="../infos" relative="path" className="link">

@@ -14,7 +14,8 @@ const ActionsList = (props: {
       <section className="changeActions">
         <h2>Mes éco-gestes</h2>
         {props.userStatus === "owner" &&
-          props.challenge.is_in_progress === false && (
+          props.challenge.is_in_progress === false &&
+          new Date() < new Date(props.challenge.start_date) && (
             <button
               className="challengeBtn"
               onClick={props.toggleEditableActionsMode}
