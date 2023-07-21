@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IChallenge } from "../interfaces/IChallenge";
 import { useMutation } from "@apollo/client";
 import { updateChallenge } from "../graphql/updateChallenge";
@@ -11,7 +11,6 @@ const UpdateChallenge = (props: {
   toggleEditableMode: () => void;
   toggleEditableModeAndAlert: () => void;
 }) => {
-  const [challenge, setChallenge] = useState(props.challenge);
   const [name, setName] = useState(props.challenge.name);
   const [length, setLength] = useState(props.challenge.length);
   const [startDate, setStartDate] = useState(props.challenge.start_date);
@@ -26,11 +25,11 @@ const UpdateChallenge = (props: {
     try {
       await updateChallengeMutation({
         variables: {
-          challengeId: challenge.id,
+          challengeId: props.challenge.id,
           data: {
-            name: challenge.name,
-            length: Number(challenge.length),
-            start_date: challenge.start_date,
+            name: name,
+            length: Number(length),
+            start_date: startDate,
           },
         },
       });
@@ -41,30 +40,26 @@ const UpdateChallenge = (props: {
     }
   }
 
-  useEffect(() => {
-    setChallenge({ ...challenge, name, length, start_date: startDate });
-  }, [challenge, name, length, startDate]);
-
   return (
     <div>
-      Name:{" "}
+      Nom du challenge :{" "}
       <input
         type="text"
         defaultValue={name}
         onChange={(e) => setName(e.target.value)}
       />
-      Length:{" "}
-      <input
-        type="text"
-        defaultValue={length}
-        onChange={(e) => setLength(Number(e.target.value))}
-      />
-      Start date:{" "}
+      Date de début :{" "}
       {/* to define date maybe use format js library, not toISOSString() */}
       <input
         type="date"
         defaultValue={new Date(startDate).toISOString().split("T")[0]}
         onChange={(e) => setStartDate(new Date(e.target.value))}
+      />
+      Durée prévue en jours :{" "}
+      <input
+        type="text"
+        defaultValue={length}
+        onChange={(e) => setLength(Number(e.target.value))}
       />
       <div className="btnContainer">
         <button className="challengeBtn" onClick={saveUpdatedChallenge}>
