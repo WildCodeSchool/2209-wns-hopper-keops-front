@@ -4,7 +4,19 @@
 
 body {
   margin: 0;
-  /* margin-bottom: 4rem; */
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
 }
 
 .brand:focus {

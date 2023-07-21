@@ -12,9 +12,7 @@ import Signup from "./pages/Signup";
 import ChallengePage from "./pages/ChallengePage";
 import Header from "./components/Header";
 import Profil from "./pages/Profil";
-import ChallengeLeaderboardPage from "./pages/ChallengeLeaderboardPage";
 import Footer from "./components/Footer";
-
 
 function App() {
   const user = useContext(UserContext);
@@ -24,7 +22,9 @@ function App() {
     <>
       <Header />
       {user === undefined ? (
-        <p>Loading...</p>
+        <article aria-busy="true" className="container-loading">
+          Chargement...
+        </article>
       ) : (
         <>
           <div className="container">
@@ -62,7 +62,6 @@ function App() {
         </>
       )}
       <Footer />
-
     </>
   );
 }

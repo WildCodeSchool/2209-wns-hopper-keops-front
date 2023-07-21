@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client";
 import { readChallengeLeaderboard } from "../graphql/readChallengeLeaderboard";
 import { IUserToChallenge } from "../interfaces/IUserToChallenge";
 import { useParams } from "react-router-dom";
-import './ChallengeLeaderboardPage.css';
+import "./ChallengeLeaderboardPage.css";
 
 const trophyEmoji = "🏆";
 const medalEmoji = "🏅";
@@ -15,9 +15,12 @@ interface ChallengeLeaderboardData {
 
 const ChallengeLeaderboardPage = () => {
   const { challengeId } = useParams<{ challengeId: string }>();
-  const { loading, error, data } = useQuery<ChallengeLeaderboardData>(readChallengeLeaderboard, {
-    variables: { challengeId },
-  });
+  const { loading, error, data } = useQuery<ChallengeLeaderboardData>(
+    readChallengeLeaderboard,
+    {
+      variables: { challengeId },
+    }
+  );
 
   const userToChallenges: IUserToChallenge[] = useMemo(() => {
     if (data) {
@@ -28,7 +31,11 @@ const ChallengeLeaderboardPage = () => {
   }, [data]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <article aria-busy="true" className="container-loading">
+        Chargement...
+      </article>
+    );
   }
 
   if (error) {
@@ -52,10 +59,10 @@ const ChallengeLeaderboardPage = () => {
           </thead>
           <tbody>
             {userToChallenges.map((userToChallenge, index) => (
-              <tr key={userToChallenge.user?.id}>
+              <tr key={userToChallenge.user && userToChallenge.user.id}>
                 <td>
                   {index === 0 ? (
-                    <span className="rank-icon">{trophyEmoji}</span> 
+                    <span className="rank-icon">{trophyEmoji}</span>
                   ) : index === 1 ? (
                     <span className="rank-icon">{medalEmoji}</span>
                   ) : index === 2 ? (
@@ -64,7 +71,7 @@ const ChallengeLeaderboardPage = () => {
                     <span>{index + 1}</span>
                   )}
                 </td>
-                <td>{userToChallenge.user?.name}</td>
+                <td>{userToChallenge.user && userToChallenge.user.name}</td>
                 <td>{userToChallenge.challengeScore}</td>
               </tr>
             ))}

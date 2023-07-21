@@ -1,40 +1,41 @@
 .footer {
-    background-color: var(--primary);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin-top: 200px;
+  background-color: var(--primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: auto;
 }
-.footer a, .footer p {
-    color: white;
+.footer a,
+.footer p {
+  color: white;
 }
 .footer section {
-    margin: 20px 0;
-    padding: 45px;
+  margin: 20px 0;
+  padding: 45px;
 }
 .firstBlock {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-.firstBlock a, .firstBlock p {
-    padding: 5px;
+.firstBlock a,
+.firstBlock p {
+  padding: 5px;
 }
 .sociaIconsContainer a {
-    padding-right: 25px;
+  padding-right: 25px;
 }
 
 /* Responsive design */
 
 /* Large devices (desktops, less than 1200px) */
 @media (max-width: 767px) {
-
-    .footer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-    }
-    .footer section {
-        padding: unset;
-        text-align: center;
-    }
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer section {
+    padding: unset;
+    text-align: center;
+  }
 }

@@ -135,7 +135,11 @@ const ChallengePage = () => {
       </>
     );
   } else {
-    return <div>Loading...</div>;
+    return (
+      <article aria-busy="true" className="container-loading">
+        Chargement...
+      </article>
+    );
   }
 };
 
