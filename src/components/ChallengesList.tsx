@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import { IChallenge } from "../interfaces/IChallenge";
 import { readMyChallenges } from "../graphql/readMyChallenges";
 import ChallengeCard from "./ChallengeCard";
+import "./ChallengesList.scoped.css"
 
 const ChallengesList = () => {
   const { data } = useQuery<{ readMyChallenges: IChallenge[] }>(
@@ -33,7 +34,7 @@ const filteredChallenges = filtredAndSortChallenges(data?.readMyChallenges || []
 console.log(data?.readMyChallenges)
 
   return (
-    <div>
+    <div className="container">
       <h2 className="title">Mes challenges</h2>
       <div className="list">
         {filteredChallenges.map((challenge) => (
