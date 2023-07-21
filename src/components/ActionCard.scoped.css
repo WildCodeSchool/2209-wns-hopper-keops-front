@@ -1,0 +1,29 @@
+article {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+details {
+  width: 90%;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+details p,
+details h2 {
+  margin: 0;
+}
+
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 992px) {
+  details {
+    width: 80%;
+  }
+}

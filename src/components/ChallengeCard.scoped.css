@@ -1,0 +1,87 @@
+article {
+  display: flex;
+  justify-content: space-between;
+}
+
+article .infos h3,
+article .infos p {
+  margin: 0;
+}
+
+article .infos {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  .logo {
+    font-size: 50px;
+  }
+}
+
+article .actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.waiting {
+  background-color: var(--secondary);
+  /* border: solid 3px #FEB272; */
+  border-radius: 10px;
+}
+
+.in-progress {
+  background-color: var(--tertiary);
+  /* border: solid 3px #8540F5; */
+  border-radius: 10px;
+}
+
+.finish {
+  background-color: var(--disabled);
+  /* border: solid 3px #3DD5F3; */
+  border-radius: 10px;
+}
+
+.grid {
+  border-radius: 10px;
+}
+
+.description {
+  color: rgb(64, 64, 64);
+}
+
+.cardWrapper {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.cardContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardContainer::after {
+  content: '';
+  height: 0px;
+  transition: height 0.1s ease-out;
+  transition-delay: 0.1s;
+}
+
+.cardContainer:hover:after {
+  content: '';
+  height: 10px;
+}
+
+.cardContainer:hover .grid {
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}

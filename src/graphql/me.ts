@@ -5,6 +5,8 @@ export const me = gql`
     me {
       id
       email
+      name
+      score
     }
   }
 `;

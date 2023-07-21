@@ -1,74 +1,98 @@
-import { useMutation } from '@apollo/client';
-import React, { useContext } from 'react';
-import { ChallengeContext } from '../context/CreateChallengeProvider';
-import { createChallenge } from '../graphql/createChallenge';
-import { IAction } from '../interfaces/IAction';
-import { SubmitChallengeProps } from '../interfaces/IChallenge';
+import { useMutation } from "@apollo/client";
+import React, { useContext } from "react";
+import { ChallengeContext } from "../context/CreateChallengeProvider";
+import { createChallenge } from "../graphql/createChallenge";
+import { readMyChallenges } from "../graphql/readMyChallenges";
+import { format, isValid } from "date-fns";
+import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
+import "./SubmitChallenge.scoped.css";
 
-interface IChallengeData {
-	name: string;
-	startDate: string;
-	length: number;
-	start_date: Date;
-	actions: IAction;
-}
+type IProps = {
+  setChallengeNavigation: (navigation: string) => void;
+};
 
-const SubmitChallenge = (props: SubmitChallengeProps) => {
-	const dataChallenge = useContext(ChallengeContext);
-	console.log(
-		'this is challenge contexte bis :',
-		dataChallenge.challengeData.length,
-	);
-	console.log('this is action list', props.actionsList);
+const SubmitChallenge = (props: IProps) => {
+  const { challengeData, setChallengeData } = useContext(ChallengeContext);
 
-	const challengeDataArray = [dataChallenge.challengeData];
+  const [createChallengeMutation, { error }] = useMutation(createChallenge, {
+    refetchQueries: [readMyChallenges],
+  });
 
-	const [createChallengeMutation, { error }] = useMutation(createChallenge);
+  async function onSubmit(event: { preventDefault: () => void }) {
+    event.preventDefault();
 
-	console.log(typeof dataChallenge.challengeData.length);
+    try {
+      const actionIds = challengeData.actions.map((action) => ({
+        id: action.id,
+      }));
 
-	async function onSubmit(event: { preventDefault: () => void }) {
-		event.preventDefault();
+      const { data } = await createChallengeMutation({
+        variables: {
+          data: {
+            actions: actionIds,
+            name: challengeData.name,
+            length: Number(challengeData.length),
+            start_date: challengeData.start_date,
+          },
+        },
+      });
 
-		try {
-			const actionIds = props.actionsList.map(action => ({ id: action.id }));
+      challengeData.id = data.createChallenge.id;
+      setChallengeData({ ...challengeData });
+      props.setChallengeNavigation("successfull");
+    } catch {
+      console.log(error);
+    }
+  }
 
-			await createChallengeMutation({
-				variables: {
-					data: {
-						actions: actionIds,
-						name: dataChallenge?.challengeData.name,
-						length: Number(dataChallenge.challengeData.length),
-						start_date: dataChallenge?.challengeData.startDate,
-					},
-				},
-			});
-		} catch {
-			console.log(error);
-		}
-	}
-
-	return (
-		<div>
-			<ul>
-				{challengeDataArray.map((challenge: IChallengeData) => (
-					<>
-						<li>Nom : {challenge.name}</li>
-						<li>Date de début : {challenge.startDate}</li>
-						<li>Durée du challenge : {challenge.length}</li>
-					</>
-				))}
-			</ul>
-			<ul>
-				{props.actionsList.map(action => (
-					<li>{action.title}</li>
-				))}
-			</ul>
-			<button type="submit" onClick={onSubmit}>
-				Créer
-			</button>
-		</div>
-	);
+  return (
+    <article>
+      <h1>Récapitulatif</h1>
+      <section>
+        <details open>
+          <summary>
+            <b>Infos générale</b>
+          </summary>
+          <ul>
+            <li>Nom : {challengeData.name}</li>
+            <li>
+              Commencera le :{" "}
+              {isValid(challengeData.start_date)
+                ? format(challengeData.start_date, "yyyy/MM/dd")
+                : "Invalid Date"}
+            </li>
+            <li>Durera : {challengeData.length} jour(s)</li>
+          </ul>
+        </details>
+        <details open>
+          <summary>
+            <b>Liste des actions</b>
+          </summary>
+          <ul>
+            {challengeData.actions.map((action) => (
+              <li key={action.id}>{action.title}</li>
+            ))}
+          </ul>
+        </details>
+      </section>
+      <div className="container-button-multiple">
+        <button
+          className="nextBtn button-inline outline"
+          onClick={() => props.setChallengeNavigation("actions")}
+        >
+          <ArrowLeft className="previous-icon" /> Précédent
+        </button>
+        <button
+          data-testid="buttonCreateChallenge"
+          className="nextBtn button-inline"
+          type="submit"
+          onClick={onSubmit}
+        >
+          Créer <ArrowRight className="next-icon" />
+        </button>
+      </div>
+    </article>
+  );
 };
 
 export default SubmitChallenge;

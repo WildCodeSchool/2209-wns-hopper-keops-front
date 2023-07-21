@@ -1,0 +1,12 @@
+name: test-ci
+
+on: push
+
+jobs:
+  front-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Goto src and run tests
+        run: cd src && npm i --legacy-peer-deps && npm test

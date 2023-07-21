@@ -1,0 +1,21 @@
+.rotate {
+  animation: rotate 40s normal linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  25% {
+    transform: rotate3d(0, 0, 1, 90deg);
+  }
+  50% {
+    transform: rotate3d(0, 0, 1, 180deg);
+  }
+  75% {
+    transform: rotate3d(0, 0, 1, 270deg);
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, 360deg);
+  }
+}

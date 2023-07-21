@@ -1,0 +1,29 @@
+.hero {
+  margin: 3rem 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.createChallenge {
+  width: 400px;
+}
+
+.scoreData {
+  margin: 0 5px;
+}
+
+.score {
+  height: 0px;
+  width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 992px) {
+  .hero {
+    flex-direction: column-reverse;
+    margin-bottom: 2rem;
+  }
+}

@@ -1,0 +1,63 @@
+.remaining-time-div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.btnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.challengeBtn {
+  max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.infosPara {
+  display: flex;
+  align-items: center;
+}
+
+.infosPara p:nth-child(2) {
+  margin-left: 10px;
+  font-weight: 600;
+  color: #006a75;
+}
+
+.challengeInfoContainer section {
+  padding: 30px 38px;
+  background: var(--card-background-color);
+  box-shadow: var(--card-box-shadow);
+  border-radius: 28px;
+}
+
+.challengeInfoContainer h2 {
+  margin-bottom: 25px;
+}
+
+.whenStartGame {
+  text-align: center;
+  font-size: 23px;
+  color: var(--primary);
+  font-weight: 600;
+  margin: 50px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.whenStartGame svg {
+  color: unset !important;
+  font-size: 24px !important;
+}
+
+.participantsContainer ul li p {
+  font-weight: 600;
+  color: #006a75;
+}

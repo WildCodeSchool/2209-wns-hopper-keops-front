@@ -1,6 +1,5 @@
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
 import {
@@ -12,9 +11,21 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import AuthProvider from './context/AuthProvider';
 
+const getApiUrl = () => {
+  if (window.location.href.includes("hopper3.wns")) {
+    if (window.location.href.includes("staging")) {
+      return "https://api.staging.hopper3.wns.wilders.dev/";
+    } else {
+      return "https://api.hopper3.wns.wilders.dev/";
+    }
+  } else {
+    return "http://localhost:4000/";
+  }
+};
+
 // uri = api
 const httpLink = createHttpLink({
-	uri: 'http://localhost:4000/',
+  uri: getApiUrl(),
 });
 
 // give token to the request header
@@ -35,9 +46,9 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 });
 
-const root = ReactDOM.createRoot(
-	document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById(
+	'root',
+) as HTMLElement);
 root.render(
 	<BrowserRouter>
 		<ApolloProvider client={client}>

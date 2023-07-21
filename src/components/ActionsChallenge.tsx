@@ -2,41 +2,76 @@ import { useQuery } from '@apollo/client';
 import { readAllActions } from '../graphql/readAllActions';
 import ActionCard from './ActionCard';
 import { IAction } from '../interfaces/IAction';
+import { ArrowLeft, ArrowRight } from 'react-bootstrap-icons';
+import { useContext, useState } from 'react';
+import { ChallengeContext } from '../context/CreateChallengeProvider';
 
 const ActionsChallenge = ({
 	setChallengeNavigation,
-	setActionsList,
-	actionsList,
 }: {
-	setChallengeNavigation: (navigation: string) => void;
-	setActionsList: (actions: Array<{ id: string; title: string }>) => void;
-	actionsList: Array<{ id: string; title: string }>;
+
+setChallengeNavigation: (navigation: string) => void;
+
 }) => {
 	const { data } = useQuery<{ readAllActions: IAction[] }>(readAllActions);
+	const { challengeData, setChallengeData } = useContext(ChallengeContext);
+	const [actionsList, setActionsList] = useState<IAction[]>(
+		challengeData.actions || [],
+	);
 
 	const addAction = (action: IAction) => {
-		setActionsList([...actionsList, { id: action.id, title: action.title }]);
+		setActionsList([...actionsList, { ...action }]);
 	};
 
-	console.log('This is actionList', actionsList);
+	const removeAction = (id: string) => {
+		const newActionList = actionsList.filter(action => action.id !== id);
+		setActionsList(newActionList);
+	};
+
+	const handleSubmit = (actionList: IAction[]) => {
+		challengeData.actions = [...actionList];
+		setChallengeData(challengeData);
+	};
 
 	return (
-		<div className="challengeContainer">
-			<h2>ActionsChallenge</h2>
+		<article className="challengeContainer" data-testid="actionsChallenge">
+			<h1>Choisis des actions à réaliser</h1>
 			{data?.readAllActions.map(action => (
 				<ActionCard
 					key={action.id}
 					{...action}
-					onClick={() => addAction(action)}
+					isSelected={
+						actionsList.find(actionListed => actionListed.id === action.id)
+							? true
+							: false
+					}
+					onAdd={() => addAction(action)}
+					onRemove={() => removeAction(action.id)}
 				/>
 			))}
-			<button
-				className="nextBtn"
-				onClick={() => setChallengeNavigation('invitation')}
-			>
-				Actions
-			</button>
-		</div>
+			<div className="container-button-multiple">
+				<button
+					className="nextBtn button-inline outline"
+					onClick={() => {
+						handleSubmit(actionsList);
+						setChallengeNavigation('initialize');
+					}}
+				>
+					<ArrowLeft className="previous-icon" /> Précédent
+				</button>
+				<button
+          data-testid="nextButtonActions"
+					className="nextBtn button-inline"
+					disabled={actionsList.length < 1}
+					onClick={() => {
+						handleSubmit(actionsList);
+						setChallengeNavigation('invitation');
+					}}
+				>
+					Suivant <ArrowRight className="next-icon" />
+				</button>
+			</div>
+		</article>
 	);
 };
 

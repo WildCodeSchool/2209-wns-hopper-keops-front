@@ -1,0 +1,39 @@
+.checkbox-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards-wrapper {
+  display: grid;
+  row-gap: 2em;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+article {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+details {
+  width: 100%;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+details p,
+details h2 {
+  margin: 0;
+}
+
+details p {
+  margin-bottom: 20px;
+}
+
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

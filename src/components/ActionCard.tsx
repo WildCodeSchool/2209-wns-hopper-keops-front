@@ -1,23 +1,46 @@
+import { DashCircle, PlusCircle } from "react-bootstrap-icons";
+import "./ActionCard.scoped.css";
+
 const ActionCard = ({
-	title,
-	description,
-	onClick,
+  title,
+  description,
+  isSelected,
+  onAdd,
+  onRemove,
 }: {
-	title: string;
-	description: string;
-	onClick: () => void;
+  title: string;
+  description: string;
+  isSelected: boolean;
+  onAdd: () => void;
+  onRemove: () => void;
 }) => {
-	return (
-		<div className="cardContainer">
-			<div className="cardsList">
-				<div className="cardContent">
-					<h2>{title}</h2>
-					<p>{description}</p>
-				</div>
-				<button onClick={onClick}>Ajouter</button>
-			</div>
-		</div>
-	);
+  return (
+    <article
+      className={isSelected ? "action-card selected" : "action-card"}
+      data-testid="actionCard"
+    >
+      <details>
+        <summary>
+          <h2>{title}</h2>
+        </summary>
+        <p>{description}</p>
+      </details>
+      {isSelected ? (
+        <DashCircle
+          size={34}
+          className="primary button-icon"
+          onClick={onRemove}
+        />
+      ) : (
+        <PlusCircle
+          size={34}
+          className="primary button-icon"
+          onClick={onAdd}
+          data-testid="addActionButton"
+        />
+      )}
+    </article>
+  );
 };
 
 export default ActionCard;
